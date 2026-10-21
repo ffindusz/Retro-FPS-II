@@ -1,0 +1,44 @@
+{
+  "model": "meshy-t2.5",
+  "model_type": "smart-topology",
+  "estimated_preview_credits": 5,
+  "estimated_refine_credits": 10,
+  "assets": [
+    {
+      "id": "weapon-cleaver",
+      "target_polycount": 3000,
+      "prompt": "One original low-poly dark fantasy iron cleaver for a first-person game. Single large broad rectangular asymmetric blade, straight sharpened cutting edge, short brown leather wrapped grip below the blade, small aged brass guard and pommel. Blade points up, handle points down. Thick sturdy readable silhouette, slightly battered medieval iron, restrained proportions. Entire isolated weapon only, no hand, no arm, no person, no pedestal, no environment, no lettering or logo. Simple game-ready geometry and broad surfaces.",
+      "texture_prompt": "Original dark fantasy game weapon. Weathered desaturated gray iron blade with a brighter cutting edge, dark brown leather grip, muted aged brass guard and pommel. Restrained wear, broad readable color regions, no text or logos, no painted shadows or baked directional lighting."
+    },
+    {
+      "id": "weapon-staff",
+      "target_polycount": 4000,
+      "prompt": "One original low-poly dark fantasy magic staff for a first-person game. Straight rough dark wood shaft, brown wrapped grip near lower half, two sturdy aged brass prongs cradling one small faceted cyan crystal at the top. Staff vertical, crystal up, shaft down. Clean strong silhouette, medieval craftsmanship, broad simple shapes without fine filigree. Entire isolated staff only, no hands, no arms, no character, no base, no background, no text or logos. Game-ready connected parts.",
+      "texture_prompt": "Dark weathered brown wooden staff, brown leather grip, muted aged brass prongs and bands, luminous-looking turquoise cyan faceted crystal. Original restrained dark fantasy colors, broad readable regions, no text, no logos, no painted cast shadows."
+    },
+    {
+      "id": "enemy-warden",
+      "target_polycount": 8000,
+      "prompt": "One full-body original low-poly dark fantasy fortress warden enemy, standing upright in a calm neutral ready stance. Broad humanoid male-like build, ancient pale gray stone mask face, muted dark red knee-length heavy tunic, simple broad weathered iron shoulder plates, brown belt and boots. Holds a single short broad iron chopping sword lowered beside the right leg. Arms relaxed near sides, feet slightly apart, facing forward. Strong chunky readable silhouette, simple medieval shapes. Complete isolated character, no pedestal, no ground scenery, no text, no logos, no extra characters.",
+      "texture_prompt": "Original dark fantasy fortress guard. Muted burgundy red cloth tunic, dull gray iron shoulder plates and short sword, pale weathered stone mask, dark brown leather belt and boots. Low-detail broad material regions, subtle wear, no insignia, no lettering, no baked cast shadows."
+    },
+    {
+      "id": "enemy-adept",
+      "target_polycount": 7000,
+      "prompt": "One full-body original low-poly dark fantasy crypt adept enemy standing upright in a calm neutral ready stance. Thin humanoid silhouette, long desaturated dark blue hooded robes, plain pale mask with small dark eye slits, brown belt and boots. Holds one simple upright wooden staff at the side with a small faceted amber crystal tip. Both feet visible and slightly apart, arms relaxed, facing forward. Readable broad simple game shapes, not ornate. Complete isolated character only, no pedestal, no floor, no environment, no text, no logos, no extra people.",
+      "texture_prompt": "Original sinister crypt mage. Desaturated dark slate blue cloth robes, pale old stone mask, dark brown belt and boots, dark wood staff with aged brass fitting and amber orange crystal. Broad readable colors, restrained cloth detail, no symbols, no lettering, no baked directional shadows."
+    },
+    {
+      "id": "prop-torch",
+      "target_polycount": 2000,
+      "prompt": "One original low-poly medieval fantasy wall torch prop. Short dark wooden torch held in a simple weathered iron wall bracket with a small flat mounting plate. Upright thick wood grip, simple iron fire basket at top holding one small solid stylized amber flame shape. Strong chunky simple readable game asset, no fine chains, no ornate decoration. Single isolated torch and its bracket only, no wall, no scenery, no character, no hands, no pedestal, no letters or logos.",
+      "texture_prompt": "Original dark medieval torch: weathered near-black iron bracket and basket, dark brown wood shaft, warm yellow amber and orange stylized flame. Broad flat material regions, no lettering or emblems, no baked light spilling onto surfaces."
+    },
+    {
+      "id": "prop-urn",
+      "target_polycount": 2000,
+      "prompt": "One original low-poly medieval dark fantasy funerary stone urn. Squat rounded sturdy body, broad open neck with a thick rim, small round foot, a single worn brass ring around the shoulder and simple shallow carved horizontal bands. About twice as tall as its neck diameter. Aged gray brown stone, plain dignified fortress crypt decoration. Broad chunky game-ready surfaces, no tiny ornament. Entire isolated urn only, no pedestal, no floor, no background, no letters, no logo, no human remains.",
+      "texture_prompt": "Original ancient funerary urn. Muted gray brown weathered stone, a worn dull brass shoulder ring, darker creases and subtle chips, simple readable material blocks. No lettering, no symbols, no logos, no baked directional shadows."
+    }
+  ]
+}

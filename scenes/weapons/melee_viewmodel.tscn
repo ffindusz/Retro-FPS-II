@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/weapons/placeholder_weapon.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/models/iron_blade.tscn" id="2"]
+
+[node name="IronCleaver" type="Node3D"]
+position = Vector3(0.38, -0.4, -0.95)
+rotation = Vector3(-0.2, -0.15, -0.18)
+script = ExtResource("1")
+kind = 0
+use_placeholder = false
+model_scene = ExtResource("2")
+
+[node name="VisualRoot" type="Node3D" parent="."]

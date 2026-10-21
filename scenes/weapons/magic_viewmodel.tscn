@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/weapons/placeholder_weapon.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/models/ember_staff.tscn" id="2"]
+
+[node name="EmberStaff" type="Node3D"]
+position = Vector3(0.4, -0.43, -1.05)
+rotation = Vector3(-0.12, 0, -0.16)
+script = ExtResource("1")
+kind = 1
+use_placeholder = false
+model_scene = ExtResource("2")
+
+[node name="VisualRoot" type="Node3D" parent="."]

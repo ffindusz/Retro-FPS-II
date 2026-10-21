@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/placeholder_prop.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/models/wall_torch.tscn" id="2"]
+
+[node name="Torch" type="Node3D"]
+script = ExtResource("1")
+use_placeholder = false
+model_scene = ExtResource("2")
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="Light" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.71, 0.44, 1)
+light_energy = 1.8
+omni_range = 7.0

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/weapon-staff/model.glb" id="1"]
+
+[node name="EmberStaffVisual" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("1")]
+position = Vector3(0, 0.25, 0)
+scale = Vector3(1.1, 1.1, 1.1)

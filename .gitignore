@@ -1,0 +1,17 @@
+.godot/
+builds/*
+!builds/.gdignore
+*.log
+.env
+.env.*
+!.env.example
+export_credentials.cfg
+*.tmp
+__pycache__/
+*.pyc
+
+# Godot editor binaries (too large for GitHub)
+Godot_v*.exe
+
+# Personal Claude Code settings
+.claude/settings.local.json

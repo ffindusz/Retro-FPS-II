@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/placeholder_prop.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/models/stone_urn.tscn" id="2"]
+
+[node name="Urn" type="Node3D"]
+script = ExtResource("1")
+kind = 1
+use_placeholder = false
+model_scene = ExtResource("2")
+
+[node name="VisualRoot" type="Node3D" parent="."]
