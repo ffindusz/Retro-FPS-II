@@ -3,10 +3,10 @@ config_version=5
 
 [application]
 config/name="Cinderkeep — Fantasy FPS Prototype"
-config/version="0.3.0"
+config/version="0.4.1"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/description="Cinderkeep fortress atmosphere demo with original stone materials, ambient audio and Meshy models."
+config/description="Cinderkeep with a moonlit sky, photographic stone, bounded dynamic lighting, original audio and Meshy models."
 
 [display]
 window/size/viewport_width=1280

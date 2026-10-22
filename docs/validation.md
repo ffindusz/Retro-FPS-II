@@ -2,7 +2,7 @@
 
 This preserves the original demo/model-integration baseline and the user's pre-polish feedback. Combat-polish 0.2/0.2.1 behavior, **196-check** latest results, audio provenance, revised placements, historical performance sample, and the user's positive polish/pickup-sound feedback are recorded separately in [combat-polish validation](combat-polish-validation.md). Unreported detailed/offline acceptance remains pending.
 
-Latest build: **fortress-atmosphere 0.3**, with **233 gameplay/presentation checks** and **11 asset/tool tests**. Matching before/after views, unchanged-source/gameplay fingerprints, lighting/ambience lifecycle evidence, performance comparison and the new human review checklist are in [fortress-atmosphere validation](fortress-atmosphere-validation.md). The older observations below remain historical evidence, not atmosphere approval.
+Historical **fortress-atmosphere 0.3** source/package evidence includes **233 gameplay/presentation checks** and **11 asset/tool tests**; matching before/after views, unchanged-source/gameplay fingerprints and lighting/ambience evidence are in [fortress-atmosphere validation](fortress-atmosphere-validation.md). The **fortress-refinement 0.4 project** recorded **263 source checks** and **12 asset/tool tests**, photographic CC0 stone, bounded dynamic lighting and key audio. The latest **0.4.1 moonlit-sky project** has **269 source checks** and **13 asset/tool tests**, plus passing courtyard/moon renders at 720p/1080p; [current evidence, texture approval and the missing matching-template export blocker](realistic-fortress-validation.md) are recorded separately. Older package/performance observations below are not relabeled as 0.4/0.4.1 results or approval.
 
 ## Scope and machine
 

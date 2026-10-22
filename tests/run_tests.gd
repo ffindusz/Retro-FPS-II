@@ -77,8 +77,11 @@ func run_tests() -> void:
 	await test_feedback()
 	await test_audio()
 	await test_pickup_audio()
+	await test_key_audio()
 	await test_encounter_tuning()
 	await test_atmosphere()
+	await test_sky()
+	await test_dynamic_lighting()
 	await test_ambience()
 	session.show_menu()
 	session.queue_free()
@@ -720,11 +723,51 @@ func test_pickup_audio() -> void:
 	session.resume_run()
 	check(pending.try_collect(player) and player.health == 100 and audio.played_counts["pickup_health"] == 1 and audio.voices.is_empty(), "muted health pickup still restores without audio or delayed playback")
 	session.ui.volume_slider.value = 65
-	var before: Dictionary = audio.played_counts.duplicate()
 	var key = audio_pickup(2)
-	check(key.try_collect(player) and audio.played_counts == before, "key collection audio remains unchanged")
+	check(key.try_collect(player) and audio.played_counts.get("pickup_key", 0) == 1, "key collection plays its distinct objective cue")
 	await fresh()
 	check(session.run.feedback.audio.played_counts.is_empty() and get_nodes_in_group("combat_voices").is_empty(), "restart removes pickup voices and does not replay confirmations")
+
+func test_key_audio() -> void:
+	await fresh()
+	var audio = session.run.feedback.audio
+	var key = audio_pickup(2)
+	check(not key.try_collect(get_nodes_in_group("enemies")[0]) and not key.consumed, "enemy key contact is rejected and silent")
+	session.pause_run()
+	check(not key.try_collect(player) and not player.has_key and audio.played_counts.is_empty(), "paused player cannot collect or sound the key")
+	session.resume_run()
+	player.health = 0
+	check(not key.try_collect(player) and not key.consumed and audio.played_counts.is_empty(), "dead player cannot collect or sound the key")
+	player.health = 100
+	var events: Array = []
+	session.run.feedback.event_received.connect(func(event):
+		if event.kind == &"pickup_key": events.append(event))
+	check(key.try_collect(player) and player.has_key and audio.played_counts.get("pickup_key", 0) == 1 and events.size() == 1, "successful key ownership publishes and sounds exactly one confirmed event")
+	check(audio.voices.size() == 1 and audio.voices[0].node is AudioStreamPlayer, "key chime is local rather than attached to the freed pickup")
+	check(not key.try_collect(player), "consumed key cannot trigger again")
+	var duplicate = audio_pickup(2)
+	check(not duplicate.try_collect(player) and not duplicate.consumed and audio.played_counts.get("pickup_key", 0) == 1, "already-owned key stays available and silent")
+	if not events.is_empty():
+		session.run.emit_combat(events[0].duplicate())
+	check(audio.played_counts.get("pickup_key", 0) == 1 and session.ui.hit_time == 0.0 and session.run.feedback.effects.is_empty(), "duplicate key event produces no extra cue or combat hit feedback")
+	await settle()
+	check(not is_instance_valid(key) and audio.voices.size() == 1, "key chime survives disposal of the collected pickup")
+	session.pause_run()
+	check(audio.voices.is_empty(), "pause stops the key chime without a replay queue")
+	session.ui.volume_slider.value = 0
+	session.resume_run()
+	await fresh()
+	audio = session.run.feedback.audio
+	var muted_key = audio_pickup(2)
+	check(muted_key.try_collect(player) and player.has_key and audio.played_counts.is_empty() and audio.voices.is_empty(), "muted key collection still updates ownership silently")
+	session.ui.volume_slider.value = 65
+	check(audio.played_counts.is_empty() and audio.voices.is_empty(), "unmuting cannot replay the collected key cue")
+	await fresh()
+	audio_pickup(2).try_collect(player)
+	session.finish(true)
+	check(session.run.feedback.audio.voices.is_empty(), "terminal transition stops the key cue")
+	await fresh()
+	check(session.run.feedback.audio.played_counts.is_empty() and get_nodes_in_group("combat_voices").is_empty(), "restart has no old key voices or confirmations")
 
 func test_encounter_tuning() -> void:
 	await fresh()
@@ -776,7 +819,9 @@ func test_atmosphere() -> void:
 	for family in [&"wall", &"floor", &"trim"]:
 		var material = presentation.surface(family, &"court")
 		check(material == presentation.surface(family, &"court"), "%s materials are shared rather than duplicated per block" % family)
-		check(material.albedo_texture.get_width() == 512 and material.roughness_texture.get_width() == 512 and material.uv1_triplanar and material.uv1_world_triplanar and material.uv1_scale == Vector3.ONE * 0.5, "%s uses bundled 512px maps at shared two-meter world scale" % family)
+		var scale = Vector3.ONE / (1.8 if family == &"floor" else 2.0)
+		check(material.albedo_texture.get_width() == 1024 and material.roughness_texture.get_width() == 1024 and material.normal_enabled and material.normal_texture.get_width() == 1024 and material.uv1_triplanar and material.uv1_world_triplanar and material.uv1_scale.is_equal_approx(scale), "%s uses photographic 1K color/roughness/normal maps at physical world scale" % family)
+	check(presentation.surface(&"trim").albedo_texture == presentation.surface(&"wall").albedo_texture and presentation.surface(&"trim").normal_texture == presentation.surface(&"wall").normal_texture, "trim reuses photographic wall maps without extra texture copies")
 	check(presentation.surface(&"brass", &"crypt") == presentation.surface(&"brass", &"court"), "solid accents reuse materials across areas (%d cached world material variants)" % presentation.materials.size())
 	var view_environment: WorldEnvironment
 	for node in player.viewmodels.viewport.get_children():
@@ -789,8 +834,13 @@ func test_atmosphere() -> void:
 		for index in range(presentation.torches.size()):
 			var light: OmniLight3D = presentation.torches[index]
 			bounded = bounded and light.light_energy >= presentation.torch_bases[index] * 0.92 - 0.0001 and light.light_energy <= presentation.torch_bases[index] * 1.08 + 0.0001
-			bounded = bounded and light.omni_range == 7.0 and not light.shadow_enabled
-	check(bounded and presentation.torches.size() == 6, "slow deterministic flicker remains within eight-percent energy bounds without range/shadow changes")
+			bounded = bounded and light.omni_range == 7.0 and light.shadow_enabled == (index in [2, 5])
+	check(bounded and presentation.torches.size() == 6, "six deterministic torches retain range/eight-percent flicker with exactly two shadow sources")
+	var safe_emitters = true
+	for index in [2, 5]:
+		for mesh in presentation.torches[index].get_parent().find_children("*", "GeometryInstance3D", true, false):
+			safe_emitters = safe_emitters and mesh.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	check(safe_emitters, "shadowed torch emitter meshes cannot occlude their own light")
 	var clock: float = presentation.elapsed
 	var energy: float = presentation.torches[0].light_energy
 	session.pause_run()
@@ -817,6 +867,105 @@ func test_atmosphere() -> void:
 	check(authoring.player == null and authoring.ambience == null and authoring.presentation == null and navigation.get_polygon_count() > 0, "geometry-only navigation authoring needs neither player nor ambience and saves no new navmesh")
 	authoring.geometry.free()
 	authoring.free()
+
+func test_sky() -> void:
+	await fresh()
+	var world: WorldEnvironment = session.run.find_children("*", "WorldEnvironment", false, false)[0]
+	var environment = world.environment
+	var sky = environment.sky
+	var panorama: Texture2D = sky.sky_material.panorama
+	check(environment.background_mode == Environment.BG_SKY and panorama.resource_path == "res://assets/environment/sky/moonlit_fortress.png" and panorama.get_width() == 1024 and panorama.get_height() == 512, "atmosphere uses a bundled 1024x512 panoramic sky background")
+	var image = panorama.get_image()
+	var seam_closed = true
+	for y in range(image.get_height()):
+		seam_closed = seam_closed and image.get_pixel(0, y).is_equal_approx(image.get_pixel(image.get_width() - 1, y))
+	check(seam_closed, "sky panorama closes its entire horizontal seam")
+	var moon: DirectionalLight3D = session.run.find_children("*", "DirectionalLight3D", false, false)[0]
+	check(environment.ambient_light_source == Environment.AMBIENT_SOURCE_COLOR and is_equal_approx(environment.ambient_light_energy, 0.42) and environment.ambient_light_color.is_equal_approx(Color("9eacbd")) and environment.reflected_light_source == Environment.REFLECTION_SOURCE_DISABLED and is_equal_approx(moon.light_energy, 0.8) and moon.light_color.is_equal_approx(Color("a6bddd")) and moon.rotation_degrees.is_equal_approx(Vector3(-55, -30, 0)), "sky supplies no ambient/reflected lighting or changes to existing moonlight")
+	session.pause_run()
+	await settle()
+	check(environment.sky == sky and sky.sky_material.panorama == panorama, "pause leaves the static sky and its panorama unchanged")
+	session.resume_run()
+	await fresh()
+	var replacement: WorldEnvironment = session.run.find_children("*", "WorldEnvironment", false, false)[0]
+	check(not is_instance_valid(world) and replacement.environment.sky != sky and replacement.environment.sky.sky_material.panorama == panorama, "restart replaces the old sky/world while sharing the bundled image")
+	session.atmosphere_enabled = false
+	await fresh()
+	var fallback: WorldEnvironment = session.run.find_children("*", "WorldEnvironment", false, false)[0]
+	check(fallback.environment.background_mode == Environment.BG_COLOR and fallback.environment.sky == null and is_equal_approx(fallback.environment.ambient_light_energy, 0.55), "atmosphere-off fallback preserves the previous flat background and lighting")
+	session.atmosphere_enabled = true
+	await fresh()
+
+func test_dynamic_lighting() -> void:
+	await fresh()
+	var feedback = session.run.feedback
+	feedback.set_process(false)
+	player.weapons.select(1)
+	check(player.weapons.try_attack() and feedback.spell_lights.size() == 2, "accepted staff cast produces a flash and a projectile light")
+	var bolt = get_nodes_in_group("projectiles")[0]
+	bolt.set_physics_process(false)
+	var projectile_light: OmniLight3D
+	var flash_time: float = -1.0
+	var bounded = true
+	for record in feedback.spell_lights:
+		bounded = bounded and not record.node.shadow_enabled and record.node.omni_range <= 2.8
+		if record.node.get_parent() == bolt:
+			projectile_light = record.node
+		else:
+			flash_time = record.remaining
+	check(bounded and projectile_light != null and flash_time > 0.0, "spell lights are short-range shadowless presentation attached to actual projectile ownership")
+	var previous: Vector3 = bolt.global_position
+	bolt.advance(0.02)
+	check(projectile_light != null and projectile_light.global_position.is_equal_approx(bolt.global_position) and not bolt.global_position.is_equal_approx(previous), "projectile illumination follows actual travel without changing its path")
+	session.pause_run()
+	feedback._process(10.0)
+	check(feedback.spell_lights.size() == 2 and feedback.spell_lights[0].remaining == flash_time, "pause freezes spell flash age and preserves the projectile light")
+	session.resume_run()
+	feedback._process(0.2)
+	check(feedback.spell_lights.size() == 1 and feedback.spell_lights[0].node == projectile_light, "cast flash expires within 0.2 seconds while live projectile illumination remains")
+	bolt.lifetime = 0.01
+	bolt.advance(0.02)
+	await settle()
+	feedback.clear_transients()
+	check(feedback.spell_lights.is_empty() and get_nodes_in_group("spell_lights").is_empty(), "cleanup immediately after projectile expiry tolerates already freed light nodes")
+	var caster = enemy_at(Vector3(0, 0.1, 10), true)
+	await settle()
+	caster.resolve_attack()
+	check(feedback.spell_lights.size() == 2 and get_nodes_in_group("projectiles").size() == 1, "real enemy cast and projectile also receive bounded illumination")
+	var enemy_bolt = get_nodes_in_group("projectiles")[0]
+	enemy_bolt.set_physics_process(false)
+	var enemy_light: OmniLight3D
+	for record in feedback.spell_lights:
+		if record.node.get_parent() == enemy_bolt:
+			enemy_light = record.node
+	wall_at(Vector3(0, 1.3, 12))
+	await settle()
+	enemy_bolt.advance(0.5)
+	await settle()
+	feedback._process(0.0)
+	check(not is_instance_valid(enemy_bolt) and not is_instance_valid(enemy_light) and player.health == 100, "actual wall impact disposes projectile illumination without damage through cover")
+	var impacts: int = feedback.event_counts.get(&"world_impact", 0)
+	for index in range(30):
+		session.run.emit_combat({"kind": &"world_impact", "point": Vector3(0, 1, 12), "weapon": &"magic"})
+	check(feedback.spell_lights.size() == 6 and get_nodes_in_group("spell_lights").size() == 6 and feedback.event_counts.get(&"world_impact", 0) == impacts + 30, "spell saturation caps six lights without dropping combat events")
+	var mana: int = player.mana
+	player.weapons.cooldowns[1] = 0.0
+	check(player.weapons.try_attack() and player.mana == mana - 5 and get_nodes_in_group("projectiles").size() == 1 and feedback.spell_lights.size() == 6, "full presentation light budget cannot reject an actual spell or change its cost")
+	session.finish(true)
+	check(feedback.spell_lights.is_empty() and get_nodes_in_group("spell_lights").is_empty(), "terminal result immediately clears flash and projectile lights")
+	await fresh()
+	check(session.run.feedback.spell_lights.is_empty() and get_nodes_in_group("spell_lights").is_empty(), "fresh run has no old spell lighting")
+	session.atmosphere_enabled = false
+	await fresh()
+	player.weapons.select(1)
+	player.weapons.try_attack()
+	var shadows = 0
+	for node in session.run.geometry.get_children():
+		if node.has_node("Light") and node.get_node("Light").shadow_enabled:
+			shadows += 1
+	check(session.run.feedback.spell_lights.is_empty() and get_nodes_in_group("spell_lights").is_empty() and shadows == 0, "atmosphere fallback disables both new torch shadows and spell illumination")
+	session.atmosphere_enabled = true
+	await fresh()
 
 func test_ambience() -> void:
 	await fresh()

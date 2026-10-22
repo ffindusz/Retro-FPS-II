@@ -35,6 +35,36 @@ func verify_layout() -> void:
 				push_error("Pause/volume control outside viewport")
 				failures += 1
 
+func capture_spell_light(name: String) -> void:
+	var feedback = session.run.feedback
+	feedback.set_process(false)
+	session.run.player.weapons.cooldowns[1] = 0.0
+	session.run.player.weapons.try_attack()
+	for bolt in get_nodes_in_group("projectiles"):
+		bolt.set_physics_process(false)
+	await capture(name)
+	if feedback.spell_lights.is_empty():
+		push_error("Rendered spell did not create illumination")
+		failures += 1
+	feedback.set_process(true)
+	for bolt in get_nodes_in_group("projectiles"):
+		bolt.queue_free()
+
+func capture_sky(width: int) -> void:
+	await capture("sky-courtyard-%d" % width)
+	var camera: Camera3D = session.run.player.camera
+	var previous = camera.transform
+	var moon: DirectionalLight3D = session.run.find_children("*", "DirectionalLight3D", false, false)[0]
+	camera.look_at(camera.global_position + moon.global_basis.z, Vector3.UP)
+	session.ui.hud.hide()
+	await capture("sky-moon-%d" % width)
+	var image = root.get_texture().get_image()
+	if image.get_pixel(image.get_width() / 2, image.get_height() / 2).r < 0.5:
+		push_error("Sky moon does not align with the existing directional light")
+		failures += 1
+	camera.transform = previous
+	session.ui.hud.show()
+
 func render_checks() -> void:
 	DirAccess.make_dir_recursive_absolute("res://builds/validation")
 	session = load("res://scenes/main.tscn").instantiate()
@@ -54,6 +84,7 @@ func render_checks() -> void:
 	for enemy in get_nodes_in_group("enemies"):
 		enemy.set_physics_process(false)
 	player.position = Vector3(0, 0.1, 3)
+	await capture_sky(1280)
 	await capture("melee-1280")
 	verify_layout()
 	var target = get_nodes_in_group("enemies")[0]
@@ -89,6 +120,7 @@ func render_checks() -> void:
 	player.position = Vector3(0, 0.1, 3)
 	player.weapons.select(1)
 	await capture("magic-1280")
+	await capture_spell_light("spell-light-1280")
 	# Check final art in the actual level, not just vendor thumbnails.
 	player.position = Vector3(0, 0.1, 2)
 	var actors: Array = []
@@ -129,6 +161,8 @@ func render_checks() -> void:
 	session.resume_run()
 	root.size = Vector2i(1920, 1080)
 	await capture("magic-1920")
+	await capture_sky(1920)
+	await capture_spell_light("spell-light-1920")
 	verify_layout()
 	session.pause_run()
 	if Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:

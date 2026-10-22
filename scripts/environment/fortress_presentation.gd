@@ -29,6 +29,11 @@ func setup(owner_level: Node3D) -> void:
 			var light: OmniLight3D = node.get_node("Light")
 			light.light_color = Color("ffc28a")
 			light.light_energy = 2.0
+			light.shadow_enabled = torches.size() in [2, 5]
+			if light.shadow_enabled:
+				light.shadow_bias = 0.08
+				light.shadow_normal_bias = 1.0
+				_disable_emitter_shadows(node)
 			torches.append(light)
 			torch_bases.append(light.light_energy)
 	for node in level.get_children():
@@ -36,11 +41,30 @@ func setup(owner_level: Node3D) -> void:
 			node.environment.ambient_light_energy = 0.42
 			node.environment.ambient_light_color = Color("9eacbd")
 			node.environment.background_color = Color("101824")
+			_setup_sky(node.environment)
 		elif node is DirectionalLight3D:
 			node.light_energy = 0.8
 			node.light_color = Color("a6bddd")
 	_dress()
 	set_clock(0.0)
+
+func _setup_sky(environment: Environment) -> void:
+	var material = PanoramaSkyMaterial.new()
+	material.panorama = load("res://assets/environment/sky/moonlit_fortress.png")
+	var sky = Sky.new()
+	sky.radiance_size = Sky.RADIANCE_SIZE_32
+	sky.process_mode = Sky.PROCESS_MODE_QUALITY
+	sky.sky_material = material
+	environment.sky = sky
+	environment.background_mode = Environment.BG_SKY
+	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	environment.reflected_light_source = Environment.REFLECTION_SOURCE_DISABLED
+
+func _disable_emitter_shadows(node: Node) -> void:
+	if node is GeometryInstance3D:
+		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	for child in node.get_children():
+		_disable_emitter_shadows(child)
 
 func area_at(point: Vector3) -> StringName:
 	if point.x > 13:
@@ -60,12 +84,16 @@ func surface(family: StringName, area: StringName = &"court") -> StandardMateria
 		material.metallic = 0.65
 		material.roughness = 0.7
 	else:
-		material.albedo_texture = load("res://assets/environment/%s_albedo.png" % family)
-		material.roughness_texture = load("res://assets/environment/%s_roughness.png" % family)
+		var source = "floor" if family == &"floor" else "wall"
+		material.albedo_texture = load("res://assets/environment/photographic/%s_albedo.jpg" % source)
+		material.roughness_texture = load("res://assets/environment/photographic/%s_roughness.jpg" % source)
 		material.roughness_texture_channel = BaseMaterial3D.TEXTURE_CHANNEL_RED
+		material.normal_enabled = true
+		material.normal_texture = load("res://assets/environment/photographic/%s_normal.jpg" % source)
+		material.normal_scale = 0.4
 		material.uv1_triplanar = true
 		material.uv1_world_triplanar = true
-		material.uv1_scale = Vector3.ONE * 0.5
+		material.uv1_scale = Vector3.ONE / (1.8 if family == &"floor" else 2.0)
 		material.texture_repeat = true
 		material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 		material.albedo_color = Color(0.88, 0.91, 0.96) if area == &"court" else Color(0.88, 0.84, 0.76)

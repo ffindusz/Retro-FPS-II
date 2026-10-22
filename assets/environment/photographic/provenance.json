@@ -1,0 +1,65 @@
+{
+  "license": "CC0-1.0",
+  "license_url": "https://polyhaven.com/license",
+  "license_deed_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "retrieved": "2026-10-22",
+  "resolution": 1024,
+  "assets": [
+    {
+      "id": "medieval_blocks_03",
+      "author": "Rob Tuytel",
+      "source_url": "https://polyhaven.com/a/medieval_blocks_03",
+      "metadata_url": "https://api.polyhaven.com/files/medieval_blocks_03",
+      "tile_meters": 2.0,
+      "families": ["wall", "trim"],
+      "maps": {
+        "albedo": {
+          "file": "wall_albedo.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/medieval_blocks_03/medieval_blocks_03_diff_1k.jpg",
+          "md5": "05e4e5292463b7edbde4b4a16bce1b3d",
+          "sha256": "3852b4a60e0f62d2914c895f884df8d58d8d12d788851d814859dae05b7620cf"
+        },
+        "normal": {
+          "file": "wall_normal.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/medieval_blocks_03/medieval_blocks_03_nor_gl_1k.jpg",
+          "md5": "1372aac76bbc3316292e592e1f38a1b8",
+          "sha256": "52350ed4b577c9fd6b03effda069181ca0ed39ee99d88b912685266f6270c943"
+        },
+        "roughness": {
+          "file": "wall_roughness.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/medieval_blocks_03/medieval_blocks_03_rough_1k.jpg",
+          "md5": "2dd70625ebfc3c4d0f9694849e91fdac",
+          "sha256": "9eba5fed68b8a705c5280a274a9d8238be89bf82fa783154b25325211d67373b"
+        }
+      }
+    },
+    {
+      "id": "monastery_stone_floor",
+      "author": "Amal Kumar",
+      "source_url": "https://polyhaven.com/a/monastery_stone_floor",
+      "metadata_url": "https://api.polyhaven.com/files/monastery_stone_floor",
+      "tile_meters": 1.8,
+      "families": ["floor"],
+      "maps": {
+        "albedo": {
+          "file": "floor_albedo.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/monastery_stone_floor/monastery_stone_floor_diff_1k.jpg",
+          "md5": "8e748f767d8e478438ef748833365754",
+          "sha256": "8e52ec982469ce9da312cefe3126c1dff05b7150234971bc6dff6e31c3c584ae"
+        },
+        "normal": {
+          "file": "floor_normal.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/monastery_stone_floor/monastery_stone_floor_nor_gl_1k.jpg",
+          "md5": "257ccdbbe1c2a23f74cece55b81861ac",
+          "sha256": "f2f1c3e8d52c1e3a49ef59695743872f2adaa57bc0d3f64b129ce988966162c1"
+        },
+        "roughness": {
+          "file": "floor_roughness.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/monastery_stone_floor/monastery_stone_floor_rough_1k.jpg",
+          "md5": "ea3793f350c70ebd6216ae5b4565d4eb",
+          "sha256": "8d987222b727442c11c30cd4d8a32ed48f02e46683acd088d994baef5bf311a9"
+        }
+      }
+    }
+  ]
+}

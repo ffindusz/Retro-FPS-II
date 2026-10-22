@@ -30,12 +30,11 @@ func try_collect(body: Node) -> bool:
 		2: accepted = body.collect_key()
 	if accepted:
 		consumed = true
-		if kind in [0, 1]:
-			var restored: int = (body.health if kind == 0 else body.mana) - previous
-			CombatEvents.publish(self, &"pickup_health" if kind == 0 else &"pickup_mana", global_position, {
-				"amount": restored, "player_owned": true, "source_id": body.get_instance_id(),
-				"event_id": "%d:pickup" % get_instance_id()
-			})
+		var restored: int = 1 if kind == 2 else (body.health if kind == 0 else body.mana) - previous
+		CombatEvents.publish(self, [&"pickup_health", &"pickup_mana", &"pickup_key"][kind], global_position, {
+			"amount": restored, "player_owned": true, "source_id": body.get_instance_id(),
+			"event_id": "%d:pickup" % get_instance_id()
+		})
 		hide()
 		queue_free()
 	return accepted

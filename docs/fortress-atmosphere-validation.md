@@ -50,6 +50,12 @@ After primitive counts are 101,880 / 141,720 respectively; resolution-dependent 
 - Native Windows startup smoke exits **0**. Strict OpenSpec validation passes. No source/packaged/render pass is a claim of human visual/listening approval or a full disconnected native run.
 - Technical logs are `atmosphere-*.log` under `builds/validation/`, with comparison profiles/images under `atmosphere/{before,after}/`. The baseline JSON and Resource snapshot are retained; after capture cannot overwrite the original before baseline.
 
+## User walkthrough feedback - 2026-10-22
+
+- After the missing first-time Godot import was completed, the user reported: "works . made a walkthrough". This confirms the startup fix and a user-reported walkthrough of the current atmosphere demo.
+- No duration, difficulty, detailed visual/listening assessment, zero-mana progression, result/restart coverage, or disconnected native-build outcome was supplied. Tasks 6.4/6.5 and earlier changes' detailed acceptance tasks remain open; this feedback is not full atmosphere or offline acceptance.
+- The user subsequently said the demo "looks good", but noted that the textures do not match the more realistic enemies/weapons, requested dynamic lighting and a special key-pickup sound, and approved free CC0 photographic PBR maps plus limited torch shadows and spell/projectile lights. These requests are implemented separately in `realistic-fortress-feedback`; they do not retroactively approve its new presentation or complete unreported earlier checks.
+
 ## Pending human acceptance
 
 - [ ] Visual review: stone scale/tiling/seams, lighting/flicker comfort, readable enemies/resources/objectives, uncluttered routes and improved fortress identity.

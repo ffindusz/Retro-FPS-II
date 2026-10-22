@@ -1,6 +1,6 @@
 # Original combat SFX
 
-These eleven short WAV cues are original deterministic procedural audio authored for this project by `tools/generate_combat_audio.gd`, not downloaded samples or outputs from a paid service. No Meshy or other API calls are used. The original nine combat WAVs were preserved byte-for-byte when the two resource cues were added.
+These twelve short WAV cues are original deterministic procedural audio authored for this project by `tools/generate_combat_audio.gd`, not downloaded samples or outputs from a paid service. No Meshy or other API calls are used. The original nine combat WAVs were preserved byte-for-byte when the two resource cues were added; all eleven accepted cues are unchanged by the 0.4 key follow-up.
 
 Format: mono PCM16, 22,050 Hz; peak normalized to at most 0.5 (about -6 dBFS), with short attack/release envelopes and zero-valued endpoints. Seed starts at `0xC1D3` and increments by 19 in the declared cue order. Regenerate with the documented Godot editor executable and `--headless --path . --script tools/generate_combat_audio.gd`.
 
@@ -17,7 +17,8 @@ Format: mono PCM16, 22,050 Hz; peak normalized to at most 0.5 (about -6 dBFS), w
 | `hurt` | .20s | Damped bass/noise thud; player damage |
 | `pickup_health` | .26s | Warm two-note ascending chime; successful health restoration |
 | `pickup_mana` | .30s | Brighter three-note harmonic chime; successful arcana restoration |
+| `pickup_key` | .85s | Four overlapping ascending bell tones (392, 523.25, 659.25, 1046.5Hz), inharmonic partials and decaying tail; first successful key collection |
 
-Generate only selected cues without rewriting accepted sounds by appending their names after `--`, for example `--headless --path . --script tools/generate_combat_audio.gd -- pickup_health pickup_mana`. Their seeds are 49790 and 49809 respectively. Source/imported cues remain uncompressed PCM16 with normalization disabled.
+Generate only selected cues without rewriting accepted sounds by appending their names after `--`, for example `--headless --path . --script tools/generate_combat_audio.gd -- pickup_key`. Health/mana seeds are 49790/49809; the key cue's declared seed is 49828 (its waveform uses tones rather than random noise). Source/imported cues remain uncompressed PCM16 with normalization disabled.
 
-The runtime uses conservative gain, an SFX bus limiter, a 12-voice cap, and a session volume/mute slider. Pickups use local, non-positional cues only after actual positive restoration, not on full-resource contact; the key remains silent. On 2026-10-21 the user approved the existing sounds generally and confirmed pickup sound works; unreported detailed mix/control checks are not inferred. The owner chooses the project's overall source/asset distribution license; no third-party sample attribution is required for these original constructions.
+The runtime uses conservative gain, an SFX bus limiter, a 12-voice cap, and a session volume/mute slider. Resource pickups sound only after positive restoration; the key sounds only after ownership first succeeds. All pickup cues are local, independent of the freed pickup node, deduplicated and muted without delayed replay. On 2026-10-21 the user approved the existing sounds generally and confirmed resource pickup sound works; that feedback does not approve the new key chime. The owner chooses the project's overall source/asset distribution license; no third-party sample attribution is required for these original constructions.

@@ -42,18 +42,35 @@ For each imported model add: asset ID; local source/texture paths; author/source
 
 ## Original combat-polish audio and effects
 
-`assets/audio/combat/` contains eleven original WAV effects authored locally by `tools/generate_combat_audio.gd`; [cue durations, synthesis parameters and provenance](../assets/audio/combat/README.md) are recorded alongside them. The 2026-10-21 follow-up adds distinct health/arcana pickup chimes while retaining the nine existing combat WAVs byte-for-byte. They are mono 22,050 Hz PCM16, peak at most 0.5, with short attack/release envelopes and zero-valued endpoints. Their `.import` settings preserve uncompressed PCM16 without normalization. No third-party sample, external audio-generation service, or additional Meshy credits were used. The owner chooses the overall distribution license for these original constructions.
+`assets/audio/combat/` contains twelve original WAV effects authored locally by `tools/generate_combat_audio.gd`; [cue durations, synthesis parameters and provenance](../assets/audio/combat/README.md) are recorded alongside them. The 2026-10-21 follow-up added health/arcana pickup chimes while retaining the nine existing combat WAVs byte-for-byte. The 2026-10-22 follow-up adds only the 0.85-second `pickup_key.wav` bell chord, preserving all eleven accepted cues. They are mono 22,050 Hz PCM16, peak at most 0.5, with short attack/release envelopes and zero-valued endpoints. Their `.import` settings preserve uncompressed PCM16 without normalization. No third-party sample, external audio-generation service, or additional Meshy credits were used. The owner chooses the overall distribution license for these original constructions.
 
 Hit markers, screen-edge damage cues, and the short visual-only impact shards in `scripts/combat/impact_effect.gd` are original Godot UI/primitive constructions. Source Meshy GLBs and their normalization scenes are unchanged by this polish pass. The user approved the existing sounds generally and confirmed pickup sound works on 2026-10-21; unreported detailed listening/control checks remain pending. Technical resource/peak/event tests are not a listening review.
 
-## Original fortress-atmosphere assets
+## Original fortress-atmosphere 0.3 assets
 
 - `assets/environment/{wall,floor,trim}_{albedo,roughness}.png`: six original 512×512 images authored by `tools/generate_fortress_assets.gd`; [seeds, patterns, mapping and imports](../assets/environment/README.md). Shared world-aligned materials use approximately two meters per tile, with repeat/mipmaps and modest area color variants. Iron/brass accents use solid-color shared materials. No downloaded texture or paid generation is involved.
 - `assets/audio/ambience/{wind,crypt}.wav`: original 20-second mono 22,050 Hz PCM16 loops, seeds 7101/9103, source peaks at most .25, .75s overlap join, imported forward loops without normalization/compression. [Construction, mix and ownership](../assets/audio/ambience/README.md). Two run-owned players use the independent Ambience bus/control; no music or enemy-signaling audio is added.
 - New doorway/pillar bands and key-floor inlay are original simple visual-only geometry. Six additional urn instances reuse the existing cleared model (ten urns total); torch/model sources and normalization remain unchanged. Thin accents do not cast redundant shadows over the existing solids.
 - `docs/fortress-atmosphere-baseline.json` records original six GLB, eleven SFX and navigation-source hashes; offline tests compare all eighteen originals unchanged. `resources/atmosphere_baseline.tres` holds canonical gameplay fingerprints used in source/packaged tests.
 
-The owner chooses the overall distribution license for these original constructions. Earlier combat/pickup approval does not approve new surface tiling, lighting/flicker comfort, ambience seams or mix; human atmosphere acceptance remains pending. There are no added third-party texture/audio attribution obligations from this pass.
+The owner chooses the overall distribution license for these original constructions. The user completed a 0.3 walkthrough and said it looks good but requested better-matching textures and dynamic lighting; unreported detailed ambience/control/offline checks remain pending. There were no added third-party texture/audio attribution obligations from that original pass.
+
+## CC0 photographic fortress-refinement 0.4 textures
+
+The default world now uses six unchanged 1024px JPEG downloads from [Poly Haven](https://polyhaven.com/), replacing the original procedural maps in the shared runtime material mapping while preserving their files. The user explicitly approved downloading and bundling free CC0 photographic PBR textures on 2026-10-22.
+
+| Asset | Author | Local maps | Physical tile |
+|---|---|---|---|
+| [Medieval Blocks 03](https://polyhaven.com/a/medieval_blocks_03) | Rob Tuytel | `assets/environment/photographic/wall_{albedo,normal,roughness}.jpg`; shared by walls/trim | 2m |
+| [Monastery Stone Floor](https://polyhaven.com/a/monastery_stone_floor) | Amal Kumar | `assets/environment/photographic/floor_{albedo,normal,roughness}.jpg` | Approximately 1.8m |
+
+License: **CC0-1.0**, verified against [Poly Haven's official licensing page](https://polyhaven.com/license); [CC0 dedication](https://creativecommons.org/publicdomain/zero/1.0/). Redistribution/commercial use is permitted without mandatory attribution; authors are credited here voluntarily. Exact source/download URLs, official MD5 and verified local SHA-256 are in [the provenance manifest](../assets/environment/photographic/provenance.json). [Import/mapping details](../assets/environment/photographic/README.md) include mipmaps, the 1024px cap, unflipped OpenGL normals and shared physical world scale. Only the texture assets, not protected website content, are bundled.
+
+New torch shadows and bounded cast/impact/projectile lights are original Godot presentation logic, not new downloaded models. No Meshy generation, paid service or runtime network dependency was added. The user subsequently approved the photographic textures ("textures are good"); detailed shadow/spell-light/key-audio acceptance remains pending.
+
+## Original moonlit fortress 0.4.1 sky
+
+`assets/environment/sky/moonlit_fortress.png` is one original 1024x512 RGB panorama with seeded spherical clouds, sparse stars and a moon aligned with the existing directional light. It was authored locally by `tools/generate_fortress_sky.gd`, with no external image, paid generation or runtime network dependency. [Parameters and SHA-256](../assets/environment/sky/provenance.json) and [generation/import/mapping details](../assets/environment/README.md) accompany it. Mipmaps and a 1024px import cap apply. The panorama is background-only: explicit color ambient, existing lights and isolated weapon lighting are unchanged, with sky reflections disabled. The owner chooses the distribution license for this original construction; no new third-party attribution is required. The user approved its general appearance on 2026-10-22 ("skybox looks good!"); a separate manual seam check remains unreported.
 
 ## Credits and legal notes
 

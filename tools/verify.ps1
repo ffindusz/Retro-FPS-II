@@ -1,7 +1,7 @@
 param([switch]$Render)
 $ErrorActionPreference = 'Stop'
 $project = Split-Path $PSScriptRoot -Parent
-$godot = Join-Path $project 'Godot_v4.7-stable_win64_console.exe'
+$godot = Join-Path $project 'Godot_v4.7.2-stable_win64_console.exe'
 
 function Invoke-CheckedGodot([string[]]$GodotArgs) {
     $output = & $godot --path $project @GodotArgs 2>&1

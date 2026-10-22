@@ -1,0 +1,19 @@
+{
+	"distribution": "Original project asset; owner chooses the project's distribution license",
+	"file": "moonlit_fortress.png",
+	"generator": "tools/generate_fortress_sky.gd",
+	"godot": "4.7.2-stable (official)",
+	"height": 512,
+	"moon_angular_radius": 0.025,
+	"moon_rotation_degrees": [
+		-55,
+		-30,
+		0
+	],
+	"noise": "Spherical smooth simplex, five-octave fBm; fixed cloud coordinates in generator",
+	"origin": "Original project art authored offline; no external texture or paid generation",
+	"seed": 18419,
+	"sha256": "c1f04a066048cd1dbf6517ff27b55afe55dcad9e6bae4bc3600d2327e58c8c24",
+	"stars": 160,
+	"width": 1024
+}

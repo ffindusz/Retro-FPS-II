@@ -6,7 +6,7 @@ const CUES = {
 	"swing": 0.34, "hit": 0.15, "wall": 0.28, "magic_cast": 0.32,
 	"magic_impact": 0.22, "enemy_melee": 0.38, "enemy_charge": 0.65,
 	"enemy_cast": 0.18, "hurt": 0.20,
-	"pickup_health": 0.26, "pickup_mana": 0.30
+	"pickup_health": 0.26, "pickup_mana": 0.30, "pickup_key": 0.85
 }
 
 func _initialize() -> void:
@@ -71,6 +71,13 @@ func generate() -> void:
 					var notes = [739.99, 987.77, 1174.66]
 					phase += TAU * notes[mini(2, int(progress * 3.0))] / RATE
 					sample = (sin(phase) * 0.6 + sin(phase * 2.01) * 0.2) * sin(fmod(progress * 3.0, 1.0) * PI)
+				"pickup_key":
+					var notes = [392.0, 523.25, 659.25, 1046.5]
+					for note in range(notes.size()):
+						var age = t - note * 0.11
+						if age >= 0.0:
+							var tone = TAU * notes[note] * age
+							sample += (sin(tone) + sin(tone * 2.76) * 0.32 + sin(tone * 4.12) * 0.18) * exp(-age * 7.0) * minf(1.0, age / 0.004)
 			sample *= minf(1.0, t / 0.006) * minf(1.0, (duration - t) / 0.025)
 			samples[frame] = sample
 			peak = maxf(peak, absf(sample))

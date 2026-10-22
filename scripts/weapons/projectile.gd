@@ -26,6 +26,7 @@ func _ready() -> void:
 	add_to_group("projectiles")
 	PrimitiveArt.orb(self, Vector3.ZERO, 0.12, tint, 2.5)
 	PrimitiveArt.orb(self, Vector3.ZERO, 0.055, Color.WHITE, 3.0)
+	get_parent().feedback.light_projectile(self, tint)
 
 func _physics_process(delta: float) -> void:
 	advance(delta)

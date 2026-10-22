@@ -2,7 +2,7 @@ class_name CombatAudio
 extends Node
 ## Run-owned, bounded one-shots. No synthesis, streaming, deferred queue or credentials.
 
-const CUE_NAMES = ["swing", "hit", "wall", "magic_cast", "magic_impact", "enemy_melee", "enemy_charge", "enemy_cast", "hurt", "pickup_health", "pickup_mana"]
+const CUE_NAMES = ["swing", "hit", "wall", "magic_cast", "magic_impact", "enemy_melee", "enemy_charge", "enemy_cast", "hurt", "pickup_health", "pickup_mana", "pickup_key"]
 const MAX_VOICES = 12
 static var owns_bus: bool = false
 var streams: Dictionary = {}
@@ -48,9 +48,10 @@ func consume(event: Dictionary) -> void:
 		&"player_hurt": cue = "hurt"
 		&"pickup_health": cue = "pickup_health"
 		&"pickup_mana": cue = "pickup_mana"
+		&"pickup_key": cue = "pickup_key"
 	if cue.is_empty() or streams.get(cue) == null:
 		return
-	var spatial: bool = event.kind not in [&"melee_swing", &"magic_cast", &"player_hurt", &"pickup_health", &"pickup_mana"]
+	var spatial: bool = event.kind not in [&"melee_swing", &"magic_cast", &"player_hurt", &"pickup_health", &"pickup_mana", &"pickup_key"]
 	var priority = 0 if event.kind in [&"enemy_hit", &"world_impact"] else 1
 	if not spatial:
 		priority = 2
