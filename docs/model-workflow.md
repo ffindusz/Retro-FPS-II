@@ -38,6 +38,18 @@ Pricing checked on 2026-10-20: [Meshy API pricing](https://docs.meshy.ai/en/api/
 
 Static enemy models are sufficient for this demo: the wrapper supplies damage flashes, windup motion, and death transforms. Skeletal animation is optional future work, not an import prerequisite. The key and flasks can remain original procedural geometry. Walls, floors, cover, and navigation remain authored Godot geometry.
 
+### Separate authorized Warden animation trial — 2026-10-23
+
+The user later authorized one original-Warden upload/rig and exactly actions 0/21/219 under a **14-credit cap with no automatic paid retries**. `tools/meshy_animation_ab.py` implements that fixed trial independently of the original model-generation tool: free balance/library preflight, before-POST 5+9 reservations, task-ID checkpoints, ambiguous/failure guards, a concurrency lock and sanitized downloads/records. Exactly 14 credits were consumed; the account moved from 1,380 to 1,366. This is not a standing budget for additional operations.
+
+The completed trial's raw files/checkpoint are in `%LOCALAPPDATA%/Temp/opencode/cinderkeep-warden-meshy-ab-2026-10-23/`, backed up to ignored `builds/authoring/warden-meshy-ab/`. Use `python tools/meshy_animation_ab.py preflight` for read-only checks or `python tools/meshy_animation_ab.py run` **without `--submit`** to resume existing tasks. Do not clear checkpoints or start another paid trial without new approval. `tools/prepare_meshy_ab.py` and `tools/analyze_meshy_ab.py` inspect existing files offline. [Actual A/B scope, Service Asset rights basis, findings and preview controls](warden-meshy-animation-ab.md) are recorded separately; no result replaces accepted gameplay/builds.
+
+### Animation-ready Warden pilot — 2026-10-23
+
+The user subsequently approved a distinct **90-credit** pilot: three standard Meshy 7.1 body previews (20 each), one selected 2K PBR refine (10), rig (5) and five presets (15). `docs/warden-pilot-plan.json` fixes the original prompts, A-pose request, 8k target and actions 0/21/219/178/8. `tools/meshy_warden_pilot.py` reserves/checkpoints before each POST, locks the plan and downstream selection, resumes saved IDs and refuses paid replacement/extra branches. All six planned requests succeeded for exactly 90 credits (1,366 → 1,276); the user selected **c02 Brigandine** after actual views. No other body was textured/rigged, and no Adept/extra model or action was purchased.
+
+Raw/checkpoint staging is `%LOCALAPPDATA%/Temp/opencode/cinderkeep-warden-pilot-2026-10-23/`, backed up under ignored `builds/authoring/warden-pilot/`. `python tools/meshy_warden_pilot.py finish --candidate c02` **without `--submit`** is resume-only; this completed budget is not permission to clear records or start another paid trial. Offline preparation tools preserve raw metadata/hashes and validate UV-atlas compatibility before restoring selected PBR maps. Candidate and selected-pilot assets remain under excluded `assets/prototypes/warden-pilot/`. [Pilot findings, actual costs, source hashes, controls and review limits](warden-animation-ready-pilot.md) document bent-elbow/noncompliant variants, the selected body and separately attached accepted Iron Blade. Gameplay/collision/navigation/version and accepted exports remain unchanged.
+
 ## Export and rights gate
 
 1. Generate/review each model using the user's own Meshy account. Record generation/export identifiers, prompt, generation date, and the account plan/license terms that applied. Do not expose credentials.

@@ -1,0 +1,26 @@
+{
+  "version": "0.5.0",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "platform": "windows-x64",
+  "build_date": "2026-10-23",
+  "directory": "builds/windows-0.5.0",
+  "status": "Technical validation passed; user confirmed the integrated version works fine",
+  "accepted_date": "2026-10-23",
+  "acceptance": "User reported: works fine after the 0.5.0 handoff. General integrated-version confirmation only; detailed grip/gait/transition, complete-route and explicitly disconnected native checks were not separately reported.",
+  "source_checks": 459,
+  "packaged_checks": 311,
+  "offline_python_tests": 81,
+  "artifacts": [
+    {
+      "name": "Cinderkeep.exe",
+      "bytes": 109268480,
+      "sha256": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562"
+    },
+    {
+      "name": "Cinderkeep.pck",
+      "bytes": 46177796,
+      "sha256": "7ab30ce220869480f46c28ea1674447a79800155830e01bfe03d30a4949dc027"
+    }
+  ],
+  "note": "EXE is the unchanged official engine loader (resource modification disabled); project/menu/PCK and preset identify 0.5.0. Frozen 0.4.1 files and packaging record are not overwritten."
+}

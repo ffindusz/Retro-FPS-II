@@ -409,6 +409,8 @@ func meshes_under(node: Node) -> Array[MeshInstance3D]:
 
 func visual_bounds(node: Node, transform: Transform3D = Transform3D.IDENTITY) -> AABB:
 	var combined = transform * node.transform if node is Node3D else transform
+	if node.has_method("normalized_rest_bounds"):
+		return combined * node.normalized_rest_bounds()
 	var result = combined * node.get_aabb() if node is MeshInstance3D else AABB()
 	for child in node.get_children():
 		var box = visual_bounds(child, combined)

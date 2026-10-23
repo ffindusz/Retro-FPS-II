@@ -1,0 +1,56 @@
+{
+  "source": "assets/models/enemy-warden/model.glb",
+  "source_sha256": "969cef958b48e06ce33e40d8efef62797a6cba104a045e4253ac16175135e2d4",
+  "authoring_script": "tools/author_warden_rig.py",
+  "blender_version": "4.5.15 LTS",
+  "authoring_script_sha256": "e9c53316500b17bb4f73a22936daa04b5c48b8df70edcafe10e878dae8a6fc99",
+  "weight_helper_sha256": "beeae65efd9569e4a48f74632c3f73c30ed0bd1c19f5d2e1cf74624eac774f47",
+  "blender_build_hash": "5afeabba6097",
+  "bones": 21,
+  "clips": {
+    "Idle": 2.0,
+    "Walk": 1.0,
+    "Attack": 1.4
+  },
+  "coordinates": "Godot meters / Y-up / -Z-forward, baked existing normalization",
+  "geometry": {
+    "vertices": 7327,
+    "triangles": 8462,
+    "topology_changed": false,
+    "uvs_preserved": true
+  },
+  "material": "Original Warden material/1K textures reused by Godot preview; derivative embeds no textures",
+  "weighting": "Deterministic fitted anatomical regions, six inverse-edge-length topology-smoothing passes, max four normalized influences; disconnected hand and blade rigid",
+  "dominant_weight_vertex_counts": {
+    "Foot.R": 81,
+    "Pelvis": 1892,
+    "Spine": 763,
+    "Thigh.R": 210,
+    "Chest": 612,
+    "Neck": 370,
+    "Shin.L": 179,
+    "Forearm.R": 203,
+    "UpperArm.R": 175,
+    "Head": 613,
+    "Foot.L": 192,
+    "UpperArm.L": 419,
+    "Hand.R": 608,
+    "Thigh.L": 450,
+    "Forearm.L": 93,
+    "Shin.R": 211,
+    "Shoulder.R": 73,
+    "Weapon.R": 180,
+    "Shoulder.L": 3
+  },
+  "blade_vertices": 180,
+  "rigid_hand_vertices": 326,
+  "attack_visual_windup_seconds": 0.55,
+  "gameplay_integration": false,
+  "glb_sha256": "4299394ac1d39477658315a9095df484782e9105557d1aab24f61d7f4693018b",
+  "blend_sha256": "bc83948a9b5e4fffd3db58ec9239feea395dbbb7b7999360b0e6c88b66fed709",
+  "limitations": [
+    "Technical prototype, not production animation",
+    "No fingers/facial rig or cloth simulation",
+    "Spatial weights and in-place foot planting require human review"
+  ]
+}

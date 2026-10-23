@@ -1,0 +1,6 @@
+# Keep bundled text/notices byte-stable, including on Windows checkouts.
+docs/release/*.txt text eol=lf
+docs/release/0.5.0/*.txt text eol=lf
+# These two authoring sources are hash-pinned in the rig provenance.
+tools/author_warden_rig.py text eol=lf
+tools/warden_rig_geometry.py text eol=lf

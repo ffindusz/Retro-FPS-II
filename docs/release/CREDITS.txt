@@ -1,0 +1,43 @@
+CINDERKEEP - ASSET CREDITS AND NOTICES
+====================================
+
+Original project
+  Cinderkeep is an original dark-fantasy FPS prototype, not a Hexen II remake.
+  No Hexen II models, textures, maps, audio, source code or setting are bundled.
+  Project code, primitive fallback art, HUD, synthesized combat/pickup audio,
+  wind/crypt ambience and moonlit panorama were authored for this project.
+  The owner chooses their overall source/distribution license; none is granted
+  by this notice. This is a local playtest bundle, not public-release clearance.
+
+Godot Engine 4.7.2 (standard build)
+  https://godotengine.org/
+  Copyright (c) 2014-present Godot Engine contributors.
+  Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.
+  MIT licensed; see GODOT-LICENSE.txt. Embedded third-party components and
+  default engine assets retain their own licenses: see GODOT-COPYRIGHT.txt
+  (official 4.7.2 source notices) and https://godotengine.org/license/.
+
+Meshy.ai - AI model authoring service, not a runtime dependency or endorsement
+  https://www.meshy.ai/
+  Six AI-generated textured models: Iron Blade (source ID weapon-cleaver),
+  Ember Staff, Warden, Adept, wall torch and urn.
+  Generated 2026-10-20 from original text prompts, without reference uploads.
+  The user confirmed a paid monthly plan. The project's generation-specific
+  review applies the paid-output provision in the September 19, 2026 terms,
+  section 3.2: https://www.meshy.ai/terms-of-use.
+  This record is not an exclusive-copyright claim or legal guarantee; separate
+  account terms and final public-release rights remain the owner's review.
+  Original generation records and model hashes are retained in the project.
+
+Poly Haven - photographic stone (CC0-1.0)
+  Medieval Blocks 03 by Rob Tuytel (walls and trim)
+    https://polyhaven.com/a/medieval_blocks_03
+  Monastery Stone Floor by Amal Kumar (floors)
+    https://polyhaven.com/a/monastery_stone_floor
+  Six unchanged 1K color/roughness/OpenGL normal maps, downloaded 2026-10-22.
+  https://polyhaven.com/license
+  https://creativecommons.org/publicdomain/zero/1.0/
+  Authors are credited voluntarily; CC0 does not require attribution.
+
+No paid generation, rigging service or additional external art/audio was used
+to create this package or the separate developer-only Warden motion study.

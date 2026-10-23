@@ -2,11 +2,14 @@
 
 An original, single-level dark-fantasy FPS prototype inspired by the atmosphere of early 3D fantasy shooters. Built with **Godot 4.7.x and GDScript**, a **2D HUD**, and **real 3D first-person weapons**.
 
-**Status: playable fortress-refinement 0.4.1 project with six integrated Meshy.ai models.** Adds an original bundled moonlit sky above the user-approved photographic stone, alongside two shadow-casting torches, bounded spell illumination and a unique ember-key chime. Collision, navigation, placements, combat tuning, models, the eleven accepted SFX and ambience are unchanged. General texture and sky appearance are user-approved; detailed seam and unreported lighting/audio review remain pending. A fresh 0.4.1 Windows export is blocked by missing matching 4.7.2 export templates on this machine; earlier package evidence is historical.
+**Status: user-confirmed working animated-Warden 0.5.0 integration ("works fine").** The four melee Wardens now use the approved Brigandine body and five native animations, with a corrected rigid sword grip and unchanged combat/encounter rules. Adepts and procedural fallback are unchanged. Verification passes **459 source checks**, **81 offline Python tests** and **311 packaged checks**; package audit and native startup/menu rendering pass. The user-confirmed **0.4.1 EXE/PCK/ZIP are preserved separately**. This is general integrated-build confirmation; detailed grip/gait/transition checks and a full disconnected native playthrough remain unreported. [Integration, evidence and known limits](docs/warden-runtime-integration.md).
 
 ## Play
 
-- Windows build: launch `builds/windows/Cinderkeep.exe`. Keep `Cinderkeep.pck` next to it. The existing older export does not include 0.4/0.4.1 changes; use editor/project play until matching templates allow re-export.
+**Optional comparison preview:** run `scenes/prototypes/warden_pilot_preview.tscn` with **F6** to compare the old static Warden and selected body. It shares the corrected grip, but the prototype scene/code/assets remain excluded from exports; the game uses independent runtime resources. [Pilot history and controls](docs/warden-animation-ready-pilot.md).
+
+- **Current Windows build:** launch `builds/windows-0.5.0/Cinderkeep.exe` and keep `Cinderkeep.pck` next to it. No editor or export templates are required. It retains the photographic stone, dynamic lighting, key chime and moonlit sky.
+- **Frozen accepted baseline:** `builds/windows/Cinderkeep.exe` or extract `builds/releases/Cinderkeep-0.4.1-windows-x64.zip`. These intentionally retain the old static enemies. [Packaging and validation](docs/release-packaging.md).
 - Editor: import `project.godot` with the standard Godot 4.7.x editor (currently bundled: 4.7.2), then press **F6** on `scenes/main.tscn` or **F5** to run the project.
 - Or, from PowerShell in this folder:
 
@@ -47,16 +50,17 @@ Leave the safe entrance, cross the courtyard, and enter the crypt through the ea
 .\tools\verify.ps1
 .\tools\verify.ps1 -Render
 & .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script tools/bake_navigation.gd
-New-Item -ItemType Directory -Force builds/windows
+New-Item -ItemType Directory -Force builds/windows-0.5.0
 & .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --export-release "Windows Desktop"
 ```
 
-The render check briefly opens game windows and writes only the game's rendered viewport to `builds/validation/`. Re-bake navigation after changing solid level geometry. Windows export requires templates matching the engine exactly (**4.7.2.stable** for the bundled executable; Editor → Manage Export Templates). Templates are not required for editor play. The preset excludes authoring tools, tests, OpenSpec files, and generated validation output.
+The render check briefly opens game and Warden-preview windows and writes only their rendered viewports to `builds/validation/`. Verification covers the original game, runtime Warden and isolated prototypes. Only the original game and runtime Warden suites apply to exported resources; prototype paths stay excluded. Re-bake navigation only after changing solid level geometry (not needed for this visual integration). Windows export requires matching **4.7.2.stable** templates (Editor → Manage Export Templates); installed templates are not bundled in the repository. The preset writes to the separate 0.5.0 folder and excludes authoring tools, tests, OpenSpec files, generated validation output and developer prototypes. Do not export over the frozen 0.4.1 files.
 
 Packaged-resource regression checks (using the editor executable with the exported PCK):
 
 ```powershell
-& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows/Cinderkeep.pck --script "$PWD/tests/run_tests.gd"
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.5.0/Cinderkeep.pck --script "$PWD/tests/run_tests.gd"
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.5.0/Cinderkeep.pck --script "$PWD/tests/test_runtime_warden.gd"
 ```
 
 Release executables do not support the editor's external `--script` test override; do not mistake an idle main menu for completed tests.
@@ -84,9 +88,15 @@ Release executables do not support the editor's external `--script` test overrid
 - [Combat-polish baseline, placements, tests, and listening/playtest checklist](docs/combat-polish-validation.md)
 - [Atmosphere baseline, before/after comparison, checks, and review checklist](docs/fortress-atmosphere-validation.md)
 - [Photographic stone, dynamic lighting, key audio and current delivery evidence](docs/realistic-fortress-validation.md)
+- [Portable release ZIP, notices, pinned hashes and packaging checks](docs/release-packaging.md)
+- [Developer-only Warden motion study, controls and rigging limitations](docs/warden-motion-study.md)
+- [Local Warden skeletal rig, editable source, preview controls and review limits](docs/warden-rig-prototype.md)
+- [Actual local/Meshy animation A/B, 14-credit result, controls and observed sword-binding issue](docs/warden-meshy-animation-ab.md)
+- [Selected animation-ready Warden pilot, 90-credit result, five clips and separate rigid blade](docs/warden-animation-ready-pilot.md)
+- [Runtime Warden 0.5.0: corrected grip, state timing, validation and Windows handoff](docs/warden-runtime-integration.md)
 
 The first six-model API batch completed on 2026-10-20 for 90 credits and is now integrated, following the user's paid monthly plan confirmation. [Generation records](docs/meshy-generation.md) preserve source IDs/checksums; [the manifest](docs/asset-manifest.md) records rights and normalization. No additional generation credits were used for import. The melee result is more sword-like than the original cleaver prompt, so the HUD calls it **Iron Blade**; original asset IDs are retained for provenance. The urn's lid and torch's lower basket are accepted demo details.
 
-The pre-polish user run took roughly five minutes and was described as easy. After combat polish the user reported that sounds are okay, melee is better, and difficulty is okay, then confirmed pickup audio works. On 2026-10-22 the user confirmed the startup fix, completed a 0.3 walkthrough and said it looks good, while requesting better-matching textures, dynamic light and key audio. They subsequently approved the new textures ("textures are good"), requested the sky, and approved its appearance ("skybox looks good!"). This does not imply detailed seam checks or approval of unreported shadows/spell/key-audio details. Timing, detailed mix/control and offline native-build acceptance are still unreported. Enemies remain static meshes with procedural feedback; there is no skeletal animation, save/load, multiplayer, general settings screen, music or controller support. Original synthetic audio has technical tests, not a professional mastering claim. This is not a Hexen II remake and contains no Hexen II content.
+The pre-polish user run took roughly five minutes and was described as easy. The user subsequently approved combat/pickup audio, melee, difficulty, textures and sky, then confirmed project/native 0.4.1 playability ("did the playtest - works", "build works!"). On 2026-10-23 they approved the new Warden's look/animations, requested a sword-mount adjustment and authorized gameplay integration. After the 0.5.0 handoff they reported "works fine": general integration confirmation, not a separately reported detailed grip check or complete offline run. The Warden now has skeletal animation; the Adept retains static procedural feedback. Open fingers, native foot sliding and pose intersections remain limits; the combined 11,376 source triangles exceed the original ~10k guideline. There is no save/load, multiplayer, general settings screen, music or controller support. Synthetic audio is not professionally mastered. This is not a Hexen II remake and contains no Hexen II content.
 
 For developer comparison, turn off **Atmosphere Enabled** on the main Cinderkeep session node (or set `DemoSession.atmosphere_enabled=false` before starting a run). This restores the pre-pass flat/static world without the sky, ambience, torch shadows or spell lights while retaining identical gameplay and key audio. It is a diagnostic toggle, not a player-facing graphics setting.

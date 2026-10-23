@@ -20,6 +20,7 @@ var cooldown: float = 0.0
 var windup: float = 0.0
 var path_refresh: float = 0.0
 var hit_flash: float = 0.0
+var presentation: Node3D
 @onready var visual: Node3D = $VisualRoot
 @onready var agent: NavigationAgent3D = $NavigationAgent
 
@@ -27,7 +28,10 @@ func _ready() -> void:
 	health = max_health
 	add_to_group("enemies")
 	if not use_placeholder and model_scene != null:
-		visual.add_child(model_scene.instantiate())
+		var model = model_scene.instantiate()
+		visual.add_child(model)
+		if archetype == 0 and model.has_method("advance_visual"):
+			presentation = model
 	else:
 		_build_placeholder()
 	agent.path_desired_distance = 0.4
@@ -48,6 +52,7 @@ func _build_placeholder() -> void:
 
 func _physics_process(delta: float) -> void:
 	if state == State.DEAD:
+		advance_presentation(delta)
 		return
 	if not is_instance_valid(target):
 		target = get_tree().get_first_node_in_group("player") as DemoPlayer
@@ -55,12 +60,14 @@ func _physics_process(delta: float) -> void:
 		return
 	cooldown = maxf(0.0, cooldown - delta)
 	hit_flash = maxf(0.0, hit_flash - delta)
-	visual.scale = Vector3.ONE * (1.0 + hit_flash * 0.7)
+	if presentation == null:
+		visual.scale = Vector3.ONE * (1.0 + hit_flash * 0.7)
 	var distance = global_position.distance_to(target.global_position)
 	if state == State.IDLE:
 		if distance < detection_range and has_line_of_sight():
 			state = State.CHASE
 		else:
+			advance_presentation(delta)
 			return
 	var flat_target = Vector3(target.global_position.x, global_position.y, target.global_position.z)
 	if global_position.distance_squared_to(flat_target) > 0.01:
@@ -69,22 +76,28 @@ func _physics_process(delta: float) -> void:
 	velocity.z = 0.0
 	if state == State.ATTACK:
 		windup -= delta
-		visual.position.y = sin(maxf(windup, 0.0) * 18.0) * 0.07
-		# A readable whole-model lean works with static generated meshes, no rig needed.
-		visual.rotation.x = -0.16 - 0.1 * (1.0 - clampf(windup / windup_duration, 0.0, 1.0))
+		if presentation == null:
+			visual.position.y = sin(maxf(windup, 0.0) * 18.0) * 0.07
+			visual.rotation.x = -0.16 - 0.1 * (1.0 - clampf(windup / windup_duration, 0.0, 1.0))
 		if windup <= 0.0:
+			if presentation != null:
+				presentation.attack_contact()
 			resolve_attack()
 			state = State.CHASE
 			cooldown = attack_cooldown
-			visual.position.y = 0.0
-			visual.rotation.x = 0.0
+			if presentation == null:
+				visual.position.y = 0.0
+				visual.rotation.x = 0.0
 	else:
-		visual.rotation.x = 0.0
+		if presentation == null:
+			visual.rotation.x = 0.0
 		var range_limit = 10.0 if archetype == 1 else 1.9
 		if distance <= range_limit and has_line_of_sight():
 			if cooldown <= 0.0:
 				state = State.ATTACK
 				windup = windup_duration
+				if presentation != null:
+					presentation.begin_attack()
 				CombatEvents.publish(self, &"enemy_melee_windup" if archetype == 0 else &"enemy_charge", global_position + Vector3.UP * 1.3)
 		else:
 			_chase(delta)
@@ -92,7 +105,16 @@ func _physics_process(delta: float) -> void:
 		velocity.y -= 18.0 * delta
 	else:
 		velocity.y = 0.0
+	var previous_position := global_position
 	move_and_slide()
+	var travel := global_position - previous_position
+	advance_presentation(delta, Vector2(travel.x, travel.z).length())
+
+func advance_presentation(delta: float, movement_distance: float = 0.0) -> void:
+	if presentation != null:
+		if state == State.DEAD and not presentation.dead:
+			presentation.die()
+		presentation.advance_visual(delta, movement_distance, state == State.ATTACK, windup, windup_duration)
 
 func _chase(delta: float) -> void:
 	var map = agent.get_navigation_map()
@@ -151,8 +173,13 @@ func take_damage(amount: int, source: Node) -> int:
 		visual.rotation.x = 0.0
 		set_deferred("collision_layer", 0)
 		set_deferred("collision_mask", 0)
-		var tween = create_tween()
-		tween.tween_property(visual, "rotation:z", PI / 2.0, 0.3)
-		tween.parallel().tween_property(visual, "scale", Vector3(0.8, 0.55, 0.8), 0.3)
+		if presentation != null:
+			presentation.die()
+		else:
+			var tween = create_tween()
+			tween.tween_property(visual, "rotation:z", PI / 2.0, 0.3)
+			tween.parallel().tween_property(visual, "scale", Vector3(0.8, 0.55, 0.8), 0.3)
 		died.emit()
+	elif presentation != null:
+		presentation.show_hit()
 	return applied

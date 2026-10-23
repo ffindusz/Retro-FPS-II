@@ -1,0 +1,19 @@
+{
+  "version": "0.4.1",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "platform": "windows-x64",
+  "accepted_date": "2026-10-22",
+  "acceptance": "User reported: build works! No explicitly disconnected or detailed result/restart coverage was supplied.",
+  "artifacts": [
+    {
+      "name": "Cinderkeep.exe",
+      "bytes": 109268480,
+      "sha256": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562"
+    },
+    {
+      "name": "Cinderkeep.pck",
+      "bytes": 39215852,
+      "sha256": "98dd83933731a27f6e9800493d8881ab6688fc8bab4d470f6ec20fbe9f80d3e1"
+    }
+  ]
+}

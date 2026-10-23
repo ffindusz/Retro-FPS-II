@@ -1,0 +1,162 @@
+{
+  "date": "2026-10-23",
+  "source": "assets/models/enemy-warden/model.glb",
+  "source_sha256": "969cef958b48e06ce33e40d8efef62797a6cba104a045e4253ac16175135e2d4",
+  "local_rig_sha256": "4299394ac1d39477658315a9095df484782e9105557d1aab24f61d7f4693018b",
+  "authorization": {
+    "date": "2026-10-23",
+    "ceiling_credits": 14,
+    "source_upload_approved": true,
+    "paid_retries": false
+  },
+  "action_ids": [
+    0,
+    21,
+    219
+  ],
+  "rig_task_id": "01a168c6-d5eb-7539-a613-96c91b801559",
+  "animation_task_id": "01a168c7-7e14-75d7-a9cb-c5c480a26787",
+  "costs": {
+    "rig": 5,
+    "animation": 9,
+    "total": 14
+  },
+  "balance_before": 1380,
+  "balance_after": 1366,
+  "rig_download": {
+    "file": "rigged.glb",
+    "bytes": 7260104,
+    "sha256": "4ac76e4afe9077375320865948f41d87dd7d814a1a2a4b44ff32191d152807b8"
+  },
+  "animation_download": {
+    "file": "animations.glb",
+    "bytes": 3437776,
+    "sha256": "0eff67371db54cd5589088df9a87a82a2f73b52915516dd48cc010b7383b6e20"
+  },
+  "external_stage": "%LOCALAPPDATA%/Temp/opencode/cinderkeep-warden-meshy-ab-2026-10-23",
+  "rights_basis": "User-confirmed paid monthly plan 2026-10-20; terms 2026-09-19 sections 2.4, 3.1, 3.2; Service Assets retained within output; no exclusive-rights guarantee",
+  "terms_url": "https://www.meshy.ai/terms-of-use",
+  "terms_version": "2026-09-19",
+  "rig_inventory": {
+    "vertices": 7327,
+    "triangles": 8462,
+    "bones": 24,
+    "bone_names": [
+      "Hips",
+      "Spine02",
+      "Spine01",
+      "Spine",
+      "neck",
+      "Head",
+      "head_end",
+      "headfront",
+      "LeftShoulder",
+      "LeftArm",
+      "LeftForeArm",
+      "LeftHand",
+      "RightShoulder",
+      "RightArm",
+      "RightForeArm",
+      "RightHand",
+      "LeftUpLeg",
+      "LeftLeg",
+      "LeftFoot",
+      "LeftToeBase",
+      "RightUpLeg",
+      "RightLeg",
+      "RightFoot",
+      "RightToeBase"
+    ],
+    "clips": {
+      "Armature|clip0|baselayer": 0.03333333507180214
+    },
+    "image_sha256": [
+      "0f4f10f2d0e5c3e0e40401bc5644f820fc0c2672207244b0e09e0f0df890652d",
+      "cf9ff3fd06bfabeb8163fb920d6d82cd5b8e9d1e96e0e4b5a0d815398dc35c19",
+      "a0b47261afda6809fd1cae160b83e815830c93217bf27dc6b41cae6b6717698d"
+    ],
+    "position_min": [
+      -0.3794434070587158,
+      0.0,
+      -0.33955007791519165
+    ],
+    "position_max": [
+      0.3794434070587158,
+      1.806300163269043,
+      0.33955007791519165
+    ]
+  },
+  "animation_inventory": {
+    "vertices": 7327,
+    "triangles": 8462,
+    "bones": 24,
+    "bone_names": [
+      "Hips",
+      "Spine02",
+      "Spine01",
+      "Spine",
+      "neck",
+      "Head",
+      "head_end",
+      "headfront",
+      "LeftShoulder",
+      "LeftArm",
+      "LeftForeArm",
+      "LeftHand",
+      "RightShoulder",
+      "RightArm",
+      "RightForeArm",
+      "RightHand",
+      "LeftUpLeg",
+      "LeftLeg",
+      "LeftFoot",
+      "LeftToeBase",
+      "RightUpLeg",
+      "RightLeg",
+      "RightFoot",
+      "RightToeBase"
+    ],
+    "clips": {
+      "Idle": 4.0,
+      "Walk_Fight_Forward": 1.6666666269302368,
+      "Right_Hand_Sword_Slash": 1.5
+    },
+    "image_sha256": [
+      "cf9ff3fd06bfabeb8163fb920d6d82cd5b8e9d1e96e0e4b5a0d815398dc35c19"
+    ],
+    "position_min": [
+      -0.37944337725639343,
+      -2.5402849601618982e-08,
+      -0.33955010771751404
+    ],
+    "position_max": [
+      0.37944337725639343,
+      1.806300163269043,
+      0.33955004811286926
+    ]
+  },
+  "clip_names": [
+    "Idle",
+    "Walk_Fight_Forward",
+    "Right_Hand_Sword_Slash"
+  ],
+  "native_durations": [
+    4.0,
+    1.6666666269302368,
+    1.5
+  ],
+  "uv_inventory_matches_original": true,
+  "use_original_material": true,
+  "presentation": {
+    "height_meters": 1.8063,
+    "meshy_yaw_radians": 3.141592653589793,
+    "rest_xz_centering": true
+  },
+  "gameplay_integration": false,
+  "comparison_limits": [
+    "Different rigs/weights: pipeline comparison, not isolated motion quality",
+    "Native timing is default; optional phase matching is retiming",
+    "Optional linear XZ cycle compensation is labelled; raw playback remains available",
+    "No assumed Meshy attack contact time or automatic quality winner"
+  ]
+}

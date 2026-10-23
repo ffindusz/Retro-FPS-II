@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "authorized_date": "2026-10-23",
+  "maximum_credits": 90,
+  "model": "meshy-7.1",
+  "geometry_resolution": "standard",
+  "pose_mode": "a-pose",
+  "target_polycount": 8000,
+  "height_meters": 1.8063,
+  "costs": {"c01": 20, "c02": 20, "c03": 20, "texture": 10, "rig": 5, "animate": 15},
+  "actions": [
+    {"id": 0, "key": "Idle", "role": "Idle"},
+    {"id": 21, "key": "Walk_Fight_Forward", "role": "Walk"},
+    {"id": 219, "key": "Right_Hand_Sword_Slash", "role": "Attack"},
+    {"id": 178, "key": "Hit_Reaction", "role": "Hit"},
+    {"id": 8, "key": "Dead", "role": "Death"}
+  ],
+  "candidates": [
+    {
+      "id": "c01",
+      "label": "Plate guard",
+      "prompt": "One original dark-fantasy fortress warden, full-body adult humanoid game character. Broad sturdy human proportions, plain pale stone face mask with two dark eye slits, broad simple iron shoulder plates, fitted chest armor over a short mid-thigh tunic, belt, visible knees and sturdy boots. Relaxed symmetric A-pose, arms angled down and out, clear air gaps at armpits, hands away from hips, straight separated legs, feet apart and flat. Empty relaxed grip-ready hands, visible thumbs and fingers. Front faces +Z. Single readable low-poly silhouette, broad clean surfaces and articulated joints. No held objects, weapons, shield, cape, long robe, tassels, horns, extra limbs, base, scenery, text, logo or insignia. Complete character only."
+    },
+    {
+      "id": "c02",
+      "label": "Brigandine guard",
+      "prompt": "One original dark-fantasy fortress warden, full-body adult humanoid game character. Athletic stocky human proportions, plain pale stone mask with narrow dark eye slits, compact segmented iron pauldrons, fitted brigandine vest and short waist-to-mid-thigh tunic, leather belt, visible knees and thick boots. Relaxed symmetric A-pose with arms down and out, obvious gaps between arms and torso, empty hands away from thighs, separated straight legs and flat feet. Empty relaxed grip-ready hands with visible thumbs and fingers. Front faces +Z. Broad simple low-poly game surfaces, clear joint structure. No held objects, sword, staff, shield, cape, long robe, hanging cloth strips, horns, extra limbs, pedestal, scenery, text, logo or insignia. One complete isolated character."
+    },
+    {
+      "id": "c03",
+      "label": "Tabard guard",
+      "prompt": "One original dark-fantasy fortress warden, full-body adult humanoid game character. Tall sturdy human proportions, stern plain pale stone face mask, angular modest iron shoulder armor and forearm guards, fitted short split-front tabard ending above mid-thigh, simple belt, clearly visible knees and heavy boots. Relaxed symmetric A-pose: arms angled down and out, clear air gaps between upper arms and chest, empty hands clear of hips, straight legs separated and flat feet apart. Empty relaxed grip-ready hands, distinct thumbs and fingers. Front faces +Z. Strong clean low-poly silhouette with broad surfaces and unobstructed joints. No weapons, held props, shield, cape, long robe, long dangling cloth, horns, extra limbs, pedestal, scenery, lettering or insignia. Isolated character only."
+    }
+  ],
+  "texture_prompt": "Original dark-fantasy fortress guard. Muted burgundy red short tunic or tabard, weathered charcoal-gray iron armor with restrained bright edge wear, pale aged stone mask, dark brown leather belt and boots. Broad readable material areas, modest cloth detail, no ornament overload, no text, logo, insignia or symbols, no baked directional shadows. Keep the generated anatomy, empty hands and existing garment boundaries unchanged.",
+  "rights_basis": "Original text prompts only; prior user-confirmed paid monthly plan; Meshy terms 2026-09-19 sections 2.4/3.1/3.2; preserve AI-origin metadata and Service Assets within output; owner reviews public-release rights"
+}

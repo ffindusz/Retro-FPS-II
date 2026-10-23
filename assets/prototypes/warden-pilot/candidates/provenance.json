@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-23",
+  "phase": "untextured body selection",
+  "plan_sha256": "8087dd5dfa3ae224f4795b0187bd50878734204290d9b2619c76dc1d59272ec4",
+  "authorization": {
+    "date": "2026-10-23",
+    "maximum_credits": 90,
+    "paid_retries": false
+  },
+  "model": "meshy-7.1",
+  "pose_mode": "a-pose",
+  "target_polycount": 8000,
+  "candidates": [
+    {
+      "id": "c01",
+      "label": "Plate guard",
+      "task_id": "01a16901-0477-70fc-bf59-5bdb7254f921",
+      "consumed_credits": 20,
+      "download": {
+        "file": "c01.glb",
+        "bytes": 473864,
+        "sha256": "361d79894f4a27599f0f75647ded186eefb22af7af8734a22e1798b7d6740d65"
+      },
+      "inventory": {
+        "file": "c01.glb",
+        "bytes": 473864,
+        "triangles": 8295,
+        "primitives": 1,
+        "materials": 0,
+        "images": [],
+        "animations": 0,
+        "skins": 0,
+        "generator": "Khronos glTF Blender I/O v4.3.47",
+        "extensions_required": [],
+        "external_resources": false
+      }
+    },
+    {
+      "id": "c02",
+      "label": "Brigandine guard",
+      "task_id": "01a16902-2e6c-7771-b0d8-8ac6b4954997",
+      "consumed_credits": 20,
+      "download": {
+        "file": "c02.glb",
+        "bytes": 528648,
+        "sha256": "9d4e4928b4ab795c5fd7fabf8ec663ff001a141df784e610666292e7e7c879b1"
+      },
+      "inventory": {
+        "file": "c02.glb",
+        "bytes": 528648,
+        "triangles": 8290,
+        "primitives": 1,
+        "materials": 0,
+        "images": [],
+        "animations": 0,
+        "skins": 0,
+        "generator": "Khronos glTF Blender I/O v4.3.47",
+        "extensions_required": [],
+        "external_resources": false
+      }
+    },
+    {
+      "id": "c03",
+      "label": "Tabard guard",
+      "task_id": "01a16903-2b8f-71e3-aaa2-22f8ca27e4f9",
+      "consumed_credits": 20,
+      "download": {
+        "file": "c03.glb",
+        "bytes": 469016,
+        "sha256": "eb5d7ff999acdc76e700b9d8d2913652cd8f666b9006651c75aab48190c93d36"
+      },
+      "inventory": {
+        "file": "c03.glb",
+        "bytes": 469016,
+        "triangles": 8298,
+        "primitives": 1,
+        "materials": 0,
+        "images": [],
+        "animations": 0,
+        "skins": 0,
+        "generator": "Khronos glTF Blender I/O v4.3.47",
+        "extensions_required": [],
+        "external_resources": false
+      }
+    }
+  ],
+  "preview_credits": 60,
+  "remaining_planned_credits": 30,
+  "rights_basis": "Original text prompts only; prior user-confirmed paid monthly plan; Meshy terms 2026-09-19 sections 2.4/3.1/3.2; preserve AI-origin metadata and Service Assets within output; owner reviews public-release rights",
+  "gameplay_integration": false
+}
