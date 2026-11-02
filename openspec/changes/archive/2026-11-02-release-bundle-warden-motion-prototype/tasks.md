@@ -16,7 +16,7 @@
 - [x] 3.1 Test clip determinism, grounding, phase boundaries, real input/pause/replay, isolation and scene cleanup; prove focused checks detect disabled motion.
 - [x] 3.2 Run original source/package regressions and offline tests; render/inspect 720p/1080p study captures and record exact evidence/limitations.
 - [x] 3.3 Document package/preview launch instructions and rigging follow-up, without claiming human approval or closing earlier unreported checks.
-- [ ] 3.4 Obtain the user's visual review of the motion study and decide whether to scope a proper rigging/limb-animation prototype.
+- [x] 3.4 Obtain the user's visual review of the motion study and decide whether to scope a proper rigging/limb-animation prototype. — Superseded: closed without a separate review; the approved animated Warden was integrated in 0.5.0 (integrate-animated-warden). No quality approval of this prototype is implied.
 
 On 2026-10-22 the user reported "tested it - works!", confirming a successful user test of the study. Task 3.4 is partially evidenced and remains open for a candidate-timing preference and rigging follow-up decision; no paid service or gameplay integration is inferred from this feedback.
 

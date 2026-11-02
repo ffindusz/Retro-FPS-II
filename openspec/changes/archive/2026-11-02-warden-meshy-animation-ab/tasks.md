@@ -13,4 +13,4 @@
 ## 3. Evidence and handoff
 
 - [x] 3.1 Run all original/prototype/offline/accepted-package checks; record measured comparison observations, exact spend, limitations and launch instructions.
-- [ ] 3.2 Obtain the user's visual preference and decide on a separately scoped cleanup/integration follow-up; do not infer quality approval from successful generation.
+- [x] 3.2 Obtain the user's visual preference and decide on a separately scoped cleanup/integration follow-up; do not infer quality approval from successful generation. — Superseded: closed without a separate review; the approved animated Warden was integrated in 0.5.0 (integrate-animated-warden). No quality approval of this prototype is implied.

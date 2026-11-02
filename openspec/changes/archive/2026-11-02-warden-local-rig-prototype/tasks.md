@@ -19,4 +19,4 @@
 - [x] 4.1 Add offline structural/weight/source-isolation checks and Godot skin/bone/rigid-weapon/playback/lifecycle checks; prove focused failures with animation disabled.
 - [x] 4.2 Run original game/whole-model/package/offline checks and inspect rig captures at 720p/1080p without script/runtime errors.
 - [x] 4.3 Document tooling, authoring/rebuild/preview instructions, exact evidence and limitations without claiming gameplay integration or human approval.
-- [ ] 4.4 Obtain human review of shoulder/hip/cape/weapon deformation and walk/attack usefulness before considering gameplay integration.
+- [x] 4.4 Obtain human review of shoulder/hip/cape/weapon deformation and walk/attack usefulness before considering gameplay integration. — Superseded: closed without a separate review; the approved animated Warden was integrated in 0.5.0 (integrate-animated-warden). No quality approval of this prototype is implied.

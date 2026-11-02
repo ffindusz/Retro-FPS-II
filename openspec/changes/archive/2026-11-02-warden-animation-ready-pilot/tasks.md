@@ -13,4 +13,4 @@
 ## 3. Verification and handoff
 
 - [x] 3.1 Add/run safety, structural, playback, attachment, lifecycle and source/build-preservation regressions; inspect 720p/1080p captures and document exact evidence/limitations.
-- [ ] 3.2 Obtain human body/animation/grip review and decide separately on integration/Adept work; do not infer acceptance from API/test success.
+- [x] 3.2 Obtain human body/animation/grip review and decide separately on integration/Adept work; do not infer acceptance from API/test success. — Superseded: closed without a separate review; the approved animated Warden was integrated in 0.5.0 (integrate-animated-warden). No quality approval of this prototype is implied.
