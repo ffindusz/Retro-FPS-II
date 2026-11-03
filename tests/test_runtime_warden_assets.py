@@ -59,9 +59,9 @@ class RuntimeWardenAssetTests(unittest.TestCase):
             self.assertIn("mipmaps/generate=true", text)
 
     def test_versioned_export_preserves_frozen_baseline_and_exclusions(self):
-        self.assertIn('config/version="0.5.0"', (ROOT / "project.godot").read_text())
+        self.assertIn('config/version="0.5.1"', (ROOT / "project.godot").read_text())
         preset = (ROOT / "export_presets.cfg").read_text()
-        self.assertIn('export_path="builds/windows-0.5.0/Cinderkeep.exe"', preset)
+        self.assertIn('export_path="builds/windows-0.5.1/Cinderkeep.exe"', preset)
         for prefix in ("assets/prototypes/*", "scenes/prototypes/*", "scripts/prototypes/*", "tools/*", "tests/*", "docs/*", ".env", ".env.*"):
             self.assertIn(prefix, preset)
         record = json.loads((ROOT / "docs/release/release-0.4.1.json").read_text())

@@ -2,6 +2,8 @@ class_name FortressPresentation
 extends Node3D
 ## Visual-only level treatment. Never creates physics bodies or modifies actor resources.
 
+const FLICKER_LIMIT = 0.25
+
 var level: Node3D
 var materials: Dictionary = {}
 var torches: Array[OmniLight3D] = []
@@ -137,8 +139,9 @@ func set_clock(value: float) -> void:
 	elapsed = maxf(0.0, value)
 	for index in range(torches.size()):
 		var phase = float(index) * 1.13
-		var modulation = 0.05 * sin(elapsed * TAU * 1.1 + phase) + 0.03 * sin(elapsed * TAU * 0.37 + phase * 0.7)
-		torches[index].light_energy = torch_bases[index] * (1.0 + modulation)
+		# Slow sway, mid flutter and small fast jitter (all under 8 Hz, no strobing), clamped to +-25%.
+		var modulation = 0.10 * sin(elapsed * TAU * 0.41 + phase * 0.7) + 0.07 * sin(elapsed * TAU * 2.3 + phase) + 0.02 * sin(elapsed * TAU * 5.3 + phase * 1.9) + 0.02 * sin(elapsed * TAU * 6.7 + phase * 2.6)
+		torches[index].light_energy = torch_bases[index] * (1.0 + clampf(modulation, -FLICKER_LIMIT, FLICKER_LIMIT))
 
 func advance(delta: float) -> void:
 	if get_tree().paused:

@@ -24,12 +24,12 @@ func audit() -> void:
 		if not ResourceLoader.exists(path):
 			push_error("Missing runtime resource: " + path)
 			failures += 1
-	if ProjectSettings.get_setting("application/config/version") != "0.5.0":
+	if ProjectSettings.get_setting("application/config/version") != "0.5.1":
 		push_error("Wrong packaged version")
 		failures += 1
 	var args := OS.get_cmdline_user_args()
 	if not args.is_empty():
 		var file := FileAccess.open(args[0], FileAccess.WRITE)
-		file.store_string(JSON.stringify({"version": "0.5.0", "resource_count": paths.size(), "failures": failures, "resources": paths}, "  ") + "\n")
+		file.store_string(JSON.stringify({"version": "0.5.1", "resource_count": paths.size(), "failures": failures, "resources": paths}, "  ") + "\n")
 	print("RESULT: package audit, %d resources, %d failures" % [paths.size(), failures])
 	quit(0 if failures == 0 else 1)

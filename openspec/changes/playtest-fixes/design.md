@@ -21,27 +21,26 @@ The 0.5.0 playtest (recorded in the active `fortress-atmosphere`, `combat-polish
 
 ## Decisions
 
-1. **Ambience: raise BUS_GAIN and measure, rather than re-author the loops.**
-   Raise `BUS_GAIN` (target around 0.6–0.8) and keep the 0.3 default slider, so the slider range and the saved session values still mean the same thing. Measure the RMS of each loop and of the combat cues offline, and pick the gain that gives roughly −18 to −22 dB RMS at default with at least 9 dB under the combat-cue peaks.
-   *Alternative:* re-normalize the loop WAVs. That is rejected unless the gain alone can't reach the target, because it changes accepted assets.
+1. **Ambience: re-author the loops for audible bands, then raise BUS_GAIN moderately.**
+   Measurement (task 1.1) showed loudness was not the only problem. The 0.5.0 loops put 45% (wind) and 76% (crypt) of their energy below 150 Hz, which small speakers and headphones barely reproduce at low levels. Combat cues play at about −24 dBFS peak and −38 dBFS RMS at default, after the −8 dB voice and −9.8 dB SFX bus gains.
+   - Re-author both loops with mid-band content: wind body at 350 Hz, hiss and gust whistle; crypt with 110/165 Hz harmonics, an air bed and sparse drips. RMS-match them at about −24.7 dBFS with a tanh soft limit under the existing 0.25 peak ceiling, so no per-loop trims are needed.
+   - Raise `BUS_GAIN` from 0.15 to 0.3 and keep the 0.3 default slider. Ambience then sits at about −45 dBFS RMS and −34 dBFS peak, 9 dB under the combat-cue peaks.
+   *Alternative:* gain only. That is rejected: it would mostly have amplified inaudible rumble, and reaching audibility would have broken the headroom.
 
 2. **Torch flicker: a three-component sum clamped to ±25%.**
    Use a slow sway (~0.4 Hz, ±10%), a medium flutter (~2–3 Hz, ±7%) and a small fast jitter made from incommensurate sines (≤ 7 Hz, ±4%). It stays deterministic from `elapsed` with per-torch phases. Range, shadows and colour are left unchanged.
    *Alternative:* a random noise texture lookup. It is rejected because it complicates determinism and tests for no visual gain.
 
-3. **Adept death: a procedural presentation node instead of a rig.**
-   Add a small `adept_presentation.gd` that `enemy.gd` uses for archetype 1. It exposes `die()`, `advance_visual()`, `show_hit()` and `dead`, the same interface the Warden presentation uses, so the existing `presentation` branch drives it. It gets its own pause-aware clock. The sequence is:
-   - 0.15 s stagger (a backward lean and a slight crouch)
-   - about 0.6 s fall, eased in, rotating around a ground-contact pivot so the model doesn't sink
-   - a short settle bounce
-   - one bounded arcane burst: a few short-lived particles or an emissive pulse on the shared VFX path, within the existing 24-effect cap
-   The body is then held.
+3. **Adept death: a node-owned tween sequence in `enemy.gd`, not a presentation node or a rig.**
+   Setting `presentation` for the Adept would also switch off its existing hit pulse and windup lean, which only run while `presentation` is null. Instead, model-based Adepts (`archetype == 1`, not placeholder) replace the 0.3 s fallback tween with `_play_adept_death()`. The sequence runs 0.90 s:
+   - 0.15 s stagger: a backward lean and a slight crouch
+   - 0.55 s eased-in backward fall about the feet, with a 0.3 m lift so the lying robe rests on the floor
+   - a 0.20 s settle
+   One additive, unshaded arcane burst sphere spawns at the start of the fall and frees itself after 0.45 s. It is one per death, a child of the enemy, and outside the combat VFX pool. Tweens pause with the tree and are freed with the enemy. The body is then held.
    *Alternative:* a Meshy rig with a death clip. That is rejected as far too large for this fix.
 
-   Wiring the Adept into `presentation` must not change its attack logic. `enemy.gd` calls `begin_attack` and `attack_contact` only on the melee path, so the Adept implementation keeps those as no-ops and is checked by the existing gameplay fingerprint tests.
-
 4. **Enemy cues: noise-first synthesis with formant filters.**
-   Regenerate only the three cues through the existing generator's cue-selection argument, with new declared seeds:
+   Regenerate only the three cues through the existing generator's cue-selection argument, keeping their original declared seeds so that no other cue's seed changes:
    - `enemy_melee`: a low breathy grunt (band-passed noise with two formants around 300 and 800 Hz) plus a leather/metal scrape
    - `enemy_charge`: a crackling arcane build (sparse impulse crackle over hiss that rises in density, not in pitch)
    - `enemy_cast`: a noise burst plus a short low thump (a "fwoosh")
@@ -61,4 +60,5 @@ Bump the version to 0.5.1 and export to `builds/windows-0.5.1/`, leaving `builds
 
 ## Open Questions
 
-- Whether a gain change is enough for the ambience, or the loops need light re-authoring. The measurement in task 1.1 decides this.
+- Resolved: gain alone was not enough. The loops were re-authored (Decision 1).
+- The 0.5.1 build was exported with the Godot 4.7.0 editor available on this machine; 0.5.0 used 4.7.2.

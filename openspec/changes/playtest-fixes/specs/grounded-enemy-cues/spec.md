@@ -8,7 +8,7 @@
 - **THEN** each cue is distinct from the others and from the player cues, is synchronized with the existing event, and has no cartoon-like pitch glide
 
 ### Requirement: Preserved SFX pipeline
-The new cues SHALL keep the existing format (mono PCM16, 22,050 Hz, peak at or below -6 dBFS, zero endpoints), import settings, bus, limiter, voice cap and trigger points. The other nine accepted WAVs SHALL remain byte-identical. Provenance, seeds and the regeneration command SHALL be documented.
+The new cues SHALL keep the existing format (mono PCM16, 22,050 Hz, peak at or below -6 dBFS, zero endpoints), import settings, bus, limiter, voice cap and trigger points. The other nine accepted WAVs SHALL remain byte-identical. Provenance, the (unchanged) declared seeds and the regeneration command SHALL be documented.
 
 #### Scenario: Verify audio assets
 - **WHEN** the audio asset tests run

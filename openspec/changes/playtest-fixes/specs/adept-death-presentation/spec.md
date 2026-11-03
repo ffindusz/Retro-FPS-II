@@ -8,7 +8,7 @@ When an Adept dies, its model SHALL play a visible death sequence of 0.8 to 1.5 
 - **THEN** the player sees it stagger, fall and settle on the floor with a brief arcane burst, instead of an instant 0.3 s tip
 
 ### Requirement: Gameplay-neutral death
-The sequence SHALL be presentation-only. Collision removal, cancelled attacks and casts, the `died` signal, objective rules and enemy counts SHALL happen exactly as before and at the same moment. The sequence SHALL freeze on pause, use per-instance state only, and be freed with the run. Warden death presentation and the placeholder fallback SHALL remain unchanged.
+The sequence SHALL be presentation-only. Collision removal, cancelled attacks and casts, the `died` signal, objective rules and enemy counts SHALL happen exactly as before and at the same moment. The sequence SHALL freeze on pause, use per-instance state only, and be freed with the run. Warden death presentation, the Adept's living hit and windup visuals, and the placeholder fallback SHALL remain unchanged.
 
 #### Scenario: Pause mid-collapse and restart
 - **WHEN** the game is paused during the sequence and then restarted

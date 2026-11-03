@@ -116,6 +116,43 @@ func advance_presentation(delta: float, movement_distance: float = 0.0) -> void:
 			presentation.die()
 		presentation.advance_visual(delta, movement_distance, state == State.ATTACK, windup, windup_duration)
 
+## Presentation-only Adept collapse: stagger, backward fall about the feet, settle, one arcane burst.
+## The node-owned tween pauses with the tree and is freed with the enemy.
+func _play_adept_death() -> void:
+	visual.scale = Vector3.ONE
+	var tween = create_tween()
+	tween.tween_property(visual, "rotation:x", 0.22, 0.15).set_trans(Tween.TRANS_SINE)
+	tween.parallel().tween_property(visual, "scale", Vector3(1.0, 0.94, 1.0), 0.15)
+	tween.tween_callback(_spawn_death_burst)
+	tween.tween_property(visual, "rotation:x", PI / 2.0, 0.55).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	# Lift by the robe's half-depth so the lying body rests on, not in, the floor.
+	tween.parallel().tween_property(visual, "position:y", 0.3, 0.55)
+	tween.parallel().tween_property(visual, "scale", Vector3.ONE, 0.55)
+	tween.tween_property(visual, "rotation:x", PI / 2.0 - 0.07, 0.08).set_ease(Tween.EASE_OUT)
+	tween.tween_property(visual, "rotation:x", PI / 2.0, 0.12).set_ease(Tween.EASE_IN)
+
+func _spawn_death_burst() -> void:
+	var material = StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	material.albedo_color = Color("e59143", 0.8)
+	var burst = MeshInstance3D.new()
+	burst.name = "DeathBurst"
+	var sphere = SphereMesh.new()
+	sphere.radius = 0.5
+	sphere.height = 1.0
+	burst.mesh = sphere
+	burst.material_override = material
+	burst.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	burst.position = Vector3.UP * 1.3
+	burst.scale = Vector3.ONE * 0.2
+	add_child(burst)
+	var tween = create_tween()
+	tween.tween_property(burst, "scale", Vector3.ONE * 1.4, 0.45).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(material, "albedo_color:a", 0.0, 0.45)
+	tween.tween_callback(burst.queue_free)
+
 func _chase(delta: float) -> void:
 	var map = agent.get_navigation_map()
 	if NavigationServer3D.map_get_iteration_id(map) == 0:
@@ -175,6 +212,8 @@ func take_damage(amount: int, source: Node) -> int:
 		set_deferred("collision_mask", 0)
 		if presentation != null:
 			presentation.die()
+		elif archetype == 1 and not use_placeholder:
+			_play_adept_death()
 		else:
 			var tween = create_tween()
 			tween.tween_property(visual, "rotation:z", PI / 2.0, 0.3)

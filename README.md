@@ -54,13 +54,13 @@ New-Item -ItemType Directory -Force builds/windows-0.5.0
 & .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --export-release "Windows Desktop"
 ```
 
-The render check briefly opens game and Warden-preview windows and writes only their rendered viewports to `builds/validation/`. Verification covers the original game, runtime Warden and isolated prototypes. Only the original game and runtime Warden suites apply to exported resources; prototype paths stay excluded. Re-bake navigation only after changing solid level geometry (not needed for this visual integration). Windows export requires matching **4.7.2.stable** templates (Editor → Manage Export Templates); installed templates are not bundled in the repository. The preset writes to the separate 0.5.0 folder and excludes authoring tools, tests, OpenSpec files, generated validation output and developer prototypes. Do not export over the frozen 0.4.1 files.
+The render check briefly opens game and Warden-preview windows and writes only their rendered viewports to `builds/validation/`. Verification covers the original game, runtime Warden and isolated prototypes. Only the original game and runtime Warden suites apply to exported resources; prototype paths stay excluded. Re-bake navigation only after changing solid level geometry (not needed for this visual integration). Windows export requires matching **4.7.2.stable** templates (Editor → Manage Export Templates); installed templates are not bundled in the repository. The preset writes to the separate 0.5.1 folder and excludes authoring tools, tests, OpenSpec files, generated validation output and developer prototypes. Do not export over the frozen 0.4.1 or 0.5.0 files.
 
 Packaged-resource regression checks (using the editor executable with the exported PCK):
 
 ```powershell
-& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.5.0/Cinderkeep.pck --script "$PWD/tests/run_tests.gd"
-& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.5.0/Cinderkeep.pck --script "$PWD/tests/test_runtime_warden.gd"
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.5.1/Cinderkeep.pck --script "$PWD/tests/run_tests.gd"
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.5.1/Cinderkeep.pck --script "$PWD/tests/test_runtime_warden.gd"
 ```
 
 Release executables do not support the editor's external `--script` test override; do not mistake an idle main menu for completed tests.

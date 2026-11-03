@@ -1,0 +1,31 @@
+{
+  "version": "0.5.1",
+  "engine": "4.7.stable.official.5b4e0cb0f",
+  "platform": "windows-x64",
+  "build_date": "2026-11-03",
+  "directory": "builds/windows-0.5.1",
+  "status": "Technical validation passed; awaiting the user's re-review",
+  "changes": "Playtest fixes: audible re-authored ambience loops and bus gain 0.3, visible torch flicker (+-25%), Adept death sequence, grounded enemy cues.",
+  "source_checks": {
+    "run_tests": "276 checks, 1 failure (pause freezes ambience playback position; also fails on unchanged 0.5.0 here and passes in the packaged run)",
+    "runtime_warden": "42 checks, 0 failures"
+  },
+  "packaged_checks": {
+    "package_audit": "204 resources, 0 failures",
+    "run_tests": "276 checks, 0 failures",
+    "runtime_warden": "42 checks, 0 failures"
+  },
+  "artifacts": [
+    {
+      "name": "Cinderkeep.exe",
+      "bytes": 109160448,
+      "sha256": "c42eb5d17f683eb8bcd52c19a9f36ebf811b1788623878d5276a7d9ffc09f95c"
+    },
+    {
+      "name": "Cinderkeep.pck",
+      "bytes": 46179492,
+      "sha256": "51d8ff0cd7c49289a639f08699217e2eb8d2ca31333ce2c502f1038c77de882f"
+    }
+  ],
+  "note": "Exported with the Godot 4.7.0 editor available on this machine; 0.5.0 was exported with 4.7.2. The 0.5.0 and 0.4.1 records are not overwritten."
+}
