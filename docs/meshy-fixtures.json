@@ -1,0 +1,29 @@
+{
+  "purpose": "Replace the procedural brazier, wall lantern and crystal lamp models (0.6.1 review: 'should be replaced by something made with meshy'). Flames, glow and lights stay procedural.",
+  "authorization": "User chose '1 candidate each, cap 50' on 2026-11-03: one preview + one refine per fixture, no paid retries.",
+  "authorized_ceiling_credits": 50,
+  "model": "meshy-t2.5",
+  "model_type": "smart-topology",
+  "estimated_preview_credits": 5,
+  "estimated_refine_credits": 10,
+  "assets": [
+    {
+      "id": "prop-brazier",
+      "target_polycount": 3000,
+      "prompt": "One original low-poly dark fantasy iron fire brazier that stands on the floor. A wide shallow round wrought iron bowl heaped with dark charcoal and embers, a thick riveted rim band, held up by a sturdy three-legged iron stand with curled clawed feet. About one meter tall and wider at the bowl. Heavy medieval fortress craftsmanship, chunky readable silhouette. Entire isolated brazier only, no flames, no fire, no smoke, no floor, no background, no text, no logo.",
+      "texture_prompt": "Original dark fantasy brazier. Dark blackened wrought iron with rust-brown wear on the rim and legs, matte black charcoal with a few dull orange ember spots in the bowl, simple readable material blocks. No flames, no glow halos, no lettering, no logos, no baked directional shadows."
+    },
+    {
+      "id": "prop-lantern",
+      "target_polycount": 3000,
+      "prompt": "One original low-poly medieval wall lantern on an iron wall bracket. A small square iron wall plate, a short horizontal wrought iron arm with a curled scroll brace underneath, and at the end of the arm a hanging four-sided iron cage lantern with amber glass panes, a pointed iron cap and a top ring. The lantern hangs below the tip of the arm. Sturdy dark fantasy fortress style, broad simple shapes. Entire isolated object only, no wall, no flame, no light rays, no background, no text, no logo.",
+      "texture_prompt": "Original medieval wall lantern. Dark aged wrought iron with subtle rust, warm translucent-looking amber glass panes, simple readable material blocks. No flame, no glow halos, no lettering, no logos, no baked directional shadows."
+    },
+    {
+      "id": "prop-crystal-lamp",
+      "target_polycount": 3000,
+      "prompt": "One original low-poly dark fantasy arcane crystal lamp that stands on the floor. A waist-high square carved gray stone pedestal with a stepped base and a simple capital, topped by an aged brass three-pronged claw cradle holding one large faceted cyan crystal pointing upward. Total height about one and a half meters. Mysterious fortress decoration, chunky readable silhouette. Entire isolated object only, no glow effects, no light rays, no floor, no background, no text, no logo.",
+      "texture_prompt": "Original arcane crystal lamp. Weathered gray stone pedestal with darker creases, muted aged brass claw cradle, a clear saturated cyan faceted crystal with lighter facet edges, simple readable material blocks. No glow halos, no lettering, no logos, no baked directional shadows."
+    }
+  ]
+}

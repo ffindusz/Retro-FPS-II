@@ -185,15 +185,23 @@ def main() -> int:
     parser.add_argument("stage", choices=["preview", "refine", "balance"])
     parser.add_argument("--submit", action="store_true", help="Explicitly authorize missing paid tasks; otherwise resume only.")
     parser.add_argument("--output", type=Path, default=Path(os.environ.get("LOCALAPPDATA", ".")) / "Temp/opencode/cinderkeep-meshy-2026-10-20")
-    parser.add_argument("--only", choices=["weapon-cleaver", "weapon-staff", "enemy-warden", "enemy-adept", "prop-torch", "prop-urn"])
+    parser.add_argument("--only", help="Asset ID from the plan")
+    parser.add_argument("--plan", type=Path, default=PROJECT / "docs/meshy-models.json", help="Plan JSON (default: original 0.3 models)")
     args = parser.parse_args()
     key = read_key()
     balance = api_request(key, "/openapi/v1/balance")
     print("Available Meshy credits:", balance["balance"], flush=True)
     if args.stage == "balance":
         return 0
-    plan = json.loads((PROJECT / "docs/meshy-models.json").read_text(encoding="utf-8"))
+    plan = json.loads(args.plan.read_text(encoding="utf-8"))
     assets = [asset for asset in plan["assets"] if not args.only or asset["id"] == args.only]
+    if args.only and not assets:
+        raise SafeError("--only does not name an asset in the plan.")
+    if "authorized_ceiling_credits" in plan:
+        # Whole-plan cap: every asset's preview + refine must fit the user's authorization.
+        full = len(plan["assets"]) * (plan["estimated_preview_credits"] + plan["estimated_refine_credits"])
+        if full > plan["authorized_ceiling_credits"]:
+            raise SafeError("Plan estimate exceeds its authorized credit ceiling.")
     for asset in assets:
         for field in ("prompt", "texture_prompt"):
             if len(asset[field]) > 800:

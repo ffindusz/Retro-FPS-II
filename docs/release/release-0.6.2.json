@@ -1,0 +1,29 @@
+{
+  "version": "0.6.2",
+  "title": "Meshy light fixtures",
+  "engine": "4.7.0.stable (only editor/templates available on this machine)",
+  "platform": "windows-x64",
+  "build_date": "2026-11-03",
+  "directory": "builds/windows-0.6.2",
+  "openspec_change": "living-lights-and-adept-rig (section 7)",
+  "user_feedback_on_0.6.1": "played it - animation much better, new lights (should be replaced by something made with meshy)",
+  "changes": [
+    "Brazier, wall lantern and crystal lamp now use Meshy-generated models (assets/models/prop-{brazier,lantern,crystal-lamp}); flames, cyan glow and lights stay procedural and deterministic",
+    "The 0.6.1 primitive fixtures remain as fallback (use_model = false or missing model)"
+  ],
+  "meshy": {"authorized_ceiling_credits": 50, "reported_credits": 45, "balance_before": 1093, "balance_after": 1048, "paid_retries": 0, "candidates_per_fixture": 1},
+  "validation": {
+    "source_checks": {"run_tests": 294, "runtime_warden": 42, "authored_level": 30, "warden_prototype_suites": 148},
+    "editor_checks": 27,
+    "offline_python_tests": {"failures": 3, "note": "Only the known stale builds/windows/ 0.4.1 hash checks."},
+    "packaged_checks": {"run_tests": 294, "runtime_warden": 42, "authored_level": 30, "failures": 0},
+    "audited_resources": 261,
+    "native_startup_exit": 0
+  },
+  "artifacts": [
+    {"name": "Cinderkeep.exe", "bytes": 109160448, "sha256": "c42eb5d17f683eb8bcd52c19a9f36ebf811b1788623878d5276a7d9ffc09f95c"},
+    {"name": "Cinderkeep.pck", "bytes": 60644880, "sha256": "07beec03c75cff74115235b71459ca20656c42b997f3cabdabca57ceab07e938"}
+  ],
+  "status": "Technical validation passed; awaiting user review",
+  "note": "0.6.1 and earlier builds are kept. Evidence: builds/validation/living-lights/0.6.2/."
+}

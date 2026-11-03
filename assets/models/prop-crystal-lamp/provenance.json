@@ -1,0 +1,74 @@
+{
+  "asset": {
+    "id": "prop-crystal-lamp",
+    "target_polycount": 3000,
+    "prompt": "One original low-poly dark fantasy arcane crystal lamp that stands on the floor. A waist-high square carved gray stone pedestal with a stepped base and a simple capital, topped by an aged brass three-pronged claw cradle holding one large faceted cyan crystal pointing upward. Total height about one and a half meters. Mysterious fortress decoration, chunky readable silhouette. Entire isolated object only, no glow effects, no light rays, no floor, no background, no text, no logo.",
+    "texture_prompt": "Original arcane crystal lamp. Weathered gray stone pedestal with darker creases, muted aged brass claw cradle, a clear saturated cyan faceted crystal with lighter facet edges, simple readable material blocks. No glow halos, no lettering, no logos, no baked directional shadows."
+  },
+  "model": "meshy-t2.5",
+  "model_type": "smart-topology",
+  "requested_at_utc": "2026-11-03T22:15:35.064141+00:00",
+  "rights_status": "unresolved: confirm account plan and applicable Meshy terms before distribution",
+  "source_inputs": "Original text prompts only; no uploaded reference assets or personal data.",
+  "preview": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "preview",
+      "prompt": "One original low-poly dark fantasy arcane crystal lamp that stands on the floor. A waist-high square carved gray stone pedestal with a stepped base and a simple capital, topped by an aged brass three-pronged claw cradle holding one large faceted cyan crystal pointing upward. Total height about one and a half meters. Mysterious fortress decoration, chunky readable silhouette. Entire isolated object only, no glow effects, no light rays, no floor, no background, no text, no logo.",
+      "ai_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "topology": "triangle",
+      "target_polycount": 3000,
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a1a37b-5fc3-7408-bdfd-dfa2b137ee82",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1793744137651,
+    "started_at": 1793744137655,
+    "finished_at": 1793744157438,
+    "consumed_credits": 5,
+    "model_download": {
+      "file": "preview.glb",
+      "bytes": 52272,
+      "sha256": "a9260f339113b594d9cd3e33a1eb1ec850feb8af7fe014b803ae317ec3e7a1a6"
+    },
+    "thumbnail_download": {
+      "file": "preview.png",
+      "bytes": 45329,
+      "sha256": "ef97e8c0795dbd09dc621926b7c52d3bffd3cfe32242fe6a8ca6ec0852ca5a07"
+    }
+  },
+  "refine": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "refine",
+      "preview_task_id": "01a1a37b-5fc3-7408-bdfd-dfa2b137ee82",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "texture_prompt": "Original arcane crystal lamp. Weathered gray stone pedestal with darker creases, muted aged brass claw cradle, a clear saturated cyan faceted crystal with lighter facet edges, simple readable material blocks. No glow halos, no lettering, no logos, no baked directional shadows.",
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a1a37c-8997-76f0-9b3e-5a1e5faa02cb",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1793744212750,
+    "started_at": 1793744212758,
+    "finished_at": 1793744247392,
+    "consumed_credits": 10,
+    "model_download": {
+      "file": "model.glb",
+      "bytes": 7258512,
+      "sha256": "3d1cf06923bb9b4b5a4c60694f3f23a5fd664beeb7a26adcd9999b699bd41014"
+    },
+    "thumbnail_download": {
+      "file": "textured.png",
+      "bytes": 65854,
+      "sha256": "cd6eed100d5906c3ec342e078a574a97c66f53636a100b2ab1cbced0451696b0"
+    }
+  }
+}

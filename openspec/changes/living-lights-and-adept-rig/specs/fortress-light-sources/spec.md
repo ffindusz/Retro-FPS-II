@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Additional procedural light fixtures
-The fortress SHALL contain three new kinds of light fixture, all built in Godot from primitives and animated shaders with no external model assets:
+The fortress SHALL contain three new kinds of light fixture. Each SHALL use a Meshy-generated model (user request after the 0.6.1 review) with a procedural animated flame or glow and a matching light, and SHALL fall back to the 0.6.1 primitive build when its model is unavailable:
 - floor **braziers** with open fire
 - hanging iron **lanterns** with a small enclosed flame
 - **arcane crystal lamps** with a slow cyan glow pulse

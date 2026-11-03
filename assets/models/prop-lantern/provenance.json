@@ -1,0 +1,74 @@
+{
+  "asset": {
+    "id": "prop-lantern",
+    "target_polycount": 3000,
+    "prompt": "One original low-poly medieval wall lantern on an iron wall bracket. A small square iron wall plate, a short horizontal wrought iron arm with a curled scroll brace underneath, and at the end of the arm a hanging four-sided iron cage lantern with amber glass panes, a pointed iron cap and a top ring. The lantern hangs below the tip of the arm. Sturdy dark fantasy fortress style, broad simple shapes. Entire isolated object only, no wall, no flame, no light rays, no background, no text, no logo.",
+    "texture_prompt": "Original medieval wall lantern. Dark aged wrought iron with subtle rust, warm translucent-looking amber glass panes, simple readable material blocks. No flame, no glow halos, no lettering, no logos, no baked directional shadows."
+  },
+  "model": "meshy-t2.5",
+  "model_type": "smart-topology",
+  "requested_at_utc": "2026-11-03T22:15:14.796291+00:00",
+  "rights_status": "unresolved: confirm account plan and applicable Meshy terms before distribution",
+  "source_inputs": "Original text prompts only; no uploaded reference assets or personal data.",
+  "preview": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "preview",
+      "prompt": "One original low-poly medieval wall lantern on an iron wall bracket. A small square iron wall plate, a short horizontal wrought iron arm with a curled scroll brace underneath, and at the end of the arm a hanging four-sided iron cage lantern with amber glass panes, a pointed iron cap and a top ring. The lantern hangs below the tip of the arm. Sturdy dark fantasy fortress style, broad simple shapes. Entire isolated object only, no wall, no flame, no light rays, no background, no text, no logo.",
+      "ai_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "topology": "triangle",
+      "target_polycount": 3000,
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a1a37b-10d9-75a6-a1e9-21d2338f7f47",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1793744115848,
+    "started_at": 1793744115859,
+    "finished_at": 1793744134866,
+    "consumed_credits": 5,
+    "model_download": {
+      "file": "preview.glb",
+      "bytes": 58044,
+      "sha256": "c91fb8b58350b8c3a0de3336f28abdc7a34388cedd6253a2774479e5163dd0b1"
+    },
+    "thumbnail_download": {
+      "file": "preview.png",
+      "bytes": 93551,
+      "sha256": "4c1838f4628bbc149d42e017e976a26738c7080bb4667e71c09ec3281b2d33ef"
+    }
+  },
+  "refine": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "refine",
+      "preview_task_id": "01a1a37b-10d9-75a6-a1e9-21d2338f7f47",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "texture_prompt": "Original medieval wall lantern. Dark aged wrought iron with subtle rust, warm translucent-looking amber glass panes, simple readable material blocks. No flame, no glow halos, no lettering, no logos, no baked directional shadows.",
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a1a37b-f308-711b-a372-8af9dd8f1d3a",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1793744175053,
+    "started_at": 1793744175060,
+    "finished_at": 1793744203997,
+    "consumed_credits": 10,
+    "model_download": {
+      "file": "model.glb",
+      "bytes": 5847196,
+      "sha256": "21f08913653abb6ad1cead6017480bfaf6a203471ed800b1935d9153040cc427"
+    },
+    "thumbnail_download": {
+      "file": "textured.png",
+      "bytes": 107991,
+      "sha256": "3ee673fd688cf1bc7c2762f7a07ee4a8b149210fe313ab38a05f80287014d864"
+    }
+  }
+}

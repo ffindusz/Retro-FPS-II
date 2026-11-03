@@ -2,7 +2,7 @@
 
 An original dark-fantasy FPS prototype inspired by early 3D fantasy shooters, with visual level authoring inside Godot. Built with **Godot 4.7.x and GDScript**, a **2D HUD**, and **real 3D first-person weapons**.
 
-**Latest: 0.6.1 living lights + animated Adept** — animated torch flames, procedural braziers/lanterns/crystal lamps (also in the level editor palette) and a Meshy-rigged Adept with a real skeletal death. Build: `builds/windows-0.6.1/Cinderkeep.exe`; record: [release-0.6.1.json](docs/release/release-0.6.1.json). Awaiting user review.
+**Latest: 0.6.2 Meshy light fixtures** — Meshy-made braziers, wall lanterns and crystal lamps with procedural animated flames/glow, on top of 0.6.1's animated torch flames and Meshy-rigged Adept death (user: "animation much better"). Build: `builds/windows-0.6.2/Cinderkeep.exe`; records: [0.6.2](docs/release/release-0.6.2.json), [0.6.1](docs/release/release-0.6.1.json). Awaiting user review.
 
 **Status: visual-level-authoring 0.6.0, user smoke-test confirmed ("simple test works").** Build architecture with pinned Cyclops 1.5.2, place gameplay objects through the Cinderkeep dock, then build/check/playtest through the normal game session. A complete editable example is included. After merging upstream 0.5.1 playtest fixes, current source passes **496 source checks + 27 real-editor checks**, **89 offline Python tests** and **348 checks against a temporary current-source PCK**. Versioned Windows handoffs remain unchanged. Basic workflow confirmation does not establish every usability/traversal check or a full disconnected native run. [Mapping guide and evidence](docs/level-authoring.md).
 

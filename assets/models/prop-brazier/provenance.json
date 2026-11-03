@@ -1,0 +1,74 @@
+{
+  "asset": {
+    "id": "prop-brazier",
+    "target_polycount": 3000,
+    "prompt": "One original low-poly dark fantasy iron fire brazier that stands on the floor. A wide shallow round wrought iron bowl heaped with dark charcoal and embers, a thick riveted rim band, held up by a sturdy three-legged iron stand with curled clawed feet. About one meter tall and wider at the bowl. Heavy medieval fortress craftsmanship, chunky readable silhouette. Entire isolated brazier only, no flames, no fire, no smoke, no floor, no background, no text, no logo.",
+    "texture_prompt": "Original dark fantasy brazier. Dark blackened wrought iron with rust-brown wear on the rim and legs, matte black charcoal with a few dull orange ember spots in the bowl, simple readable material blocks. No flames, no glow halos, no lettering, no logos, no baked directional shadows."
+  },
+  "model": "meshy-t2.5",
+  "model_type": "smart-topology",
+  "requested_at_utc": "2026-11-03T22:15:14.793616+00:00",
+  "rights_status": "unresolved: confirm account plan and applicable Meshy terms before distribution",
+  "source_inputs": "Original text prompts only; no uploaded reference assets or personal data.",
+  "preview": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "preview",
+      "prompt": "One original low-poly dark fantasy iron fire brazier that stands on the floor. A wide shallow round wrought iron bowl heaped with dark charcoal and embers, a thick riveted rim band, held up by a sturdy three-legged iron stand with curled clawed feet. About one meter tall and wider at the bowl. Heavy medieval fortress craftsmanship, chunky readable silhouette. Entire isolated brazier only, no flames, no fire, no smoke, no floor, no background, no text, no logo.",
+      "ai_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "topology": "triangle",
+      "target_polycount": 3000,
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a1a37b-10ca-73e4-b6ea-03b294fcc7e7",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1793744115734,
+    "started_at": 1793744115745,
+    "finished_at": 1793744132227,
+    "consumed_credits": 5,
+    "model_download": {
+      "file": "preview.glb",
+      "bytes": 57300,
+      "sha256": "d2cb56bcd643dc7af77dddc5f36a692c8a2a77c8d00a42758a221cc3c7ff0c30"
+    },
+    "thumbnail_download": {
+      "file": "preview.png",
+      "bytes": 103934,
+      "sha256": "82fc8bda639419cba865a10764b193a2fd91820c600471ab4936afeb5e6ec068"
+    }
+  },
+  "refine": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "refine",
+      "preview_task_id": "01a1a37b-10ca-73e4-b6ea-03b294fcc7e7",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "texture_prompt": "Original dark fantasy brazier. Dark blackened wrought iron with rust-brown wear on the rim and legs, matte black charcoal with a few dull orange ember spots in the bowl, simple readable material blocks. No flames, no glow halos, no lettering, no logos, no baked directional shadows.",
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a1a37b-f321-7403-8e96-d92fff8b4db3",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1793744175668,
+    "started_at": 1793744175676,
+    "finished_at": 1793744213919,
+    "consumed_credits": 10,
+    "model_download": {
+      "file": "model.glb",
+      "bytes": 5658376,
+      "sha256": "b9fb4bec90682ae57c30d7fd3ecbadbda9c3257a5d28ecad5b49fb624c15a578"
+    },
+    "thumbnail_download": {
+      "file": "textured.png",
+      "bytes": 101854,
+      "sha256": "31d5fd238b992b4ede646ef21bf8c6c4b01ca47b4d07de27bd4315978828f6e1"
+    }
+  }
+}

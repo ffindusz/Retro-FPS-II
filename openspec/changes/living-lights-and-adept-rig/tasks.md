@@ -34,9 +34,19 @@
 - [x] 5.3 Test: the death clip plays and holds, cast timing and projectile origin are unchanged, the `died` signal, collision removal, pause freeze, restart cleanup, fallback when the resource is missing, the Warden unchanged and the fingerprints unchanged. Capture Adept death frames.
   - Cast release at native 1.85 s (forward hand thrust, measured), mapped onto the existing 0.8 s windup; the bolt still comes from `resolve_attack`. Death: head 1.6 m -> under 0.6 m over 3.5 s, then held. The static `adept.tscn` fallback still plays the 0.5.1 tween and burst. Frames: builds/validation/living-lights/adept/. The staff is fused into the skinned mesh and bends slightly during the fall.
 
+## 7. Meshy fixture models (0.6.1 review follow-up; ≤ 50 credits, one candidate each, no paid retries)
+
+- [x] 7.1 Generate brazier, wall lantern and crystal lamp with the existing `tools/meshy_generate.py` (new `--plan docs/meshy-fixtures.json`, whole-plan ceiling check).
+  - Previews were reviewed before the refine stage. Reported cost: 3 × (5 + 10) = **45 / 50 credits**; balance 1093 -> 1048. Models are in `assets/models/prop-{brazier,lantern,crystal-lamp}/` with `provenance.json` (task IDs, prompts, downloads; no credentials or signed URLs). Textures imported at 1K, lossless.
+- [x] 7.2 Seat the procedural flame/glow and lights on measured model anchors (brazier rim at 0.74 m; lantern rotated so its wall plate sits on the wall and the body hangs 0.71 m out along -Z; crystal lamp scaled to 1.5 m with a calm cyan wisp). Keep the 0.6.1 primitive build as a fallback (`use_model = false` or a missing model).
+- [x] 7.3 Tests: every fixture uses its model, flame/glow present, textures within 1K, no collision, fallback works; pause/restart/fingerprint checks unchanged (run_tests 294/0). Frames in builds/validation/living-lights/.
+- [ ] 7.4 Get the user's review of the 0.6.2 Meshy fixtures. Record only what is reported.
+
 ## 6. Build and review
 
 - [x] 6.1 Run the full regression suite, bump the version to 0.6.1, export to `builds/windows-0.6.1/`, and run the packaged audit and native smoke test. Add the release record and update the asset and provenance docs.
   - Source: run_tests 292/0 (3 consecutive runs), Warden 42/0, authored 30/0, Warden prototype suites 148/0, rendered editor 27/0. Python 96 run, 3 fail, all the known stale builds/windows/ 0.4.1 hash checks. Packaged (external --main-pack): 292/0, 42/0, 30/0. Audit 234 resources / 0 failures. Native startup exit 0. Exported with Godot 4.7.0. Record: docs/release/release-0.6.1.json.
   - Also stabilized the pre-existing flaky ambience-pause check: Godot mixes one final buffer (0.0116 s) after `stream_paused`. The check now allows that single buffer and then requires a frozen playhead.
-- [ ] 6.2 Get the user's review of the torch flames, the new fixtures, the Adept death and animations, and performance. Record only what is reported.
+- [x] 6.2 Get the user's review of the torch flames, the new fixtures, the Adept death and animations, and performance. Record only what is reported.
+  - 2026-11-03 user review of 0.6.1: "played it - animation much better, new lights (should be replaced by something made with meshy)".
+  - Adept animation: accepted as much better. New fixtures: the procedural brazier/lantern/crystal-lamp models are not accepted visually; the user wants Meshy-generated models instead (follow-up change). The animated torch flames and performance were not separately reported, so they are not recorded.

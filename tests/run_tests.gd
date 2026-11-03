@@ -987,16 +987,30 @@ func test_living_lights() -> void:
 		presentation.set_clock(2.3)
 		lively = lively and not is_equal_approx(before, fixture.light.light_energy)
 	check(lively, "every fixture light animates over the run clock")
+	var modelled = true
+	for fixture in fixtures:
+		modelled = modelled and fixture.model != null and fixture.model.scene_file_path == LightFixture.MODELS[fixture.kind] and fixture.flame != null and collision_nodes_under(fixture.model) == 0
+		for mesh in meshes_under(fixture.model):
+			var material = mesh.get_active_material(0)
+			for channel in [BaseMaterial3D.TEXTURE_ALBEDO, BaseMaterial3D.TEXTURE_NORMAL, BaseMaterial3D.TEXTURE_METALLIC, BaseMaterial3D.TEXTURE_ROUGHNESS]:
+				var texture = material.get_texture(channel) if material is BaseMaterial3D else null
+				modelled = modelled and (texture == null or (texture.get_width() <= 1024 and texture.get_height() <= 1024))
+	check(modelled, "every fixture uses its Meshy model with a procedural flame/glow and 1K-capped textures")
+	var fallback := LightFixture.make(LightFixture.Kind.LANTERN)
+	fallback.use_model = false
+	session.run.add_child(fallback)
+	check(fallback.model == null and fallback.flame != null and fallback.light != null and collision_nodes_under(fallback) == 0, "the procedural 0.6.1 build remains a working fallback")
+	fallback.free()
 	presentation.set_clock(4.0)
 	var energies: Array[float] = []
 	for fixture in fixtures:
 		energies.append(fixture.light.light_energy)
-	var crystal_yaw: float = fixtures[7].crystal.rotation.y
+	var glow_clock: float = fixtures[7].flame.clock
 	var flame_clock: float = presentation.flames[0].clock
 	session.pause_run()
 	presentation.advance(10.0)
 	await settle()
-	var frozen = presentation.flames[0].clock == flame_clock and fixtures[7].crystal.rotation.y == crystal_yaw
+	var frozen = presentation.flames[0].clock == flame_clock and fixtures[7].flame.clock == glow_clock
 	for index in range(fixtures.size()):
 		frozen = frozen and fixtures[index].light.light_energy == energies[index]
 	check(frozen, "pause freezes torch flames, fire fixtures and crystal pulse")
