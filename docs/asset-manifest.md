@@ -104,6 +104,12 @@ Body 8,290 + original blade 3,086 = **11,376 maximum source triangles**, now an 
 
 ## Credits and legal notes
 
+### Editor-only Cyclops 1.5.2 / visual authoring
+
+The user selected Cyclops for hand-building maps in Godot. The official 1.5.2/4.7 release archive is verified/pinned in `docs/third-party/cyclops-1.5.2.json`, with the exact local four-script integration patch alongside it. Copyright **Mark McKay**, **MIT**; original notice remains at `addons/cyclops_level_builder/LICENSE.md`. Bundled **Roboto Apache-2.0** font notice remains under `art/fonts/Roboto/LICENSE.txt`. These tools/fonts are excluded from the runtime PCK and do not replace the default game font.
+
+The new example uses original authored Cyclops geometry, existing cleared photographic materials and existing actors/props/audio. No new model/texture/audio generation, uploads or credits. Build converts source blocks to ordinary native geometry; it does not strip vendor source notices. Existing 1K lossless texture imports are pinned against the editor's automatic VRAM-compression switch; raw assets and original accepted builds remain unchanged. [Workflow, caveats and validation](level-authoring.md).
+
 - Engine: [Godot Engine](https://godotengine.org/), MIT licensed. Godot and its embedded third-party components retain their own licenses. See [Godot's license and third-party notices](https://godotengine.org/license/) and include the required notices when distributing engine binaries.
 - Default UI font and engine-provided rendering/physics/navigation are distributed with Godot, not separately authored game assets.
 - Meshy.ai: external authoring tool only; not a runtime dependency or an endorsement. Paid monthly subscription confirmed by the user; the project's generation-specific rights review is recorded above and in `docs/meshy-generation.md`.

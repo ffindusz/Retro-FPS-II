@@ -18,6 +18,10 @@ After the 0.5.0 handoff, the user reported **"works fine"** on 2026-10-23. This 
 
 ## Scope and machine
 
+**Latest follow-up — 2026-11-03:** user-selected [Cyclops visual-level authoring 0.6.0](level-authoring.md) adds an editable example and no-code palette/build/check/playtest workflow. **489 source + 27 real-editor checks, 87 Python tests and 341 packaged checks** pass, alongside engine-viewport captures and external native startup/menu rendering. The original demo fingerprints and accepted 0.4.1/0.5.0 artifact hashes remain intact. Designer ergonomics, example playability and full disconnected native acceptance remain human-review tasks; older machine/performance records below are not relabelled as this pass.
+
+The user subsequently reported **"simple test works"** and requested repository sync. This confirms a successful basic workflow test, not a separately documented full designer/traversal/native-offline checklist. The 0.6.0 release record preserves this limited scope; no gameplay code or delivered binary was changed for the feedback entry.
+
 - Date: 2026-10-20.
 - Editor/templates: Godot **4.7.stable.official.5b4e0cb0f**, standard GDScript build; Windows 4.7.stable x86-64 release templates.
 - OS: Microsoft Windows 10 Home, 10.0.19045.

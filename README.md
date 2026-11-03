@@ -1,14 +1,16 @@
 # Cinderkeep
 
-An original, single-level dark-fantasy FPS prototype inspired by the atmosphere of early 3D fantasy shooters. Built with **Godot 4.7.x and GDScript**, a **2D HUD**, and **real 3D first-person weapons**.
+An original dark-fantasy FPS prototype inspired by early 3D fantasy shooters, with visual level authoring inside Godot. Built with **Godot 4.7.x and GDScript**, a **2D HUD**, and **real 3D first-person weapons**.
 
-**Status: user-confirmed working animated-Warden 0.5.0 integration ("works fine").** The four melee Wardens now use the approved Brigandine body and five native animations, with a corrected rigid sword grip and unchanged combat/encounter rules. Adepts and procedural fallback are unchanged. Verification passes **459 source checks**, **81 offline Python tests** and **311 packaged checks**; package audit and native startup/menu rendering pass. The user-confirmed **0.4.1 EXE/PCK/ZIP are preserved separately**. This is general integrated-build confirmation; detailed grip/gait/transition checks and a full disconnected native playthrough remain unreported. [Integration, evidence and known limits](docs/warden-runtime-integration.md).
+**Status: visual-level-authoring 0.6.0, user smoke-test confirmed ("simple test works").** Build architecture with pinned Cyclops 1.5.2, place gameplay objects through the Cinderkeep dock, then build/check/playtest through the normal game session. A complete editable example is included. Verification passes **489 source checks + 27 real-editor checks**, **87 offline Python tests** and **341 packaged checks**. The original demo/balance and accepted **0.4.1/0.5.0 artifacts remain intact**. Basic workflow confirmation does not establish every usability/traversal check or a full disconnected native run. [Mapping guide and evidence](docs/level-authoring.md).
 
 ## Play
 
 **Optional comparison preview:** run `scenes/prototypes/warden_pilot_preview.tscn` with **F6** to compare the old static Warden and selected body. It shares the corrected grip, but the prototype scene/code/assets remain excluded from exports; the game uses independent runtime resources. [Pilot history and controls](docs/warden-animation-ready-pilot.md).
 
-- **Current Windows build:** launch `builds/windows-0.5.0/Cinderkeep.exe` and keep `Cinderkeep.pck` next to it. No editor or export templates are required. It retains the photographic stone, dynamic lighting, key chime and moonlit sky.
+- **Current Windows build:** launch `builds/windows-0.6.0/Cinderkeep.exe` with its adjacent PCK. **Start** plays the original demo; **Mapping Example** plays the new authored map. No editor/addons/templates are required to play.
+- **Create maps:** open `scenes/authoring/mapping_example.tscn` or use **Cinderkeep → New Level…**. Use **Playtest Level**, not F6 on the authoring source. [Full no-code workflow](docs/level-authoring.md).
+- **User-confirmed Warden baseline:** `builds/windows-0.5.0/Cinderkeep.exe` remains unchanged, with the approved animated Warden.
 - **Frozen accepted baseline:** `builds/windows/Cinderkeep.exe` or extract `builds/releases/Cinderkeep-0.4.1-windows-x64.zip`. These intentionally retain the old static enemies. [Packaging and validation](docs/release-packaging.md).
 - Editor: import `project.godot` with the standard Godot 4.7.x editor (currently bundled: 4.7.2), then press **F6** on `scenes/main.tscn` or **F5** to run the project.
 - Or, from PowerShell in this folder:
@@ -50,17 +52,18 @@ Leave the safe entrance, cross the courtyard, and enter the crypt through the ea
 .\tools\verify.ps1
 .\tools\verify.ps1 -Render
 & .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script tools/bake_navigation.gd
-New-Item -ItemType Directory -Force builds/windows-0.5.0
+New-Item -ItemType Directory -Force builds/windows-0.6.0
 & .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --export-release "Windows Desktop"
 ```
 
-The render check briefly opens game and Warden-preview windows and writes only their rendered viewports to `builds/validation/`. Verification covers the original game, runtime Warden and isolated prototypes. Only the original game and runtime Warden suites apply to exported resources; prototype paths stay excluded. Re-bake navigation only after changing solid level geometry (not needed for this visual integration). Windows export requires matching **4.7.2.stable** templates (Editor → Manage Export Templates); installed templates are not bundled in the repository. The preset writes to the separate 0.5.0 folder and excludes authoring tools, tests, OpenSpec files, generated validation output and developer prototypes. Do not export over the frozen 0.4.1 files.
+`-Render` opens actual editor/game/prototype windows and captures only their viewports to `builds/validation/`. It exercises the real mapping dock, including launching/stopping playtest. Original game, runtime Warden and authored-map suites also apply to exported resources; editor/prototype paths stay excluded. Build authored maps with the dock before export; use `tools/bake_navigation.gd` only for changes to the original hardcoded demo. Windows export requires matching **4.7.2.stable** templates. The preset writes separately to 0.6.0 and excludes addons, authoring sources, tests/tools/docs and prototypes. Do not export over accepted 0.4.1/0.5.0 files.
 
 Packaged-resource regression checks (using the editor executable with the exported PCK):
 
 ```powershell
-& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.5.0/Cinderkeep.pck --script "$PWD/tests/run_tests.gd"
-& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.5.0/Cinderkeep.pck --script "$PWD/tests/test_runtime_warden.gd"
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.6.0/Cinderkeep.pck --script "$PWD/tests/run_tests.gd"
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.6.0/Cinderkeep.pck --script "$PWD/tests/test_runtime_warden.gd"
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.6.0/Cinderkeep.pck --script "$PWD/tests/test_authored_level.gd"
 ```
 
 Release executables do not support the editor's external `--script` test override; do not mistake an idle main menu for completed tests.
@@ -94,6 +97,7 @@ Release executables do not support the editor's external `--script` test overrid
 - [Actual local/Meshy animation A/B, 14-credit result, controls and observed sword-binding issue](docs/warden-meshy-animation-ab.md)
 - [Selected animation-ready Warden pilot, 90-credit result, five clips and separate rigid blade](docs/warden-animation-ready-pilot.md)
 - [Runtime Warden 0.5.0: corrected grip, state timing, validation and Windows handoff](docs/warden-runtime-integration.md)
+- [Visual map authoring 0.6.0: Cyclops, gameplay palette, build/check/playtest and example](docs/level-authoring.md)
 
 The first six-model API batch completed on 2026-10-20 for 90 credits and is now integrated, following the user's paid monthly plan confirmation. [Generation records](docs/meshy-generation.md) preserve source IDs/checksums; [the manifest](docs/asset-manifest.md) records rights and normalization. No additional generation credits were used for import. The melee result is more sword-like than the original cleaver prompt, so the HUD calls it **Iron Blade**; original asset IDs are retained for provenance. The urn's lid and torch's lower basket are accepted demo details.
 

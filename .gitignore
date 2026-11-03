@@ -15,3 +15,9 @@ Godot_v*.exe
 
 # Personal Claude Code settings
 .claude/settings.local.json
+
+# Local editor playtest entry; generated runtime levels remain versioned.
+scenes/authoring/_playtest.tscn
+scenes/authoring/_editor_test*.tscn
+scenes/levels/generated/_editor_test*.tscn
+cyclops_settings.config

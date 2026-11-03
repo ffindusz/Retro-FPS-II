@@ -7,6 +7,9 @@ var state: State = State.MENU
 var run: Node3D
 var sfx_volume: float = 0.65
 @export var atmosphere_enabled: bool = true
+@export var default_level: PackedScene = preload("res://scenes/levels/demo_level.tscn")
+@export var auto_start: bool = false
+var selected_level: PackedScene
 var ambience_volume: float = 0.3
 @onready var ui = $Interface
 
@@ -16,10 +19,16 @@ func _ready() -> void:
 	ui.ambience_volume_changed.connect(_set_ambience_volume)
 	get_window().focus_exited.connect(_on_focus_exited)
 	show_menu()
+	if auto_start:
+		start_run.call_deferred()
 
-func start_run() -> void:
+func start_run(level: PackedScene = null) -> void:
+	if level != null:
+		selected_level = level
+	if selected_level == null:
+		selected_level = default_level
 	_dispose_run()
-	run = load("res://scenes/levels/demo_level.tscn").instantiate()
+	run = selected_level.instantiate()
 	run.atmosphere_enabled = atmosphere_enabled
 	add_child(run)
 	run.feedback.audio.set_volume(sfx_volume)
@@ -36,6 +45,7 @@ func start_run() -> void:
 		ui.bind_player(run.player)
 	run.feedback.event_received.connect(ui.on_combat_event)
 	ui.show_play()
+	ui.level_heading.text = "CINDERKEEP  /  " + (str(run.level_title).to_upper() if run.get("level_title") != null else "THE RUINED SEAL")
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func pause_run() -> void:
@@ -83,7 +93,7 @@ func show_menu() -> void:
 	_dispose_run()
 	state = State.MENU
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	ui.show_menu("CINDERKEEP", "A dark-fantasy first-person demo\nANIMATED WARDEN 0.5.0  /  MESHY 3D MODELS", ["Start", "Quit"])
+	ui.show_menu("CINDERKEEP", "A dark-fantasy first-person demo\nVISUAL LEVEL AUTHORING 0.6.0", ["Start", "Mapping Example", "Quit"])
 
 func _dispose_run() -> void:
 	get_tree().paused = false
@@ -121,7 +131,9 @@ func _set_ambience_volume(value: float) -> void:
 
 func _on_command(action: String) -> void:
 	match action:
-		"Start", "Restart": start_run()
+		"Start": start_run(default_level)
+		"Restart": start_run()
+		"Mapping Example": start_run(load("res://scenes/levels/generated/mapping_example.tscn"))
 		"Resume": resume_run()
 		"Quit to Menu": show_menu()
 		"Quit": get_tree().quit()

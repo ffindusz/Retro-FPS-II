@@ -12,6 +12,8 @@ var running: bool = false
 var paused: bool = false
 var start_count: int = 0
 var bus_index: int = -1
+var use_authored_zones: bool = false
+var authored_zones: Array[AABB] = []
 
 func _ready() -> void:
 	bus_index = AudioServer.get_bus_index("Ambience")
@@ -54,6 +56,8 @@ func advance(delta: float) -> void:
 		return
 	var point = actor.global_position
 	var target = 1.0 if point.x > 13.4 and point.x < 31.4 and point.z > -14.4 and point.z < 0.4 else 0.0
+	if use_authored_zones:
+		target = 1.0 if authored_zones.any(func(zone: AABB): return zone.has_point(point)) else 0.0
 	blend = move_toward(blend, target, maxf(0.0, delta))
 	_apply_blend()
 

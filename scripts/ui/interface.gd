@@ -8,6 +8,7 @@ const PAPER = Color("e3d9c6")
 var menu: Control
 var hud: Control
 var title: Label
+var level_heading: Label
 var subtitle: Label
 var buttons: VBoxContainer
 var health_label: Label
@@ -141,7 +142,10 @@ func _build_hud() -> void:
 		hud.add_child(edge)
 		hurt_edges.append(edge)
 	var heading = _label("CINDERKEEP  /  THE RUINED SEAL", 16, GOLD)
+	level_heading = heading
 	heading.position = Vector2(28, 22)
+	heading.size = Vector2(750, 24)
+	heading.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	hud.add_child(heading)
 	var status = PanelContainer.new()
 	status.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)

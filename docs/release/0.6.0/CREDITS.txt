@@ -1,0 +1,51 @@
+CINDERKEEP 0.6.0 - CREDITS AND NOTICES
+====================================
+
+Original Cinderkeep code, HUD, primitive fallback art, local combat/pickup
+audio, wind/crypt ambience, panorama and new example layout were authored
+for this project. This is not a Hexen II remake; no Hexen II content is bundled.
+The owner chooses the overall source/distribution license. This is a local
+playtest handoff, not public-release clearance or a project-wide license grant.
+
+Godot Engine 4.7.2, standard build, MIT licensed
+  https://godotengine.org/
+  Copyright (c) 2014-present Godot Engine contributors.
+  Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.
+  See GODOT-LICENSE.txt and GODOT-COPYRIGHT.txt for verbatim engine and
+  embedded component notices. https://godotengine.org/license/
+
+Meshy.ai - AI authoring service, not a runtime dependency or endorsement
+  https://www.meshy.ai/
+  Original six textured models (2026-10-20): Iron Blade, Ember Staff,
+  original static Warden, Adept, wall torch and urn. Sources retained.
+  Animated Warden (2026-10-23): selected c02 Brigandine body, PBR texture,
+  humanoid rig and Idle / Walk Fight Forward / Right-hand Sword Slash /
+  Hit Reaction / Dead preset actions from the authorized 90-credit pilot.
+  Blade is the original separate unskinned Iron Blade.
+  Original text-only prompts, without reference uploads; user-confirmed paid
+  monthly plan. Rights-review basis: Meshy terms 2026-09-19, 2.4/3.1/3.2:
+    https://www.meshy.ai/terms-of-use
+  Preserve AI origin. Service Assets are licensed within character output,
+  not claimed as new exclusive standalone animation rights. Separate account
+  terms and final public-release rights remain the owner's review; no legal
+  guarantee or exclusive-copyright claim. Raw hashes/task IDs/costs retained.
+  No new paid generation/upload was used for this level-authoring milestone.
+
+Poly Haven - photographic stone, CC0-1.0
+  Medieval Blocks 03, Rob Tuytel (walls/trim)
+    https://polyhaven.com/a/medieval_blocks_03
+  Monastery Stone Floor, Amal Kumar (floor)
+    https://polyhaven.com/a/monastery_stone_floor
+  Six unchanged 1K color/roughness/OpenGL normal maps, 2026-10-22.
+  https://polyhaven.com/license
+  https://creativecommons.org/publicdomain/zero/1.0/
+  Attribution is voluntary; CC0 does not require it.
+
+Editor tool acknowledgement
+  Cyclops Level Builder 1.5.2 by Mark McKay, MIT licensed:
+    https://github.com/blackears/cyclopsLevelBuilder
+  Used to author geometry in Godot. This PCK ships ordinary built meshes,
+  collision and navigation, not Cyclops code/editor services/fonts.
+  The source project retains the original MIT and bundled Roboto Apache-2.0
+  notices plus a pinned release/hash and explicit four-script local patch.
+  Cinderkeep's placement/build/check/playtest addon is project-authored code.

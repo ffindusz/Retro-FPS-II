@@ -1,0 +1,29 @@
+{
+  "version": "0.6.0",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "platform": "windows-x64",
+  "build_date": "2026-11-03",
+  "directory": "builds/windows-0.6.0",
+  "status": "Technical validation passed; user confirmed a successful simple test",
+  "smoke_test_date": "2026-11-03",
+  "user_feedback": "simple test works",
+  "review_scope": "Basic workflow smoke-test confirmation only. Exact actions/platform, detailed ergonomics/traversal, full example playthrough and explicitly disconnected native acceptance were not separately reported. Feedback-only record; delivered artifacts/checksums are unchanged.",
+  "source_checks": 489,
+  "editor_checks": 27,
+  "offline_python_tests": 87,
+  "packaged_checks": 341,
+  "audited_resources": 222,
+  "artifacts": [
+    {
+      "name": "Cinderkeep.exe",
+      "bytes": 109268480,
+      "sha256": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562"
+    },
+    {
+      "name": "Cinderkeep.pck",
+      "bytes": 45173436,
+      "sha256": "60f09b3edb40b16652a7439a03d2f6e1669950100f98fe019813b91959bd402f"
+    }
+  ],
+  "note": "EXE is the unchanged official engine loader (resource modification disabled); project/menu/PCK/preset identify 0.6.0. Editor addons/source scenes are excluded. Accepted 0.4.1/0.5.0 files are not overwritten."
+}

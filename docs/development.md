@@ -25,7 +25,7 @@ Projectiles are swept world-space ray queries, not colliding rigid bodies: playe
 
 ## Regression and authoring tools
 
-`tools/verify.ps1` checks native exit codes **and** scans for script/runtime errors (Godot can otherwise return zero after a script failure). It runs the original game suite, runtime animated Warden, isolated whole-model study, skeletal rig, local/Meshy A/B, candidate and five-clip pilot suites. Add `-Render` for game/preview checks plus actual-level Warden/grip captures. Only rendered viewports are captured; no desktop capture or UI automation is used. Run offline Python tests separately with `python -m unittest discover -s tests -p 'test_*.py' -v`.
+`tools/verify.ps1` checks native exit codes **and** scans for script/runtime errors. It runs the original game, Warden, authored-level and prior isolated prototype suites. `-Render` additionally runs the actual mapping-editor integration suite (palette, undo/redo, save/build/check/playtest) and game/preview captures. The editor suite needs a rendered editor; headless Godot core scene-thumbnail saving is not used as a substitute. Only engine viewports are captured, never the desktop. Run offline Python tests with `python -m unittest discover -s tests -p 'test_*.py' -v`.
 
 ```powershell
 & .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script tests/run_tests.gd
@@ -44,7 +44,13 @@ The level is a fixed, explicitly positioned layout constructed by `scripts/level
 
 `warden_grip.gd` is shared with the isolated pilot, compensates the measured **dark grip** centre and removes inherited rig unit/shear scale through an orthonormal hand frame. Render processing refreshes the follower only; physics ages animation. Runtime resources are independent copies under `assets/models/warden-animated/`, never imports from excluded prototypes. [State/timing, correction to the preliminary pommel measurement, bounds and evidence](warden-runtime-integration.md).
 
-The current export preset writes **`builds/windows-0.5.0/`**. Keep the pinned `builds/windows/` and frozen 0.4.1 ZIP/packaging inputs intact; the old offline packager intentionally remains tied to those accepted bytes.
+The current export preset writes **`builds/windows-0.6.0/`**. Keep `builds/windows-0.5.0/`, pinned `builds/windows/` and the frozen 0.4.1 ZIP intact; the old offline packager intentionally remains tied to the accepted 0.4.1 bytes.
+
+### Authored maps 0.6.0
+
+`addons/cinderkeep_level_tools/` owns template creation, editor undoable placement and the non-destructive Cyclops converter/validator. Sources in `scenes/authoring/` remain editable; generated runtime snapshots in `scenes/levels/generated/` embed their own navigation and canonical-LF source fingerprint. `scripts/levels/` contains only runtime-safe marker/adapter/presentation code. No Cyclops autoload is installed; addons/source scenes are export-excluded. [Mapping guide, vendor patch/licenses and verification](level-authoring.md).
+
+Session `default_level` is Inspector-selectable. `start_run(selected_scene)` retains selection for restart; menu Start resets to the configured default (the original demo in the supplied project). Editor Playtest writes a local ignored main-session wrapper with authored default/auto-start. It never substitutes a bare geometry scene for the real HUD/session lifecycle. Authored ambience uses explicit axis-aligned bounds rather than demo coordinates.
 
 - `weapon_controller.gd` owns a physics-driven melee phase clock, hit IDs, and deferred selection; `viewmodels.gd` reads that clock. The overlay camera/light are outside the animated weapon root so moving that root changes the visible stroke, not the camera.
 - `CombatEvents.apply_hit()` uses actual applied damage returned by actors before emitting confirmation. Events contain IDs/values, not actor references, and route through the owning level's `CombatFeedback` instance.

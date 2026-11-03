@@ -1,6 +1,19 @@
 # Keep bundled text/notices byte-stable, including on Windows checkouts.
 docs/release/*.txt text eol=lf
 docs/release/0.5.0/*.txt text eol=lf
+docs/release/0.6.0/*.txt text eol=lf
 # These two authoring sources are hash-pinned in the rig provenance.
 tools/author_warden_rig.py text eol=lf
 tools/warden_rig_geometry.py text eol=lf
+# Canonical source fingerprint and pinned third-party source hashes.
+scenes/authoring/*.tscn text eol=lf
+addons/cyclops_level_builder/**/*.gd text eol=lf
+addons/cyclops_level_builder/**/*.tscn text eol=lf
+addons/cyclops_level_builder/**/*.tres text eol=lf
+addons/cyclops_level_builder/**/*.svg text eol=lf
+addons/cyclops_level_builder/**/*.obj text eol=lf
+addons/cyclops_level_builder/**/*.mtl text eol=lf
+addons/cyclops_level_builder/**/*.py text eol=lf
+# Preserve hash-pinned upstream formatting and its verbatim integration diff.
+addons/cyclops_level_builder/** -whitespace
+docs/third-party/cyclops-1.5.2-cinderkeep.patch -whitespace

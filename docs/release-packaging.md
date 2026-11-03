@@ -1,6 +1,6 @@
 # Portable Windows playtest bundle
 
-**Current-build note:** this page describes the frozen accepted **0.4.1 ZIP**. The project now targets a separate [animated-Warden 0.5.0 Windows folder](warden-runtime-integration.md); neither the old binaries/ZIP nor this packager's pinned inputs were overwritten. New 0.5.0 controls/credits/record live under `docs/release/0.5.0/` and `docs/release/release-0.5.0.json`. No new ZIP is implied.
+**Current-build note:** this page describes the frozen accepted **0.4.1 ZIP**. The project now targets a separate [visual-level-authoring 0.6.0 Windows folder](level-authoring.md). The user-confirmed 0.5.0 folder, old binaries/ZIP and packager inputs remain intact. Versioned controls/credits/records live under `docs/release/`; no new ZIP is implied.
 
 ## Accepted baseline
 
