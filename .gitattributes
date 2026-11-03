@@ -14,6 +14,7 @@ addons/cyclops_level_builder/**/*.svg text eol=lf
 addons/cyclops_level_builder/**/*.obj text eol=lf
 addons/cyclops_level_builder/**/*.mtl text eol=lf
 addons/cyclops_level_builder/**/*.py text eol=lf
+addons/cyclops_level_builder/doc/Text text eol=lf
 # Preserve hash-pinned upstream formatting and its verbatim integration diff.
 addons/cyclops_level_builder/** -whitespace
 docs/third-party/cyclops-1.5.2-cinderkeep.patch -whitespace
