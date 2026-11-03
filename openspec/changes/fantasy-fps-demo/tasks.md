@@ -56,7 +56,9 @@
 
 - [x] 8.1 Add and run headless GDScript checks for health/mana bounds, melee range/occlusion/single hits, cooldown persistence across weapon switches, firing costs, projectile collision/expiry, and enemy death cancellation.
 - [x] 8.2 Add and run integration checks for useful-only pickups, key/exit gating, pause/timer freezing, terminal state guards, and repeated fresh-run reset without duplicate actors/events.
-- [ ] 8.3 Complete and record an editor playthrough checklist covering movement, mouse capture, navigation, both weapons/enemies, zero-mana progression, key/exit, pause, victory, defeat, restart, and menu return; tune toward a 5–10 minute first run.
+- [x] 8.3 Complete and record an editor playthrough checklist covering movement, mouse capture, navigation, both weapons/enemies, zero-mana progression, key/exit, pause, victory, defeat, restart, and menu return; tune toward a 5–10 minute first run.
+  - Playtest 2026-11-03 (0.5.0 build): core loop works (movement, weapons, enemies, key/exit, pause, win/lose/restart/menu). Suggestion: place the key behind a barrier guarded by enemies. Run duration not reported.
 - [x] 8.4 Add the Windows desktop export preset and matching-template setup instructions; produce a build if prerequisites are available and otherwise record the packaging blocker.
 - [ ] 8.5 Validate the Windows export offline through a complete win/lose/restart loop, inspect imported resources and input/HUD behavior, and record tested hardware, resolution, editor version, and observed performance.
+  - Playtest 2026-11-03 (0.5.0 build): build played; offline confirmation, hardware, resolution and FPS not reported - remains open.
 - [x] 8.6 Finish README/setup/controls/test/export instructions, credits, asset status, and known limitations; distinguish a playable placeholder prototype from the completed Meshy-integrated demo and leave unverified acceptance tasks unchecked.

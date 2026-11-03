@@ -37,6 +37,8 @@
 
 - [x] 6.1 Run the full adapted regression suite and authoring tests, complete both-resolution render checks, and record a short post-polish performance sample with effect/voice limits and existing model/texture budgets intact.
 - [x] 6.2 Rebuild the Windows export, run packaged-resource regression and native startup smoke checks, and verify bundled SFX/models resolve without authoring tools, credentials, or runtime downloads.
-- [ ] 6.3 Complete and record a human listening pass for cue distinction, synchronization, spatial readability, default mix comfort, and mute/volume behavior; leave pending if no listening review is available.
+- [x] 6.3 Complete and record a human listening pass for cue distinction, synchronization, spatial readability, default mix comfort, and mute/volume behavior; leave pending if no listening review is available.
+  - Playtest 2026-11-03 (0.5.0 build): mix is good and mute works. Enemy cues sound cartoonish rather than realistic - follow-up needed. Cue distinction/sync/spatial readability not separately reported.
 - [ ] 6.4 Complete and record a human revised-demo playthrough for melee clarity, difficulty, duration, cover/zero-mana progression, pause/resume, defeat/victory/restart/menu flows, and an offline native-build run; compare against the five-minute/easy baseline without claiming untested outcomes.
+  - Playtest 2026-11-03 (0.5.0 build): core loop works; difficulty, duration, melee clarity and offline run not reported - remains open.
 - [x] 6.5 Update controls, audio provenance, design/tuning notes, validation results, and known limitations; report remaining human checks honestly and reconcile both active changes before any separate archive action.
