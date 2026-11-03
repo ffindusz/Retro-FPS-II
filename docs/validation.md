@@ -22,6 +22,8 @@ After the 0.5.0 handoff, the user reported **"works fine"** on 2026-10-23. This 
 
 The user subsequently reported **"simple test works"** and requested repository sync. This confirms a successful basic workflow test, not a separately documented full designer/traversal/native-offline checklist. The 0.6.0 release record preserves this limited scope; no gameplay code or delivered binary was changed for the feedback entry.
 
+**Repository sync:** three upstream commits ending at `9a4f0fb` were merged with mapping feature commit `3df7971`. The archived OpenSpec history, re-authored audio, 0.3 ambience bus gain, ±25% bounded torch flicker and Adept collapse/burst are retained. The combined source passes **496 source checks + 27 real-editor checks**, **89 Python tests** and **348 checks against a separate temporary PCK**, plus its 222-resource audit and native startup. Existing versioned EXE/PCK/ZIP files remain unchanged; the 0.6.0 release record still describes the initial pre-merge handoff. `builds/validation/level-authoring/repo-sync-*` contains the new evidence. Current source validation does not upgrade the scope of the user's simple-test report.
+
 - Date: 2026-10-20.
 - Editor/templates: Godot **4.7.stable.official.5b4e0cb0f**, standard GDScript build; Windows 4.7.stable x86-64 release templates.
 - OS: Microsoft Windows 10 Home, 10.0.19045.

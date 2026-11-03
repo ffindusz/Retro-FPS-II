@@ -286,6 +286,28 @@ func test_enemies() -> void:
 	await settle()
 	ranged.resolve_attack()
 	check(get_nodes_in_group("projectiles").is_empty(), "ranged enemy cannot fire through cover")
+	wall.free()
+	await test_adept_death(ranged)
+
+func test_adept_death(adept) -> void:
+	var deaths = [0]
+	adept.died.connect(func(): deaths[0] += 1)
+	adept._physics_process(0.01)
+	adept.take_damage(1000, player)
+	check(deaths[0] == 1 and adept.state == adept.State.DEAD and adept.windup == 0.0 and adept.presentation == null, "Adept death signal, state and cancelled cast are immediate and unchanged")
+	# The burst appears once the 0.15 s stagger hands over to the fall.
+	await create_timer(0.25).timeout
+	check(adept.collision_layer == 0 and adept.has_node("DeathBurst") and get_nodes_in_group("projectiles").is_empty(), "Adept death removes blocking, shows one arcane burst and fires nothing")
+	await create_timer(0.3).timeout
+	var tilt: float = adept.visual.rotation.x
+	session.pause_run()
+	await create_timer(0.3).timeout
+	check(adept.visual.rotation.x == tilt and tilt > 0.0 and tilt < PI / 2.0, "Adept collapse is visible mid-fall and freezes while paused")
+	session.resume_run()
+	await create_timer(1.0).timeout
+	check(is_equal_approx(adept.visual.rotation.x, PI / 2.0) and is_equal_approx(adept.visual.position.y, 0.3) and not adept.has_node("DeathBurst"), "Adept settles lying on the floor and the burst is freed")
+	await create_timer(0.3).timeout
+	check(is_equal_approx(adept.visual.rotation.x, PI / 2.0), "dead Adept body stays still")
 
 func test_pickups_and_exit() -> void:
 	var pickup_scene = load("res://scenes/props/pickup.tscn")
@@ -831,13 +853,24 @@ func test_atmosphere() -> void:
 			view_environment = node
 	check(is_equal_approx(view_environment.environment.ambient_light_energy, 0.85), "world mood does not change isolated weapon lighting")
 	var bounded = true
-	for frame in range(240):
-		presentation.set_clock(frame * 0.1)
+	var lows: Array[float] = [INF, INF, INF, INF, INF, INF]
+	var highs: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	var desynced = false
+	for frame in range(600):
+		presentation.set_clock(frame * 0.02)
 		for index in range(presentation.torches.size()):
 			var light: OmniLight3D = presentation.torches[index]
-			bounded = bounded and light.light_energy >= presentation.torch_bases[index] * 0.92 - 0.0001 and light.light_energy <= presentation.torch_bases[index] * 1.08 + 0.0001
+			var ratio = light.light_energy / presentation.torch_bases[index]
+			bounded = bounded and ratio >= 0.75 - 0.0001 and ratio <= 1.25 + 0.0001
 			bounded = bounded and light.omni_range == 7.0 and light.shadow_enabled == (index in [2, 5])
-	check(bounded and presentation.torches.size() == 6, "six deterministic torches retain range/eight-percent flicker with exactly two shadow sources")
+			lows[index] = minf(lows[index], ratio)
+			highs[index] = maxf(highs[index], ratio)
+		desynced = desynced or absf(presentation.torches[0].light_energy / presentation.torch_bases[0] - presentation.torches[1].light_energy / presentation.torch_bases[1]) > 0.05
+	var visible = true
+	for index in range(6):
+		visible = visible and highs[index] - lows[index] >= 0.2
+	check(bounded and presentation.torches.size() == 6, "six deterministic torches retain range/twenty-five-percent flicker bound with exactly two shadow sources")
+	check(visible and desynced, "torch flicker swings at least twenty percent per torch and neighbouring torches are out of sync")
 	var safe_emitters = true
 	for index in [2, 5]:
 		for mesh in presentation.torches[index].get_parent().find_children("*", "GeometryInstance3D", true, false):
@@ -976,6 +1009,15 @@ func test_ambience() -> void:
 	for voice in ambience.players:
 		var stream: AudioStreamWAV = voice.stream
 		check(stream.loop_mode == AudioStreamWAV.LOOP_FORWARD and stream.loop_begin == 0 and stream.loop_end > 0 and is_equal_approx(stream.get_length(), 20.0) and stream.format == AudioStreamWAV.FORMAT_16_BITS, "%s has bundled 20-second PCM16 forward-loop metadata" % voice.name)
+	# Default ambience is audible (above the old ~-27 dB bus) yet peaks 9 dB under combat-cue peaks.
+	var loop_peak: float = 0.0
+	for voice in ambience.players:
+		var data: PackedByteArray = voice.stream.data
+		for offset in range(0, data.size(), 2):
+			loop_peak = maxf(loop_peak, absf(data.decode_s16(offset)) / 32768.0)
+	var ambience_db = AudioServer.get_bus_volume_db(ambience.bus_index)
+	var cue_peak_db = AudioServer.get_bus_volume_db(session.run.feedback.audio.bus_index) - 8.0 + linear_to_db(0.5)
+	check(is_equal_approx(ambience.volume, 0.3) and ambience_db > -21.5 and ambience_db + linear_to_db(loop_peak) <= cue_peak_db - 9.0, "default ambience level is audible with 9 dB peak headroom under combat cues")
 	var ids = [ambience.players[0].get_instance_id(), ambience.players[1].get_instance_id()]
 	player.position = Vector3(20, 0.1, -7)
 	ambience.advance(0.4)

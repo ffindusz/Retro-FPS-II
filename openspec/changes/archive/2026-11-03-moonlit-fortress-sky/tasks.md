@@ -11,6 +11,7 @@
 
 ## 3. Human acceptance
 
-- [ ] 3.1 Obtain a human sky/mood/seam review in the actual level; retain unreported offline and earlier lighting/audio checks.
+- [x] 3.1 Obtain a human sky/mood/seam review in the actual level; retain unreported offline and earlier lighting/audio checks.
+  - Playtest 2026-11-03 (0.5.0 build): sky works in the actual level; no issues reported.
 
 On 2026-10-22 the user approved the sky's general appearance: "skybox looks good!" The combined task remains open only for its unreported detailed human seam review. Earlier lighting/audio/offline checks are not inferred from this feedback.

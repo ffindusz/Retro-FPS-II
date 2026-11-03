@@ -60,6 +60,7 @@ class RuntimeWardenAssetTests(unittest.TestCase):
 
     def test_versioned_export_preserves_frozen_baseline_and_exclusions(self):
         self.assertEqual(json.loads((ROOT / "docs/release/release-0.5.0.json").read_text())["version"], "0.5.0")
+        self.assertEqual(json.loads((ROOT / "docs/release/release-0.5.1.json").read_text())["version"], "0.5.1")
         preset = (ROOT / "export_presets.cfg").read_text()
         self.assertNotIn('export_path="builds/windows/Cinderkeep.exe"', preset)
         for prefix in ("assets/prototypes/*", "scenes/prototypes/*", "scripts/prototypes/*", "tools/*", "tests/*", "docs/*", ".env", ".env.*"):

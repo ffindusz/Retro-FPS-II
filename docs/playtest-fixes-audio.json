@@ -1,0 +1,12 @@
+{
+  "change": "playtest-fixes",
+  "date": "2026-11-03",
+  "note": "Replacement audio after the 0.5.0 playtest. Supersedes the enemy cue hashes in fortress-atmosphere-baseline.json; all other accepted SFX are unchanged.",
+  "sha256": {
+    "assets/audio/combat/enemy_melee.wav": "825d914de82536a502edacc4700e446a21031cb374fe9174fdea00da1c7606c6",
+    "assets/audio/combat/enemy_charge.wav": "e9271ff6998a8744522ff22b764711178f6816371a177b3fd97a81e7fc65f768",
+    "assets/audio/combat/enemy_cast.wav": "574d5c7390106531a10a04440ef9b80fbe44e423c99e5b04cbfa32ec2c945dc4",
+    "assets/audio/ambience/wind.wav": "af2bcc7e936c49d132524eea8ff2ad019a2c4bb1c40ff1de97aaf557783b62b8",
+    "assets/audio/ambience/crypt.wav": "7e09e5d5f25cd0a59eade34a807ea9aa15c5748ba49631866ff54b041de86d26"
+  }
+}

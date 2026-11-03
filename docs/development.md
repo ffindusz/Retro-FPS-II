@@ -46,6 +46,8 @@ The level is a fixed, explicitly positioned layout constructed by `scripts/level
 
 The current export preset writes **`builds/windows-0.6.0/`**. Keep `builds/windows-0.5.0/`, pinned `builds/windows/` and the frozen 0.4.1 ZIP intact; the old offline packager intentionally remains tied to the accepted 0.4.1 bytes.
 
+After the repository sync incorporating 0.5.1 playtest fixes, the initial 0.6.0 handoff also remains a pinned snapshot. Use an explicit new output path such as `builds/windows-current/Cinderkeep.exe` (or a temporary validation PCK) for current source; do not silently replace the recorded 0.6.0 artifacts. Audio provenance/hash exceptions from upstream are retained in `docs/playtest-fixes-audio.json` and the audio READMEs.
+
 ### Authored maps 0.6.0
 
 `addons/cinderkeep_level_tools/` owns template creation, editor undoable placement and the non-destructive Cyclops converter/validator. Sources in `scenes/authoring/` remain editable; generated runtime snapshots in `scenes/levels/generated/` embed their own navigation and canonical-LF source fingerprint. `scripts/levels/` contains only runtime-safe marker/adapter/presentation code. No Cyclops autoload is installed; addons/source scenes are export-excluded. [Mapping guide, vendor patch/licenses and verification](level-authoring.md).

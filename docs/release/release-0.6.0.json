@@ -4,6 +4,8 @@
   "platform": "windows-x64",
   "build_date": "2026-11-03",
   "directory": "builds/windows-0.6.0",
+  "snapshot_source_commit": "3df7971",
+  "repository_sync_note": "The later repository sync merges upstream 0.5.1 fixes from 9a4f0fb without replacing this smoke-tested handoff. Original artifact hashes and validation counts below remain historical; combined source was separately validated with 496 source, 27 editor, 89 Python and 348 temporary-PCK checks.",
   "status": "Technical validation passed; user confirmed a successful simple test",
   "smoke_test_date": "2026-11-03",
   "user_feedback": "simple test works",

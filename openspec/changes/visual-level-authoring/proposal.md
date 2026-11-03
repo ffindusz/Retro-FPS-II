@@ -18,7 +18,7 @@ The user wants to hand-build Cinderkeep levels visually in Godot and explicitly 
 
 ### Modified Capabilities
 
-None; no canonical specs directory currently exists. Existing demo gameplay remains a regression reference.
+None. Existing demo gameplay remains a regression reference. The subsequent repository sync brings in upstream canonical Warden/sky specifications and archived history without changing their requirements through this authoring capability.
 
 ## Impact
 

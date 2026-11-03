@@ -106,6 +106,8 @@ Body 8,290 + original blade 3,086 = **11,376 maximum source triangles**, now an 
 
 ### Editor-only Cyclops 1.5.2 / visual authoring
 
+Repository sync also retains upstream 0.5.1's explicitly re-authored three enemy cues and two ambience loops. Their provenance/current hash exceptions are recorded in the audio READMEs and `docs/playtest-fixes-audio.json`; original release binary/hash records are not overwritten or relabelled.
+
 The user selected Cyclops for hand-building maps in Godot. The official 1.5.2/4.7 release archive is verified/pinned in `docs/third-party/cyclops-1.5.2.json`, with the exact local four-script integration patch alongside it. Copyright **Mark McKay**, **MIT**; original notice remains at `addons/cyclops_level_builder/LICENSE.md`. Bundled **Roboto Apache-2.0** font notice remains under `art/fonts/Roboto/LICENSE.txt`. These tools/fonts are excluded from the runtime PCK and do not replace the default game font.
 
 The new example uses original authored Cyclops geometry, existing cleared photographic materials and existing actors/props/audio. No new model/texture/audio generation, uploads or credits. Build converts source blocks to ordinary native geometry; it does not strip vendor source notices. Existing 1K lossless texture imports are pinned against the editor's automatic VRAM-compression switch; raw assets and original accepted builds remain unchanged. [Workflow, caveats and validation](level-authoring.md).

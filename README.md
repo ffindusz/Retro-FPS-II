@@ -2,13 +2,15 @@
 
 An original dark-fantasy FPS prototype inspired by early 3D fantasy shooters, with visual level authoring inside Godot. Built with **Godot 4.7.x and GDScript**, a **2D HUD**, and **real 3D first-person weapons**.
 
-**Status: visual-level-authoring 0.6.0, user smoke-test confirmed ("simple test works").** Build architecture with pinned Cyclops 1.5.2, place gameplay objects through the Cinderkeep dock, then build/check/playtest through the normal game session. A complete editable example is included. Verification passes **489 source checks + 27 real-editor checks**, **87 offline Python tests** and **341 packaged checks**. The original demo/balance and accepted **0.4.1/0.5.0 artifacts remain intact**. Basic workflow confirmation does not establish every usability/traversal check or a full disconnected native run. [Mapping guide and evidence](docs/level-authoring.md).
+**Status: visual-level-authoring 0.6.0, user smoke-test confirmed ("simple test works").** Build architecture with pinned Cyclops 1.5.2, place gameplay objects through the Cinderkeep dock, then build/check/playtest through the normal game session. A complete editable example is included. After merging upstream 0.5.1 playtest fixes, current source passes **496 source checks + 27 real-editor checks**, **89 offline Python tests** and **348 checks against a temporary current-source PCK**. Versioned Windows handoffs remain unchanged. Basic workflow confirmation does not establish every usability/traversal check or a full disconnected native run. [Mapping guide and evidence](docs/level-authoring.md).
+
+Repository sync preserves upstream's archived OpenSpec history and 0.5.1 fixes (Adept collapse, grounded enemy cues, audible ambience and stronger bounded torch flicker). The supplied `builds/windows-0.6.0/` remains the original smoke-tested mapping handoff, before that source merge; its recorded hashes/test counts are historical, not relabelled as a new export. Export current source to a separate validation/output folder when needed.
 
 ## Play
 
 **Optional comparison preview:** run `scenes/prototypes/warden_pilot_preview.tscn` with **F6** to compare the old static Warden and selected body. It shares the corrected grip, but the prototype scene/code/assets remain excluded from exports; the game uses independent runtime resources. [Pilot history and controls](docs/warden-animation-ready-pilot.md).
 
-- **Current Windows build:** launch `builds/windows-0.6.0/Cinderkeep.exe` with its adjacent PCK. **Start** plays the original demo; **Mapping Example** plays the new authored map. No editor/addons/templates are required to play.
+- **Smoke-tested Windows handoff:** launch `builds/windows-0.6.0/Cinderkeep.exe` with its adjacent PCK. **Start** plays the original demo; **Mapping Example** plays the authored map. This unchanged snapshot predates the subsequent upstream-fix merge; use editor F5 or a fresh separate export for current source. No editor/addons/templates are required to play the handoff.
 - **Create maps:** open `scenes/authoring/mapping_example.tscn` or use **Cinderkeep → New Level…**. Use **Playtest Level**, not F6 on the authoring source. [Full no-code workflow](docs/level-authoring.md).
 - **User-confirmed Warden baseline:** `builds/windows-0.5.0/Cinderkeep.exe` remains unchanged, with the approved animated Warden.
 - **Frozen accepted baseline:** `builds/windows/Cinderkeep.exe` or extract `builds/releases/Cinderkeep-0.4.1-windows-x64.zip`. These intentionally retain the old static enemies. [Packaging and validation](docs/release-packaging.md).
@@ -44,7 +46,7 @@ Leave the safe entrance, cross the courtyard, and enter the crypt through the ea
 
 **Sound:** twelve locally authored effects are bundled. Enemy/world sounds are spatial; player attacks/hurt and pickups are local. Health plays a warm chime and arcana a brighter chime only when restoration succeeds; full-resource pickups stay silent and available. First successful key collection plays a distinct 0.85-second ascending magical bell chord. It respects SFX mute/volume and cannot replay on duplicate collection. Use mouse or keyboard on the pause-menu SFX slider to adjust the mix. Its value persists across restarts in the current app session, not across app launches. Pausing stops one-shots; resume does not replay old sounds. No extra model generations or paid audio services were used.
 
-**Atmosphere:** an original static night panorama adds cloud bands, sparse stars and a moon aligned with the existing moonlight. It is bundled offline and supplies no extra ambient lighting or reflections. Two CC0 photographic 1K stone sets supply shared wall/trim and floor color, roughness and OpenGL normal maps at physical tile scales. Six torches retain smooth energy variation of at most ±8%; one courtyard and one crypt torch now cast shadows. Casts, impacts and projectiles share at most six short-range shadowless lights. No collision, cover or gameplay rules change. Existing dressing and ten urns remain. Two original 20-second wind/crypt loops crossfade over about one second as you enter/leave the crypt. Their separate pause-menu volume defaults to 30% and persists within the session independently of SFX. Pause freezes playback/blend and dynamic-light aging; results/menu/restart clean up old presentation. Ambience mute does not mute combat or pickup sounds.
+**Atmosphere:** an original static night panorama adds cloud bands, sparse stars and a moon aligned with the existing moonlight. It is bundled offline and supplies no extra ambient lighting or reflections. Two CC0 photographic 1K stone sets supply shared wall/trim and floor color, roughness and OpenGL normal maps at physical tile scales. Current source includes 0.5.1's more visible torch variation bounded at ±25%, with exactly two shadow-casting torches in the original demo. Casts, impacts and projectiles share at most six short-range shadowless lights. No collision, cover or gameplay rules change. Original demo dressing and ten urns remain. Re-authored 20-second wind/crypt loops and the 0.3 ambience bus gain improve audibility; default pause-menu ambience volume remains 30%. Pause freezes playback/blend and dynamic-light aging; results/menu/restart clean up old presentation. Ambience mute does not mute combat or pickup sounds. See the audio provenance READMEs for the three revised enemy cues and two revised loops.
 
 ## Verify and build
 
@@ -52,18 +54,21 @@ Leave the safe entrance, cross the courtyard, and enter the crypt through the ea
 .\tools\verify.ps1
 .\tools\verify.ps1 -Render
 & .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script tools/bake_navigation.gd
-New-Item -ItemType Directory -Force builds/windows-0.6.0
-& .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --export-release "Windows Desktop"
+New-Item -ItemType Directory -Force builds/windows-current
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --export-release "Windows Desktop" "builds/windows-current/Cinderkeep.exe"
 ```
 
-`-Render` opens actual editor/game/prototype windows and captures only their viewports to `builds/validation/`. It exercises the real mapping dock, including launching/stopping playtest. Original game, runtime Warden and authored-map suites also apply to exported resources; editor/prototype paths stay excluded. Build authored maps with the dock before export; use `tools/bake_navigation.gd` only for changes to the original hardcoded demo. Windows export requires matching **4.7.2.stable** templates. The preset writes separately to 0.6.0 and excludes addons, authoring sources, tests/tools/docs and prototypes. Do not export over accepted 0.4.1/0.5.0 files.
+`-Render` opens actual editor/game/prototype windows and captures only their viewports to `builds/validation/`. It exercises the real mapping dock, including launching/stopping playtest. Original game, runtime Warden and authored-map suites also apply to exported resources; editor/prototype paths stay excluded. Build authored maps with the dock before export; use `tools/bake_navigation.gd` only for changes to the original hardcoded demo. Windows export requires matching **4.7.2.stable** templates. The preset retains its 0.6.0 target; explicitly choose a separate output such as `windows-current` for post-handoff source. Addons, authoring sources, tests/tools/docs and prototypes stay excluded. Do not overwrite pinned 0.4.1/0.5.0/0.6.0 artifacts.
 
 Packaged-resource regression checks (using the editor executable with the exported PCK):
 
 ```powershell
-& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.6.0/Cinderkeep.pck --script "$PWD/tests/run_tests.gd"
-& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.6.0/Cinderkeep.pck --script "$PWD/tests/test_runtime_warden.gd"
-& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack builds/windows-0.6.0/Cinderkeep.pck --script "$PWD/tests/test_authored_level.gd"
+New-Item -ItemType Directory -Force builds/validation
+$pack = "$PWD/builds/validation/Cinderkeep-current.pck"
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --export-pack "Windows Desktop" $pack
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack $pack --script "$PWD/tests/run_tests.gd"
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack $pack --script "$PWD/tests/test_runtime_warden.gd"
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack $pack --script "$PWD/tests/test_authored_level.gd"
 ```
 
 Release executables do not support the editor's external `--script` test override; do not mistake an idle main menu for completed tests.

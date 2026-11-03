@@ -12,6 +12,14 @@ const CUES = {
 func _initialize() -> void:
 	call_deferred("generate")
 
+## Chamberlin state-variable band-pass; `state` holds [low, band].
+func bandpass(state: PackedFloat32Array, input: float, centre: float, q: float) -> float:
+	var f = 2.0 * sin(PI * centre / RATE)
+	state[0] += f * state[1]
+	var high = input - state[0] - state[1] / q
+	state[1] += f * high
+	return state[1]
+
 func generate() -> void:
 	var requested = OS.get_cmdline_user_args()
 	for cue in requested:
@@ -34,6 +42,9 @@ func generate() -> void:
 		var filtered: float = 0.0
 		var phase: float = 0.0
 		var peak: float = 0.001
+		var formant_low = PackedFloat32Array([0.0, 0.0])
+		var formant_high = PackedFloat32Array([0.0, 0.0])
+		var crackle: float = 0.0
 		for frame in range(count):
 			var t = float(frame) / RATE
 			var progress = t / duration
@@ -54,13 +65,21 @@ func generate() -> void:
 					phase += TAU * lerpf(1400, 260, progress) / RATE
 					sample = (sin(phase) * 0.4 + filtered * 0.8) * exp(-t * 16)
 				"enemy_melee":
-					sample = (sin(TAU * (83 * t + 15 * t * t)) * 0.4 + filtered * 0.9) * sin(progress * PI) * (0.7 + sin(TAU * 23 * t) * 0.3)
+					# Breathy grunt: ~95 Hz glottal pulses and breath through two vowel formants, then a scrape.
+					phase += TAU * (95.0 + 3.0 * sin(TAU * 7.0 * t)) / RATE
+					var voice = pow(maxf(0.0, sin(phase)), 8.0) + noise * 0.35
+					var grunt = bandpass(formant_low, voice, 320.0, 4.0) + bandpass(formant_high, voice, 780.0, 5.0) * 0.7
+					var scrape = (noise - filtered) * smoothstep(0.45, 0.7, progress) * (0.6 + 0.4 * sin(TAU * 31.0 * t))
+					sample = grunt * smoothstep(0.0, 0.2, progress) * (1.0 - smoothstep(0.55, 1.0, progress)) + scrape * 0.3
 				"enemy_charge":
-					phase += TAU * lerpf(150, 480, progress) / RATE
-					sample = (sin(phase) * 0.5 + sin(phase * 2.01) * 0.2 + filtered * 0.4) * sin(progress * PI)
+					# Arcane crackle whose density (not pitch) builds over a swelling hiss and low rumble.
+					if rng.randf() < lerpf(0.002, 0.03, progress):
+						crackle = rng.randf_range(-1.0, 1.0)
+					crackle *= 0.86
+					sample = crackle * 1.2 + (noise - filtered) * 0.25 * progress + bandpass(formant_low, noise, 140.0, 1.5) * 0.5 * sin(progress * PI)
 				"enemy_cast":
-					phase += TAU * lerpf(590, 110, progress) / RATE
-					sample = (sin(phase) * 0.55 + noise * 0.25) * exp(-t * 14)
+					# Unpitched release: band-passed noise "fwoosh" with a short low thump.
+					sample = bandpass(formant_low, noise, 1200.0, 0.7) * 1.4 * exp(-t * 16) + sin(TAU * 70 * t) * 0.5 * exp(-t * 35)
 				"hurt":
 					sample = (sin(TAU * 68 * t) * 0.6 + filtered * 0.75) * exp(-t * 22)
 				"pickup_health":

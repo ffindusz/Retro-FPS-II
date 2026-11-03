@@ -3,7 +3,7 @@ extends Node
 ## Exactly two reusable loop players, independent of accepted combat SFX voices/gain.
 
 static var owns_bus: bool = false
-const BUS_GAIN = 0.15
+const BUS_GAIN = 0.3
 var players: Array[AudioStreamPlayer] = []
 var actor: Node3D
 var volume: float = 0.3
