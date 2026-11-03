@@ -8,6 +8,8 @@ var level: Node3D
 var materials: Dictionary = {}
 var torches: Array[OmniLight3D] = []
 var torch_bases: Array[float] = []
+var flames: Array[FlameVisual] = []
+var fixtures: Array[LightFixture] = []
 var elapsed: float = 0.0
 var extra_urns: int = 0
 
@@ -36,8 +38,7 @@ func setup(owner_level: Node3D) -> void:
 				light.shadow_bias = 0.08
 				light.shadow_normal_bias = 1.0
 				_disable_emitter_shadows(node)
-			torches.append(light)
-			torch_bases.append(light.light_energy)
+			register_torch(light)
 	for node in level.get_children():
 		if node is WorldEnvironment:
 			node.environment.ambient_light_energy = 0.42
@@ -134,14 +135,50 @@ func _dress() -> void:
 		urn.position = point
 		add_child(urn)
 		extra_urns += 1
+	# Additional fixtures hug walls and corners, off the walking routes, and add no collision.
+	add_fixture(LightFixture.make(LightFixture.Kind.BRAZIER), Vector3(-12.45, 0, -13.45))
+	add_fixture(LightFixture.make(LightFixture.Kind.BRAZIER), Vector3(14.35, 0, -13.45))
+	add_fixture(LightFixture.make(LightFixture.Kind.LANTERN), Vector3(-12.98, 2.9, -10.5), -PI / 2.0)
+	add_fixture(LightFixture.make(LightFixture.Kind.LANTERN), Vector3(18, 2.9, -0.02))
+	add_fixture(LightFixture.make(LightFixture.Kind.LANTERN), Vector3(26, 2.9, -0.02))
+	add_fixture(LightFixture.make(LightFixture.Kind.CRYSTAL), Vector3(9.25, 0, -12.9))
+	add_fixture(LightFixture.make(LightFixture.Kind.CRYSTAL), Vector3(12.72, 0, -12.9))
+	add_fixture(LightFixture.make(LightFixture.Kind.CRYSTAL), Vector3(25.9, 0, -13.4))
+
+## Slow sway, mid flutter and small fast jitter (all under 8 Hz, no strobing), clamped to +-25%.
+static func flicker(time: float, phase: float) -> float:
+	var modulation = 0.10 * sin(time * TAU * 0.41 + phase * 0.7) + 0.07 * sin(time * TAU * 2.3 + phase) + 0.02 * sin(time * TAU * 5.3 + phase * 1.9) + 0.02 * sin(time * TAU * 6.7 + phase * 2.6)
+	return clampf(modulation, -FLICKER_LIMIT, FLICKER_LIMIT)
+
+## Registers a torch light and seats an animated flame on its torch head.
+func register_torch(light: OmniLight3D) -> void:
+	torches.append(light)
+	torch_bases.append(light.light_energy)
+	var torch := light.get_parent() as Node3D
+	var flame := FlameVisual.create(Vector2(0.34, 0.52), float(flames.size()) * 2.37 + 0.4)
+	# Head of the wall-torch model (measured); the placeholder orb sits at the origin.
+	flame.position = Vector3(0.005, -0.11, 0.04) if torch.get("use_placeholder") == false else Vector3(0, -0.04, 0)
+	torch.add_child(flame)
+	flames.append(flame)
+
+func add_fixture(fixture: LightFixture, point: Vector3, yaw: float = 0.0, parent: Node = null) -> LightFixture:
+	fixture.position = point
+	fixture.rotation.y = yaw
+	fixture.phase = float(fixtures.size()) * 1.7 + 0.5
+	(parent if parent != null else self).add_child(fixture)
+	fixture.build()
+	fixtures.append(fixture)
+	return fixture
 
 func set_clock(value: float) -> void:
 	elapsed = maxf(0.0, value)
 	for index in range(torches.size()):
-		var phase = float(index) * 1.13
-		# Slow sway, mid flutter and small fast jitter (all under 8 Hz, no strobing), clamped to +-25%.
-		var modulation = 0.10 * sin(elapsed * TAU * 0.41 + phase * 0.7) + 0.07 * sin(elapsed * TAU * 2.3 + phase) + 0.02 * sin(elapsed * TAU * 5.3 + phase * 1.9) + 0.02 * sin(elapsed * TAU * 6.7 + phase * 2.6)
-		torches[index].light_energy = torch_bases[index] * (1.0 + clampf(modulation, -FLICKER_LIMIT, FLICKER_LIMIT))
+		var modulation = flicker(elapsed, float(index) * 1.13)
+		torches[index].light_energy = torch_bases[index] * (1.0 + modulation)
+		if index < flames.size():
+			flames[index].set_state(elapsed, 1.0 + modulation)
+	for fixture in fixtures:
+		fixture.set_clock(elapsed)
 
 func advance(delta: float) -> void:
 	if get_tree().paused:

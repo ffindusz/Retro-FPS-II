@@ -30,7 +30,8 @@ func _ready() -> void:
 	if not use_placeholder and model_scene != null:
 		var model = model_scene.instantiate()
 		visual.add_child(model)
-		if archetype == 0 and model.has_method("advance_visual"):
+		# Animated Warden or Adept; the static Adept keeps the 0.5.1 tween death as fallback.
+		if model.has_method("advance_visual"):
 			presentation = model
 	else:
 		_build_placeholder()

@@ -1,0 +1,16 @@
+{
+  "purpose": "Rig and animate the existing Adept so it can play a real skeletal death (0.5.1 re-review).",
+  "authorization": "User chose 'Meshy rig + animate' on 2026-11-03: at most 40 credits, no paid retries.",
+  "ceiling_credits": 40,
+  "costs": {"rig": 5, "animate": 15},
+  "source_sha256": "32c0f4108f64ec007d76fd1d1f53f7ef6650216ad9d4c31aa62b4e2e911bd53c",
+  "refine_task": "01a15a18-22aa-76bd-a5dc-272a0ef2da97",
+  "height_meters": 2.0,
+  "actions": [
+    {"id": 0, "key": "Idle", "role": "Idle"},
+    {"id": 30, "key": "Casual_Walk", "role": "Walk"},
+    {"id": 125, "key": "Charged_Spell_Cast", "role": "Cast"},
+    {"id": 178, "key": "Hit_Reaction", "role": "Hit"},
+    {"id": 188, "key": "Fall_Dead_from_Abdominal_Injury", "role": "Death"}
+  ]
+}

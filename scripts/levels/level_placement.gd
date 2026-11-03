@@ -3,8 +3,10 @@ class_name LevelPlacement
 extends Node3D
 ## Saved authoring data. Preview descendants are transient; gameplay is spawned by the level.
 
-enum Kind { PLAYER_START, WARDEN, ADEPT, HEALTH, MANA, KEY, EXIT, TORCH, URN, AMBIENCE }
-const LABELS := ["Player Start", "Warden", "Adept", "Health", "Mana", "Ember Key", "Exit Gate", "Torch", "Urn", "Crypt Ambience"]
+# Append new kinds only: saved maps store the integer value.
+enum Kind { PLAYER_START, WARDEN, ADEPT, HEALTH, MANA, KEY, EXIT, TORCH, URN, AMBIENCE, BRAZIER, LANTERN, CRYSTAL_LAMP }
+const LABELS := ["Player Start", "Warden", "Adept", "Health", "Mana", "Ember Key", "Exit Gate", "Torch", "Urn", "Crypt Ambience", "Brazier", "Wall Lantern", "Crystal Lamp"]
+const FIXTURES := {Kind.BRAZIER: 0, Kind.LANTERN: 1, Kind.CRYSTAL_LAMP: 2}
 @export var kind: Kind = Kind.PLAYER_START:
 	set(value):
 		kind = value
@@ -78,11 +80,14 @@ func _refresh_preview() -> void:
 			var gate := BoxMesh.new()
 			gate.size = Vector3(2.5, 3, 0.25)
 			_mesh(gate, Vector3.UP * 1.5, Color("28343d"))
+		Kind.BRAZIER, Kind.LANTERN, Kind.CRYSTAL_LAMP:
+			var fixture := LightFixture.make(FIXTURES[kind])
+			preview.add_child(fixture)
 		Kind.AMBIENCE:
 			var box := BoxMesh.new()
 			box.size = zone_size.max(Vector3.ONE * 0.01)
 			_mesh(box, Vector3.ZERO, Color(0.4, 0.7, 1.0, 0.12))
-	if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.TORCH, Kind.EXIT]:
+	if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.TORCH, Kind.EXIT, Kind.LANTERN]:
 		var arrow := BoxMesh.new()
 		arrow.size = Vector3(0.08, 0.08, 1.0)
 		_mesh(arrow, Vector3(0, 0.12, -0.65), Color.YELLOW)

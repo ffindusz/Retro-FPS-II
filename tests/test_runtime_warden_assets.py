@@ -41,7 +41,7 @@ class RuntimeWardenAssetTests(unittest.TestCase):
                 text = (ROOT / path).read_text()
                 self.assertNotRegex(text, r"HTTPRequest|HTTPClient|MESHY_API_KEY|\.env")
                 pending.extend(re.findall(r'res://([^\s"\)]+)', text))
-        for required in ("assets/models/warden-animated/animate.glb", "assets/models/warden-animated/texture.glb", "scenes/models/iron_blade.tscn", "scenes/models/adept.tscn"):
+        for required in ("assets/models/warden-animated/animate.glb", "assets/models/warden-animated/texture.glb", "scenes/models/iron_blade.tscn", "scenes/models/adept_animated.tscn", "assets/models/adept-animated/animate.glb"):
             self.assertIn(required, seen)
 
     def test_raw_runtime_glbs_remain_self_contained(self):

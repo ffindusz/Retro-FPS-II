@@ -1,0 +1,31 @@
+{
+  "version": "0.6.1",
+  "title": "Living lights and animated Adept",
+  "engine": "4.7.0.stable (only editor/templates available on this machine; 0.6.0 used 4.7.2)",
+  "platform": "windows-x64",
+  "build_date": "2026-11-03",
+  "directory": "builds/windows-0.6.1",
+  "base_commit": "6cbd480",
+  "openspec_change": "living-lights-and-adept-rig",
+  "changes": [
+    "Animated shader flames with rising embers on all wall torches, driven by the deterministic torch flicker",
+    "Procedural braziers, wall lanterns and arcane crystal lamps (2/3/3 in the demo, 8 shadowless lights, no collision); also placeable in the level editor",
+    "Meshy-rigged Adept with Idle, Casual_Walk, Charged_Spell_Cast, Hit_Reaction and Fall_Dead_from_Abdominal_Injury clips; skeletal death replaces the 0.5.1 tween (kept as fallback)",
+    "Ambience pause check tolerates one final Godot mix buffer after stream_paused and then requires a frozen playhead"
+  ],
+  "meshy": {"authorized_ceiling_credits": 40, "reported_credits": 20, "balance_before": 1113, "balance_after": 1093, "paid_retries": 0, "note": "Refine-task rig request rejected with HTTP 400 before task creation (no charge); single authorized fallback uploaded the checksum-verified local GLB."},
+  "validation": {
+    "source_checks": {"run_tests": 292, "runtime_warden": 42, "authored_level": 30, "warden_prototype_suites": 148},
+    "editor_checks": 27,
+    "offline_python_tests": {"ran": 96, "failures": 3, "note": "The 3 failures compare the local builds/windows/ 4.7.0 export with frozen 0.4.1 official 4.7.2 hashes; unchanged code, pre-existing on this machine."},
+    "packaged_checks": {"run_tests": 292, "runtime_warden": 42, "authored_level": 30, "failures": 0},
+    "audited_resources": 234,
+    "native_startup_exit": 0
+  },
+  "artifacts": [
+    {"name": "Cinderkeep.exe", "bytes": 109160448, "sha256": "c42eb5d17f683eb8bcd52c19a9f36ebf811b1788623878d5276a7d9ffc09f95c"},
+    {"name": "Cinderkeep.pck", "bytes": 49255656, "sha256": "0de6a132d99e3d4ce09eb432484a75411e1ee53cd3b56a3debb3318224c42af5"}
+  ],
+  "status": "Technical validation passed; awaiting user review",
+  "note": "Earlier builds (0.4.1, 0.5.0, 0.5.1, 0.6.0) are not overwritten. Evidence: builds/validation/living-lights/."
+}

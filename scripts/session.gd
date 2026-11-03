@@ -93,7 +93,7 @@ func show_menu() -> void:
 	_dispose_run()
 	state = State.MENU
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	ui.show_menu("CINDERKEEP", "A dark-fantasy first-person demo\nVISUAL LEVEL AUTHORING 0.6.0", ["Start", "Mapping Example", "Quit"])
+	ui.show_menu("CINDERKEEP", "A dark-fantasy first-person demo\nLIVING LIGHTS 0.6.1", ["Start", "Mapping Example", "Quit"])
 
 func _dispose_run() -> void:
 	get_tree().paused = false

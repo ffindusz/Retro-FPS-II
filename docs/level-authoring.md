@@ -33,7 +33,7 @@ They reuse the unchanged, cleared 1K photographic PBR maps. Use them through Cyc
 
 ### Place gameplay objects
 
-The palette includes **Player Start, Warden, Adept, Health, Mana, Ember Key, Exit Gate, Torch, Urn and Crypt Ambience**.
+The palette includes **Player Start, Warden, Adept, Health, Mana, Ember Key, Exit Gate, Torch, Urn, Crypt Ambience, Brazier, Wall Lantern and Crystal Lamp**.
 
 Click a palette button to place a marker on the floor under the **centre of the 3D viewport**. If no floor is hit, it is placed at the level origin and the dock says so. Use Godot's move/rotate gizmos and snapping to position it. The yellow direction indicator points along local **-Z**. Placement supports normal selection, duplication and Ctrl+Z/Ctrl+Shift+Z. Previews never run AI or create gameplay collision/audio.
 
@@ -45,6 +45,8 @@ Click a palette button to place a marker on the floor under the **centre of the 
 | Ember Key | Exactly one, using the existing single `has_key` inventory rule. |
 | Exit Gate | Exactly one, placed inside reachable space, not embedded in the wall. Nearby E interaction requires the ember key. This is a level-completion marker, not a newly implemented physical locked door. |
 | Torch / Urn | Position and Y rotation. First two authored torches cast shadows; extra torches remain shadowless. Props retain existing nonblocking behaviour. |
+| Brazier / Crystal Lamp | Floor anchor, Y rotation. Procedural, animated, shadowless light fixtures with no collision; keep them against walls or corners so they don't stand in walking routes. |
+| Wall Lantern | Wall bracket point (placed 2.8 m above the floor hit); local -Z (yellow arrow) points away from the wall. Shadowless, no collision. |
 | Crypt Ambience | Axis-aligned box; **Zone Size** is full width/height/depth. Centre it above the floor, e.g. Y=1.5 for height 3. No zone rotation. |
 
 Move objects under their existing **Placements** container. Preview descendants are transient and deliberately not saved. Do not manually add live enemy/player scenes under this container.

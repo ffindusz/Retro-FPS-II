@@ -150,7 +150,7 @@ static func spatial_errors(geometry: Node3D, markers: Node, nav: NavigationMesh,
 		if marker.kind == PLACEMENT.Kind.PLAYER_START:
 			start = marker.position
 	for marker in markers.get_children():
-		if marker.kind in [PLACEMENT.Kind.AMBIENCE, PLACEMENT.Kind.TORCH, PLACEMENT.Kind.URN]:
+		if marker.kind in [PLACEMENT.Kind.AMBIENCE, PLACEMENT.Kind.TORCH, PLACEMENT.Kind.URN, PLACEMENT.Kind.BRAZIER, PLACEMENT.Kind.LANTERN, PLACEMENT.Kind.CRYSTAL_LAMP]:
 			continue
 		var point: Vector3 = marker.position
 		var floor_hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(point + Vector3.UP * 0.3, point - Vector3.UP, 1))

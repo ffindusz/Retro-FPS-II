@@ -124,7 +124,8 @@ func _place(kind: int) -> void:
 	marker.set_script(PLACEMENT)
 	marker.name = PLACEMENT.LABELS[kind].replace(" ", "")
 	marker.kind = kind
-	marker.position = point + (Vector3.UP * 1.5 if kind == PLACEMENT.Kind.AMBIENCE else Vector3.ZERO)
+	var lift := {PLACEMENT.Kind.AMBIENCE: 1.5, PLACEMENT.Kind.LANTERN: 2.8}
+	marker.position = point + Vector3.UP * lift.get(kind, 0.0)
 	var parent := source.get_node("Placements")
 	var undo := get_undo_redo()
 	undo.create_action("Place " + PLACEMENT.LABELS[kind], UndoRedo.MERGE_DISABLE, source)

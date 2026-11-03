@@ -20,7 +20,7 @@ The user also asked for more kinds of light in the fortress (fires, lamps, magic
   - Spending is user-authorized, capped at **40 credits** with **no paid retries**, and provenance is recorded.
   - The result is integrated as an Adept presentation with the same interface as the Warden's.
   - The 0.5.1 rigid-tween death and the placeholder fallback remain only as fallbacks.
-- **Version 0.5.2** export for re-review.
+- **Version 0.6.1** export for re-review.
 
 Unchanged: ambience and mix (both accepted), gameplay values and timing, the Warden. Out of scope: music and the guarded key barrier.
 
@@ -47,4 +47,4 @@ Unchanged: ambience and mix (both accepted), gameplay values and timing, the War
   - new `scenes/models/adept_animated.tscn`
 - **Tooling:** a new bounded `tools/meshy_adept_rig.py` that follows the existing Meshy safety pattern: checked routes, a credit ceiling, no retries, and no secrets checkpointed.
 - **External:** a paid Meshy API call, capped at 40 credits, using the existing local API key.
-- **Tests:** `tests/run_tests.gd` gets flame, fixture and Adept-presentation checks, and the gameplay fingerprints must stay unchanged. Plus the packaged audit and a version bump to 0.5.2.
+- **Tests:** `tests/run_tests.gd` gets flame, fixture and Adept-presentation checks, and the gameplay fingerprints must stay unchanged. Plus the packaged audit and a version bump to 0.6.1.

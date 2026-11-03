@@ -65,6 +65,11 @@ func _populate() -> void:
 				var prop := load("res://scenes/props/%s.tscn" % path).instantiate() as Node3D
 				prop.transform = marker.transform
 				add_child(prop)
+			PLACEMENT.Kind.BRAZIER, PLACEMENT.Kind.LANTERN, PLACEMENT.Kind.CRYSTAL_LAMP:
+				# Presentation-only fixture; the level presentation drives its clock.
+				var fixture := LightFixture.make(PLACEMENT.FIXTURES[marker.kind])
+				fixture.transform = marker.transform
+				add_child(fixture)
 			PLACEMENT.Kind.EXIT:
 				var gate := Node3D.new()
 				gate.name = "ExitVisual"

@@ -116,3 +116,8 @@ The new example uses original authored Cyclops geometry, existing cleared photog
 - Default UI font and engine-provided rendering/physics/navigation are distributed with Godot, not separately authored game assets.
 - Meshy.ai: external authoring tool only; not a runtime dependency or an endorsement. Paid monthly subscription confirmed by the user; the project's generation-specific rights review is recorded above and in `docs/meshy-generation.md`.
 - Hexen II is an atmosphere/style reference only. No names from its setting, models, layouts, textures, audio, or source code are bundled.
+
+## Animated Adept and procedural lights — 0.6.1
+
+- `assets/models/adept-animated/animate.glb` (SHA-256 `d55d85b84b28a72d50818b0f5dc8a2c40d8d026be3fb139b48b34fc10f2da146`) is the existing Adept, rigged and animated by Meshy on 2026-11-03 (20 credits, user-authorized ceiling 40, no paid retries). Clips: Idle, Casual_Walk, Charged_Spell_Cast, Hit_Reaction, Fall_Dead_from_Abdominal_Injury. Provenance: `assets/models/adept-animated/provenance.json`; plan: `docs/adept-rig-plan.json`; tool: `tools/meshy_adept_rig.py`. The static `enemy-adept` model remains as the fallback.
+- Torch flames, braziers, wall lanterns and crystal lamps are procedural (Godot primitives, `resources/shaders/flame.gdshader`); no external assets.

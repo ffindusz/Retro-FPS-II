@@ -12,10 +12,10 @@ Model-based Adepts SHALL use a rigged version of the existing Adept model, with 
 - **THEN** the cast clip plays, and the bolt still spawns at the existing gameplay time and origin
 
 ### Requirement: Gameplay remains authoritative
-Animation SHALL be presentation-only. Ranged timing, damage, projectile origin, health, collision, navigation, the `died` signal and enemy counts SHALL be unchanged, and the gameplay fingerprints SHALL match 0.5.1. Animation SHALL advance on the gameplay clock, freeze while paused, and be freed on restart or menu.
+Animation SHALL be presentation-only. Ranged timing, damage, projectile origin, health, collision, navigation, the `died` signal and enemy counts SHALL be unchanged, and the gameplay fingerprints SHALL match the pre-change baseline. Animation SHALL advance on the gameplay clock, freeze while paused, and be freed on restart or menu.
 
 #### Scenario: Fingerprints
-- **WHEN** the gameplay suite runs on 0.5.2
+- **WHEN** the gameplay suite runs on 0.6.1
 - **THEN** every gameplay fingerprint equals its 0.5.1 value
 
 ### Requirement: Bounded, recorded Meshy spend

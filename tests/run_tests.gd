@@ -80,6 +80,7 @@ func run_tests() -> void:
 	await test_key_audio()
 	await test_encounter_tuning()
 	await test_atmosphere()
+	await test_living_lights()
 	await test_sky()
 	await test_dynamic_lighting()
 	await test_ambience()
@@ -290,24 +291,58 @@ func test_enemies() -> void:
 	await test_adept_death(ranged)
 
 func test_adept_death(adept) -> void:
+	var presentation = adept.presentation
+	check(presentation != null and adept.model_scene.resource_path == "res://scenes/models/adept_animated.tscn", "model Adepts use the rigged animated presentation")
+	# Cast windup drives the cast clip towards its release; the bolt still comes from resolve_attack.
+	adept.cooldown = 0.0
+	adept.state = adept.State.CHASE
+	adept._physics_process(0.01)
+	var started: bool = adept.state == adept.State.ATTACK and presentation.attack_active and presentation.mode == &"Attack"
+	adept.windup = adept.windup_duration * 0.5
+	adept.advance_presentation(0.01)
+	var mid: float = presentation.native_time
+	check(started and absf(mid - presentation.NATIVE_RELEASE * 0.5) < 0.01, "Adept windup plays the cast clip scaled to the existing windup")
 	var deaths = [0]
 	adept.died.connect(func(): deaths[0] += 1)
-	adept._physics_process(0.01)
 	adept.take_damage(1000, player)
-	check(deaths[0] == 1 and adept.state == adept.State.DEAD and adept.windup == 0.0 and adept.presentation == null, "Adept death signal, state and cancelled cast are immediate and unchanged")
-	# The burst appears once the 0.15 s stagger hands over to the fall.
-	await create_timer(0.25).timeout
-	check(adept.collision_layer == 0 and adept.has_node("DeathBurst") and get_nodes_in_group("projectiles").is_empty(), "Adept death removes blocking, shows one arcane burst and fires nothing")
-	await create_timer(0.3).timeout
-	var tilt: float = adept.visual.rotation.x
+	check(deaths[0] == 1 and adept.state == adept.State.DEAD and adept.windup == 0.0 and presentation.dead and presentation.mode == &"Death", "Adept death signal, state and cancelled cast are immediate and start the skeletal death")
+	adept.resolve_attack()
+	await settle()
+	check(adept.collision_layer == 0 and get_nodes_in_group("projectiles").is_empty() and not adept.has_node("DeathBurst"), "Adept death removes blocking and fires nothing")
+	var skeleton: Skeleton3D = presentation.skeleton
+	var head: int = skeleton.find_bone(&"Head")
+	var standing: float = (skeleton.global_transform * skeleton.get_bone_global_pose(head).origin).y - adept.global_position.y
+	adept.advance_presentation(1.0)
+	var age: float = presentation.death_age
 	session.pause_run()
-	await create_timer(0.3).timeout
-	check(adept.visual.rotation.x == tilt and tilt > 0.0 and tilt < PI / 2.0, "Adept collapse is visible mid-fall and freezes while paused")
+	adept.advance_presentation(1.0)
+	check(age > 0.9 and presentation.death_age == age, "Adept death clip advances on the gameplay clock and freezes while paused")
 	session.resume_run()
-	await create_timer(1.0).timeout
-	check(is_equal_approx(adept.visual.rotation.x, PI / 2.0) and is_equal_approx(adept.visual.position.y, 0.3) and not adept.has_node("DeathBurst"), "Adept settles lying on the floor and the burst is freed")
-	await create_timer(0.3).timeout
-	check(is_equal_approx(adept.visual.rotation.x, PI / 2.0), "dead Adept body stays still")
+	for step in range(30):
+		adept.advance_presentation(0.1)
+	var lying: float = (skeleton.global_transform * skeleton.get_bone_global_pose(head).origin).y - adept.global_position.y
+	check(is_equal_approx(presentation.death_age, presentation.clip_length(&"Death")) and standing > 1.3 and lying < 0.6, "Adept crumples to the floor with skeletal motion (head %.2f m -> %.2f m)" % [standing, lying])
+	adept.advance_presentation(0.5)
+	var held: float = (skeleton.global_transform * skeleton.get_bone_global_pose(head).origin).y - adept.global_position.y
+	check(is_equal_approx(held, lying), "dead Adept body holds its final pose")
+	await test_adept_fallback_death()
+
+func test_adept_fallback_death() -> void:
+	var scene = load("res://scenes/enemies/ranged_enemy.tscn")
+	var adept = scene.instantiate()
+	adept.model_scene = load("res://scenes/models/adept.tscn")
+	adept.position = Vector3(2, 0.1, 9)
+	session.run.add_child(adept)
+	adept.target = player
+	adept.set_physics_process(false)
+	await settle()
+	adept.take_damage(1000, player)
+	check(adept.presentation == null and adept.state == adept.State.DEAD, "static Adept model remains a working fallback without a presentation")
+	await create_timer(0.25).timeout
+	check(adept.has_node("DeathBurst"), "fallback Adept keeps the 0.5.1 arcane burst")
+	await create_timer(1.2).timeout
+	check(is_equal_approx(adept.visual.rotation.x, PI / 2.0) and not adept.has_node("DeathBurst"), "fallback Adept settles with the 0.5.1 tween death")
+	adept.free()
 
 func test_pickups_and_exit() -> void:
 	var pickup_scene = load("res://scenes/props/pickup.tscn")
@@ -903,6 +938,84 @@ func test_atmosphere() -> void:
 	authoring.geometry.free()
 	authoring.free()
 
+func test_living_lights() -> void:
+	await fresh()
+	var level = session.run
+	var presentation = level.presentation
+	var flames_seated = presentation.flames.size() == 6
+	for index in range(presentation.flames.size()):
+		var flame: FlameVisual = presentation.flames[index]
+		flames_seated = flames_seated and flame.get_parent() == presentation.torches[index].get_parent() and flame.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF and collision_nodes_under(flame) == 0
+	check(flames_seated, "every one of the six torches carries one shadowless, collision-free animated flame")
+	var tracked = true
+	var desynced = false
+	var heights_vary = false
+	var first_intensity: float = -1.0
+	for frame in range(300):
+		presentation.set_clock(frame * 0.03)
+		for index in range(6):
+			var flame: FlameVisual = presentation.flames[index]
+			var ratio: float = presentation.torches[index].light_energy / presentation.torch_bases[index]
+			tracked = tracked and is_equal_approx(flame.intensity, ratio) and flame.clock == presentation.elapsed and flame.intensity >= 0.75 - 0.0001 and flame.intensity <= 1.25 + 0.0001
+		desynced = desynced or absf(presentation.flames[0].intensity - presentation.flames[1].intensity) > 0.05
+		if first_intensity < 0.0:
+			first_intensity = presentation.flames[0].intensity
+		heights_vary = heights_vary or absf(presentation.flames[0].intensity - first_intensity) > 0.15
+	check(tracked and heights_vary, "flame size/brightness follows its torch light within the twenty-five-percent bound and visibly varies")
+	check(desynced, "neighbouring torch flames are out of sync")
+	var fixtures: Array = presentation.fixtures
+	var kinds := {LightFixture.Kind.BRAZIER: 0, LightFixture.Kind.LANTERN: 0, LightFixture.Kind.CRYSTAL: 0}
+	var areas := {&"court": 0, &"crypt": 0, &"key": 0}
+	var shadowless = true
+	var bounded_range = true
+	for fixture in fixtures:
+		kinds[fixture.kind] += 1
+		var point: Vector3 = fixture.global_position
+		areas[&"key" if point.x > 24 else (&"crypt" if point.x > 13 else &"court")] += 1
+		shadowless = shadowless and not fixture.light.shadow_enabled
+		bounded_range = bounded_range and fixture.light.omni_range <= 5.0
+	check(fixtures.size() == 8 and kinds[LightFixture.Kind.BRAZIER] == 2 and kinds[LightFixture.Kind.LANTERN] == 3 and kinds[LightFixture.Kind.CRYSTAL] == 3, "level adds two braziers, three wall lanterns and three crystal lamps")
+	check(areas[&"court"] > 0 and areas[&"crypt"] > 0 and areas[&"key"] > 0, "courtyard, crypt approach and key chamber each show a new fixture")
+	var shadow_casters = 0
+	for light in level.find_children("*", "OmniLight3D", true, false):
+		shadow_casters += 1 if light.shadow_enabled else 0
+	check(shadowless and bounded_range and shadow_casters == 2 and collision_nodes_under(presentation) == 0, "fixtures add at most eight short-range shadowless lights and no collision (2 shadow casters total)")
+	var lively = true
+	for fixture in fixtures:
+		presentation.set_clock(1.0)
+		var before: float = fixture.light.light_energy
+		presentation.set_clock(2.3)
+		lively = lively and not is_equal_approx(before, fixture.light.light_energy)
+	check(lively, "every fixture light animates over the run clock")
+	presentation.set_clock(4.0)
+	var energies: Array[float] = []
+	for fixture in fixtures:
+		energies.append(fixture.light.light_energy)
+	var crystal_yaw: float = fixtures[7].crystal.rotation.y
+	var flame_clock: float = presentation.flames[0].clock
+	session.pause_run()
+	presentation.advance(10.0)
+	await settle()
+	var frozen = presentation.flames[0].clock == flame_clock and fixtures[7].crystal.rotation.y == crystal_yaw
+	for index in range(fixtures.size()):
+		frozen = frozen and fixtures[index].light.light_energy == energies[index]
+	check(frozen, "pause freezes torch flames, fire fixtures and crystal pulse")
+	session.resume_run()
+	await fresh()
+	check(session.run.presentation.fixtures.size() == 8 and get_nodes_in_group("light_fixtures").size() == 8 and session.run.presentation.flames.size() == 6 and session.run.presentation.flames[0].clock == 0.0, "fresh run rebuilds fixtures and flames from a reset clock without duplicates")
+	check(WorldFingerprint.snapshot(session.run) == load("res://resources/atmosphere_baseline.tres").get_meta("snapshot"), "lights leave collider, placement, stat and navigation fingerprints unchanged")
+	var authored = Node3D.new()
+	var torch = load("res://scenes/props/torch.tscn").instantiate()
+	authored.add_child(torch)
+	var lamp = LightFixture.make(LightFixture.Kind.CRYSTAL)
+	authored.add_child(lamp)
+	root.add_child(authored)
+	var authored_presentation = load("res://scripts/levels/authored_presentation.gd").new()
+	authored.add_child(authored_presentation)
+	authored_presentation.setup(authored)
+	check(authored_presentation.torches.size() == 1 and authored_presentation.flames.size() == 1 and authored_presentation.fixtures == [lamp] and lamp.light.light_color.is_equal_approx(LightFixture.CRYSTAL_GLOW), "authored maps flame their torches and drive placed fixtures without recolouring fixture lights")
+	authored.free()
+
 func test_sky() -> void:
 	await fresh()
 	var world: WorldEnvironment = session.run.find_children("*", "WorldEnvironment", false, false)[0]
@@ -1029,13 +1142,16 @@ func test_ambience() -> void:
 	check(is_equal_approx(ambience.blend, 0.75) and ambience.start_count == 1 and ids == [ambience.players[0].get_instance_id(), ambience.players[1].get_instance_id()], "recrossing the boundary reverses blend without restarting or adding players")
 	check(session.run.feedback.audio.voices.is_empty() and session.run.feedback.audio.played_counts.is_empty(), "ambience does not consume combat voice slots or synthesize SFX events")
 	session.pause_run()
-	# Let a last backend mix buffer settle before checking an already-paused playhead.
-	await create_timer(0.2).timeout
 	var position: float = ambience.players[0].get_playback_position()
 	var blend: float = ambience.blend
 	ambience.advance(10.0)
 	await settle(6)
-	check(ambience.paused and ambience.players[0].stream_paused and ambience.blend == blend and absf(ambience.players[0].get_playback_position() - position) < 0.001, "pause freezes ambience blend and playback position")
+	await create_timer(0.3).timeout
+	var after: float = ambience.players[0].get_playback_position()
+	await create_timer(0.3).timeout
+	var later: float = ambience.players[0].get_playback_position()
+	# Godot may mix one final (fade-out) buffer after stream_paused; it must not keep running.
+	check(ambience.paused and ambience.players[0].stream_paused and ambience.blend == blend and absf(after - position) < 0.025 and later == after, "pause freezes ambience blend and playback position (blend %.3f/%.3f pos %.4f -> %.4f -> %.4f)" % [ambience.blend, blend, position, after, later])
 	var sfx: float = session.sfx_volume
 	session.ui.ambience_slider.grab_focus()
 	var original: float = session.ui.ambience_slider.value

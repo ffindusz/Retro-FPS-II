@@ -17,7 +17,7 @@ Fixtures SHALL NOT add physics bodies that block walkable routes, SHALL NOT chan
 
 #### Scenario: Gameplay fingerprints
 - **WHEN** the existing gameplay and navigation test suite runs
-- **THEN** all fingerprints and route checks match their 0.5.1 values
+- **THEN** all fingerprints and route checks match their pre-change values
 
 ### Requirement: Bounded lighting cost
 The level SHALL add at most 8 new dynamic lights, and at most 1 of them SHALL cast shadows. Fixture lights SHALL use limited ranges so that they don't wash out the torch-lit look. Glow animation SHALL follow the run clock, freeze while paused, and reset on restart.

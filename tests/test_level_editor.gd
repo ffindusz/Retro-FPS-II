@@ -79,7 +79,7 @@ func run(editor_plugin: EditorPlugin) -> void:
 		history.redo()
 		all_redo = all_redo and placements.get_child_count() == initial + 1 and placements.get_children().back() == marker
 		history.undo()
-	check(all_place, "all ten palette buttons create correctly owned visible placements")
+	check(all_place, "all thirteen palette buttons create correctly owned visible placements")
 	check(all_undo and all_redo, "actual editor history undoes/redoes every placement without duplicates")
 	button("+ Health").pressed.emit()
 	await settle()

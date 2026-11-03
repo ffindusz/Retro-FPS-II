@@ -1,0 +1,115 @@
+{
+  "date": "2026-11-03",
+  "purpose": "Rigged + animated Adept for a real skeletal death (0.5.1 re-review).",
+  "authorization": {
+    "date": "2026-11-03",
+    "ceiling_credits": 40,
+    "paid_retries": false
+  },
+  "source": {
+    "file": "assets/models/enemy-adept/model.glb",
+    "sha256": "32c0f4108f64ec007d76fd1d1f53f7ef6650216ad9d4c31aa62b4e2e911bd53c",
+    "refine_task": "01a15a18-22aa-76bd-a5dc-272a0ef2da97"
+  },
+  "height_meters": 2.0,
+  "rejected_attempts": [
+    {
+      "submission": "REJECTED",
+      "reserved_credits": 5,
+      "route": "refine_task",
+      "note": "Meshy HTTP 400 for input_task_id (old refine task); no task created, balance unchanged"
+    }
+  ],
+  "stages": {
+    "rig": {
+      "id": "01a1a340-b255-71ea-9476-6609937ad3d7",
+      "route": "upload",
+      "status": "SUCCEEDED",
+      "reserved_credits": 5,
+      "consumed_credits": 5,
+      "created_at": 1793740296965,
+      "finished_at": 1793740310541,
+      "download": {
+        "file": "rig.glb",
+        "bytes": 6747160,
+        "sha256": "b420ce23a7fea230e6090fbace907fd1fa19960658b6160e2cfe94eaf713f6bd"
+      }
+    },
+    "animate": {
+      "id": "01a1a341-1dc6-7178-8daa-7c2889fd4464",
+      "route": "rig_task",
+      "status": "SUCCEEDED",
+      "reserved_credits": 15,
+      "consumed_credits": 15,
+      "created_at": 1793740316627,
+      "finished_at": 1793740358592,
+      "download": {
+        "file": "animate.glb",
+        "bytes": 8238564,
+        "sha256": "d55d85b84b28a72d50818b0f5dc8a2c40d8d026be3fb139b48b34fc10f2da146"
+      }
+    }
+  },
+  "actions": [
+    {
+      "id": 0,
+      "key": "Idle",
+      "role": "Idle"
+    },
+    {
+      "id": 30,
+      "key": "Casual_Walk",
+      "role": "Walk"
+    },
+    {
+      "id": 125,
+      "key": "Charged_Spell_Cast",
+      "role": "Cast"
+    },
+    {
+      "id": 178,
+      "key": "Hit_Reaction",
+      "role": "Hit"
+    },
+    {
+      "id": 188,
+      "key": "Fall_Dead_from_Abdominal_Injury",
+      "role": "Death"
+    }
+  ],
+  "balance_before": 1113,
+  "balance_after": 1093,
+  "reported_total_credits": 20,
+  "runtime_file": {
+    "file": "assets/models/adept-animated/animate.glb",
+    "sha256": "d55d85b84b28a72d50818b0f5dc8a2c40d8d026be3fb139b48b34fc10f2da146",
+    "bytes": 8238564
+  },
+  "inventory": {
+    "triangles": 7382,
+    "skins": 1,
+    "joints": 24,
+    "clips": [
+      "Idle",
+      "Casual_Walk",
+      "Charged_Spell_Cast",
+      "Hit_Reaction",
+      "Fall_Dead_from_Abdominal_Injury"
+    ],
+    "bounds_m": [
+      [
+        -0.367,
+        0,
+        -0.458
+      ],
+      [
+        0.367,
+        2.0,
+        0.458
+      ]
+    ]
+  },
+  "tool": "tools/meshy_adept_rig.py",
+  "plan": "docs/adept-rig-plan.json",
+  "rig_glb_retained_outside_repo": true
+}

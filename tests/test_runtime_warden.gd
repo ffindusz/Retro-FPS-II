@@ -122,7 +122,7 @@ func run_tests() -> void:
 			adepts.append(enemy)
 	check(wardens.size() == 4 and adepts.size() == 2, "integration preserves four Wardens and two Adepts")
 	check(wardens.all(func(enemy): return enemy.presentation != null and enemy.model_scene.resource_path == "res://scenes/models/warden_animated.tscn"), "all default melee enemies use the runtime animated visual")
-	check(adepts.all(func(enemy): return enemy.presentation == null and enemy.model_scene.resource_path == "res://scenes/models/adept.tscn"), "inherited Adepts keep the unchanged ranged/static presentation path")
+	check(adepts.all(func(enemy): return enemy.presentation != null and not enemy.presentation.has_method("update_weapon") and enemy.model_scene.resource_path == "res://scenes/models/adept_animated.tscn"), "Adepts use their own animated presentation, separate from the Warden's")
 	var baseline: Dictionary = load("res://resources/atmosphere_baseline.tres").get_meta("snapshot")
 	check(WorldFingerprint.snapshot(session.run) == baseline, "all original gameplay/collider/navigation/placement fingerprints still match")
 	var enemy = wardens[0]

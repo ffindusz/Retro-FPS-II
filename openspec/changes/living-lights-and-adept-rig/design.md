@@ -19,7 +19,7 @@ Assets and tools already in place:
 - Three new procedural fixture types placed through the level, within a light budget, with no gameplay or navigation change.
 - A skeletal Adept with a real death animation, integrated with the Warden-style presentation interface.
 - Credit spend capped at 40.
-- Fallbacks retained, gameplay fingerprints unchanged, a 0.5.2 export.
+- Fallbacks retained, gameplay fingerprints unchanged, a 0.6.1 export.
 
 **Non-Goals:**
 - Music, the guarded key barrier, layout/encounter changes, new enemies.
@@ -76,7 +76,7 @@ Assets and tools already in place:
    - The clock is advanced by `advance_visual(delta, …)` from the physics step, so pause freezes it, as with the Warden.
    - The ranged enemy scene switches `model_scene` to `adept_animated.tscn`. If that scene fails to load, it reverts to `adept.tscn`, which keeps the 0.5.1 tween death path.
 
-5. **Version 0.5.2**, exported to `builds/windows-0.5.2/`. Earlier builds are kept.
+5. **Version 0.6.1** (after the upstream 0.6.0 level-authoring sync), exported to `builds/windows-0.6.1/`. Earlier builds are kept.
 
 ## Risks / Trade-offs
 
