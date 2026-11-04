@@ -1,0 +1,17 @@
+{
+  "purpose": "Unlit wall torch so the procedural animated flame no longer overlaps a baked static flame (0.6.2 follow-up).",
+  "authorization": "User answered 'yes please' on 2026-11-04 to generating a Meshy torch for about 15 credits: one candidate, no paid retries.",
+  "authorized_ceiling_credits": 15,
+  "model": "meshy-t2.5",
+  "model_type": "smart-topology",
+  "estimated_preview_credits": 5,
+  "estimated_refine_credits": 10,
+  "assets": [
+    {
+      "id": "prop-torch-unlit",
+      "target_polycount": 2500,
+      "prompt": "One original low-poly medieval wall torch on an iron wall sconce, unlit. A small vertical iron wall plate with two rivets, a short iron arm angled slightly upward, ending in an open iron basket cup that holds a thick wooden torch handle. The top of the torch is wrapped in charred blackened cloth with a flat burnt top, ready for a flame. Torch points upward. Sturdy dark fantasy fortress style, broad readable shapes. Entire isolated object only, no flame, no fire, no smoke, no glow, no wall, no background, no text, no logo.",
+      "texture_prompt": "Original medieval wall torch, unlit. Dark aged wrought iron sconce with subtle rust, brown worn wooden handle, blackened charred cloth wrapping at the top with a few dull dark-orange ember specks. Simple readable material blocks. No flame, no glow halos, no lettering, no logos, no baked directional shadows."
+    }
+  ]
+}

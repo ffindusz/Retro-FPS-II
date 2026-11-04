@@ -67,8 +67,8 @@ class LevelAuthoringAssetTests(unittest.TestCase):
         preset = (ROOT / "export_presets.cfg").read_text()
         for exclusion in ("addons/*", "scenes/authoring/*", "tests/*", "tools/*", ".env", ".env.*"):
             self.assertIn(exclusion, preset)
-        self.assertIn('config/version="0.6.2"', project)
-        self.assertIn('export_path="builds/windows-0.6.2/Cinderkeep.exe"', preset)
+        self.assertIn('config/version="0.6.3"', project)
+        self.assertIn('export_path="builds/windows-0.6.3/Cinderkeep.exe"', preset)
         # Editor preview must not silently switch accepted lossless 1K maps to VRAM.
         for folder in ("environment/photographic", "models/enemy-adept", "models/enemy-warden", "models/prop-torch", "models/prop-urn", "models/warden-animated", "models/adept-animated", "models/prop-brazier", "models/prop-lantern", "models/prop-crystal-lamp", "models/weapon-cleaver", "prototypes/warden-meshy-ab", "prototypes/warden-pilot/winner"):
             for path in (ROOT / "assets" / folder).glob("*.jpg.import"):

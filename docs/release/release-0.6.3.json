@@ -1,0 +1,29 @@
+{
+  "version": "0.6.3",
+  "title": "Unlit torch and glowing lanterns",
+  "engine": "4.7.0.stable (only editor/templates available on this machine)",
+  "platform": "windows-x64",
+  "build_date": "2026-11-04",
+  "directory": "builds/windows-0.6.3",
+  "openspec_change": "living-lights-and-adept-rig (tasks 7.5-7.7)",
+  "user_request": "'yes please' to brighter lantern flames and a torch without the baked flame",
+  "changes": [
+    "Wall torches use model_unlit.mesh: the existing Meshy torch with its 200 baked-flame triangles trimmed (tools/trim_torch_flame.gd); only the animated flame shows",
+    "Meshy lantern panes glow (albedo as emission) with the flame flicker; larger inner flame"
+  ],
+  "meshy": {"authorized_ceiling_credits": 15, "reported_credits": 5, "balance_after": 1043, "paid_retries": 0, "note": "Torch preview still had a flame-shaped spike, so the 10-credit refine was not bought; the existing torch was trimmed instead."},
+  "validation": {
+    "source_checks": {"run_tests": 296, "runtime_warden": 42, "authored_level": 30, "warden_prototype_suites": 148},
+    "editor_checks": 27,
+    "offline_python_tests": {"failures": 3, "note": "Only the known stale builds/windows/ 0.4.1 hash checks."},
+    "packaged_checks": {"run_tests": 296, "runtime_warden": 42, "authored_level": 30, "failures": 0},
+    "audited_resources": 262,
+    "native_startup_exit": 0
+  },
+  "artifacts": [
+    {"name": "Cinderkeep.exe", "bytes": 109160448, "sha256": "c42eb5d17f683eb8bcd52c19a9f36ebf811b1788623878d5276a7d9ffc09f95c"},
+    {"name": "Cinderkeep.pck", "bytes": 60230916, "sha256": "9ff3575c14772bbd1a183b50ced9a86d39016087990fd15b68124fbc2187cf43"}
+  ],
+  "status": "Technical validation passed; awaiting user review",
+  "note": "Earlier builds are kept. Evidence: builds/validation/living-lights/0.6.3/."
+}

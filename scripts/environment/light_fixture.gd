@@ -27,6 +27,7 @@ var flame: FlameVisual
 var crystal: MeshInstance3D
 var crystal_material: StandardMaterial3D
 var glass_material: StandardMaterial3D
+var glass_glow: float = 0.8
 var built: bool = false
 
 static func make(fixture_kind: Kind) -> LightFixture:
@@ -75,7 +76,19 @@ func _build_model() -> bool:
 			# Wall plate (model +X) against the wall; the lantern hangs 0.71 m out along -Z.
 			model.rotation.y = -PI / 2.0
 			model.position = Vector3(0, -0.2, -0.44)
-			flame = FlameVisual.create(Vector2(0.12, 0.2), 8.1)
+			# The Meshy glass is opaque: its amber panes glow (texture as emission) and flicker instead.
+			for node in model.find_children("*", "MeshInstance3D", true, false):
+				var mesh := node as MeshInstance3D
+				var source := mesh.get_active_material(0) as StandardMaterial3D
+				if source != null:
+					glass_material = source.duplicate()
+					glass_material.emission_enabled = true
+					glass_material.emission = Color.WHITE
+					glass_material.emission_texture = source.albedo_texture
+					glass_material.emission_operator = BaseMaterial3D.EMISSION_OP_MULTIPLY
+					glass_glow = 1.6
+					mesh.set_surface_override_material(0, glass_material)
+			flame = FlameVisual.create(Vector2(0.16, 0.26), 8.1)
 			flame.position = Vector3(0, -0.5, -0.71)
 			add_child(flame)
 			_light(Vector3(0, -0.4, -0.71), Color("ffc070"), 1.2, 4.0)
@@ -210,4 +223,4 @@ func set_clock(value: float) -> void:
 		light.light_energy = base_energy * (1.0 + modulation)
 		flame.set_state(elapsed, 1.0 + modulation)
 		if glass_material != null:
-			glass_material.emission_energy_multiplier = 0.8 * (1.0 + modulation)
+			glass_material.emission_energy_multiplier = glass_glow * (1.0 + modulation)
