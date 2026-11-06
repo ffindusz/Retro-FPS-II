@@ -2,7 +2,9 @@
 
 An original dark-fantasy FPS prototype inspired by early 3D fantasy shooters, with visual level authoring inside Godot. Built with **Godot 4.7.x and GDScript**, a **2D HUD**, and **real 3D first-person weapons**.
 
-**Latest: 0.7.0 editor-workflow polish, ready for user review.** Click-to-place with previews/snap/facing/cancel, clickable validation targets, automatic **Choose Level** discovery and a guarded **Checked Export** route. Existing 0.6.2 fixtures/animated Adept and combat rules are preserved. **557 source + 42 real-editor checks, 102 Python tests and 385 packaged checks** pass. [New controls, export boundary and evidence](docs/editor-workflow-polish.md).
+**Latest source: 0.7.0 editor-workflow polish, ready for user review.** Click-to-place with previews/snap/facing/cancel, clickable validation targets, automatic **Choose Level** discovery and a guarded **Checked Export** route. Upstream 0.6.3's torch/lantern fixes and existing combat rules are preserved. Combined source passes **559 source + 42 real-editor checks, 102 Python tests and 387 checks against a temporary checked-export PCK**. [New controls, export boundary and evidence](docs/editor-workflow-polish.md).
+
+Source sync also retains upstream **0.6.3**: the Meshy torch has its baked static flame trimmed so only the animated flame remains, and Meshy lantern panes glow with the flicker. [Original 0.6.3 record](docs/release/release-0.6.3.json). The separate 0.7.0 Windows handoff predates this source merge and remains unchanged.
 
 **Historical foundation:** the user smoke-tested 0.6.0 ("simple test works"). Its subsequent 0.5.1-fix merge passed 496 source + 27 editor checks, 89 Python tests and 348 temporary-PCK checks at that checkpoint. The newer 0.6.2 art and 0.7.0 workflow remain separate follow-ups; prior feedback is not expanded into approval of new controls or a full disconnected native run. [Foundation history](docs/level-authoring.md).
 
@@ -10,7 +12,7 @@ Repository sync preserves upstream's archived OpenSpec history and 0.5.1 fixes (
 
 ## Play
 
-- **Current Windows build:** `builds/windows-0.7.0/Cinderkeep.exe` with its adjacent PCK. **Choose Level** lists public built maps automatically; Start/default and Mapping Example remain available.
+- **Original 0.7.0 Windows handoff:** `builds/windows-0.7.0/Cinderkeep.exe` with its adjacent PCK. **Choose Level** lists public built maps automatically; Start/default and Mapping Example remain available. This preserved snapshot predates the subsequent 0.6.3 source merge; use editor F5 or a fresh separate checked export for current source.
 - **Editor quick start:** open `scenes/authoring/mapping_example.tscn`, arm a palette kind and click a valid floor/wall. R rotates; Esc/RMB cancels. Use Build/Check/Playtest in the Cinderkeep dock. [Full polished workflow](docs/editor-workflow-polish.md).
 
 **Optional comparison preview:** run `scenes/prototypes/warden_pilot_preview.tscn` with **F6** to compare the old static Warden and selected body. It shares the corrected grip, but the prototype scene/code/assets remain excluded from exports; the game uses independent runtime resources. [Pilot history and controls](docs/warden-animation-ready-pilot.md).

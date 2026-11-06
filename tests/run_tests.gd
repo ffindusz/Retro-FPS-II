@@ -947,6 +947,15 @@ func test_living_lights() -> void:
 		var flame: FlameVisual = presentation.flames[index]
 		flames_seated = flames_seated and flame.get_parent() == presentation.torches[index].get_parent() and flame.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF and collision_nodes_under(flame) == 0
 	check(flames_seated, "every one of the six torches carries one shadowless, collision-free animated flame")
+	var unlit = true
+	for light in presentation.torches:
+		for mesh in meshes_under(light.get_parent().get_node("VisualRoot")):
+			unlit = unlit and mesh.mesh.resource_path == "res://assets/models/prop-torch/model_unlit.mesh"
+			for vertex in mesh.mesh.get_faces():
+				unlit = unlit and vertex.y <= 0.25
+	check(unlit, "wall torches use the trimmed model without the baked static flame")
+	var lantern: LightFixture = presentation.fixtures[2]
+	check(lantern.kind == LightFixture.Kind.LANTERN and lantern.glass_material != null and lantern.glass_material.emission_enabled and lantern.glass_material.emission_texture != null, "Meshy lantern panes glow with the flame flicker")
 	var tracked = true
 	var desynced = false
 	var heights_vary = false

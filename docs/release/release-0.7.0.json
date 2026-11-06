@@ -6,6 +6,8 @@
   "build_date": "2026-11-04",
   "directory": "builds/windows-0.7.0",
   "base_commit": "180377b",
+  "snapshot_source_commit": "c632b44",
+  "repository_sync_note": "The subsequent sync merges fc8570c's 0.6.3 torch/lantern fixes without replacing this initial handoff. Original hashes/counts below remain historical; combined source was separately validated with 559 source, 42 editor, 102 Python and 387 temporary-PCK checks.",
   "openspec_change": "polish-level-editor-workflow",
   "status": "Technical validation passed; polished editing/menu/export workflow human review pending",
   "source_checks": 557,

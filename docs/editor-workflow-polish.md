@@ -6,6 +6,8 @@ This builds on the user-smoke-tested Cyclops foundation and the 0.6.2 lights/ani
 
 **Human review is pending.** The previous "simple test works" report applies to the earlier workflow, not automatic acceptance of these new controls.
 
+**Repository sync — 2026-11-06:** feature commit `c632b44` is combined with upstream `fc8570c` (0.6.3): trimmed baked torch flame and flickering lantern glow. Current combined source passes **559 source + 42 editor checks, 102 Python tests and 387 checks against a separate checked-export PCK**, plus its 264-resource audit and native startup. The supplied 0.7.0 handoff remains the original pre-merge snapshot; its recorded hashes/counts below are not overwritten or relabelled. Sync logs are `builds/validation/editor-polish/repo-sync-*`. Export current source to a new output folder/filename when needed.
+
 ## 1. Click to place
 
 Open `scenes/authoring/mapping_example.tscn` or use **Cinderkeep → New Level…**. Select a palette kind, then move into the actual 3D viewport:
@@ -71,7 +73,7 @@ The default preset is **Windows Desktop**, using the existing export settings/ex
 
 This guard validates saved map freshness and association—not every jump, visual intersection, gameplay balance or a malicious scene/mod sandbox.
 
-## Validation — 2026-11-04
+## Initial handoff validation — 2026-11-04
 
 - **557 headless source checks:** existing 514, **24 policy/provenance checks** and **19 map-selection checks**. Existing original-demo fingerprints and actor tuning pass unchanged.
 - **42 real-editor checks:** palette arming/viewport InputEvents, all thirteen kinds, undo/redo, navigation pass-through, misses, Escape/RMB, transient preview save/duplication, structured issue click selection/renames, non-destructive build, staleness, Playtest launch/stop, real child-process checked PCK export, existing-output preservation and scene-switch cleanup.
@@ -92,4 +94,4 @@ Launch **`builds/windows-0.7.0/Cinderkeep.exe`** with its adjacent PCK; use **Ch
 - [ ] User builds another map, selects it through Choose Level and judges keyboard/menu ergonomics.
 - [ ] User exercises checked export and plays the current Windows build; a full explicitly disconnected playthrough remains unreported.
 
-Existing animation/foot-planting/finger/pose limits are not solved by this workflow polish. The work is local and is not committed/pushed unless requested.
+Existing animation/foot-planting/finger/pose limits are not solved by this workflow polish. Repository commits/pushes occur only on explicit request; that is separate from human workflow acceptance.
