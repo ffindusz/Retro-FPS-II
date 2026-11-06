@@ -20,4 +20,7 @@ Godot_v*.exe
 scenes/authoring/_playtest.tscn
 scenes/authoring/_editor_test*.tscn
 scenes/levels/generated/_editor_test*.tscn
+scenes/authoring/editor_polish_test_*
+scenes/levels/generated/editor_polish_test_*
+scenes/levels/generated/catalog_test_*
 cyclops_settings.config

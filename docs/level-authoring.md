@@ -1,5 +1,7 @@
 # Visual level authoring — Cinderkeep 0.6.0
 
+**Current workflow:** [0.7.0 editor polish](editor-workflow-polish.md) adds armed click placement, selectable issue rows, automatic built-map selection and checked export. The 0.6.0 validation/review history below remains historical; the following usage notes reflect the newer controls.
+
 ## Start here
 
 This is the user-selected **hand-building workflow inside Godot**, not a random generator or an in-game map editor. Geometry uses the pinned **Cyclops Level Builder 1.5.2**; Cinderkeep supplies placements, validation, build and normal-session playtest. No additional Meshy requests, key access or credits were used.
@@ -35,7 +37,7 @@ They reuse the unchanged, cleared 1K photographic PBR maps. Use them through Cyc
 
 The palette includes **Player Start, Warden, Adept, Health, Mana, Ember Key, Exit Gate, Torch, Urn, Crypt Ambience, Brazier, Wall Lantern and Crystal Lamp**.
 
-Click a palette button to place a marker on the floor under the **centre of the 3D viewport**. If no floor is hit, it is placed at the level origin and the dock says so. Use Godot's move/rotate gizmos and snapping to position it. The yellow direction indicator points along local **-Z**. Placement supports normal selection, duplication and Ctrl+Z/Ctrl+Shift+Z. Previews never run AI or create gameplay collision/audio.
+Click a palette button to **arm** placement, then LMB a valid source floor (or a vertical wall for a torch/lantern). The transient preview follows the active viewport pointer. Invalid hits create nothing. R rotates facing; Esc/RMB cancels. Grid/facing/height controls and explicit Place at View Centre are in the scrollable dock. Cancel placement to use Godot's usual gizmos. Existing marker data, duplication and undo/redo remain compatible; previews create no gameplay AI/collision. Torch +Z and lantern -Z mount conventions are handled automatically.
 
 | Object | Editing notes |
 |---|---|
@@ -61,7 +63,7 @@ Validation blocks missing/duplicate start/key/exit, unsupported containers/trans
 
 These are authoring safeguards, **not proof of every jump, stair ascent, line of sight or encounter**. Player/AI movement is unchanged; test your actual stairs/corridors in play. Lighting quality, item spacing and difficulty still need human judgement.
 
-**Build after changing a map and before exporting.** Export ships generated snapshots; it does not automatically rebuild every source. New maps are not automatically added to a catalogue/menu. To make your map the exported Start level without code, open `scenes/main.tscn`, select the root, assign your generated scene to **Default Level**, save, then export. Keep the supplied original/default scene setting if you want Start to remain the original demo.
+**Build after changing a map and before exporting.** Export ships generated snapshots; it does not automatically rebuild every source. **Choose Level** now discovers public built maps automatically. Start still uses the main root's Inspector **Default Level**; changing it is optional. Use **Checked Export PCK…** or `tools/export_checked.ps1` to reject stale/missing maps and existing outputs. Stock Godot export only warns and bypasses the guard. See the [0.7.0 guide](editor-workflow-polish.md) for private drafts, stronger resource fingerprints and exact controls.
 
 ## Example and file separation
 

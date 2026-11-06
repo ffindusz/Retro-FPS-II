@@ -27,6 +27,25 @@ func button(label: String) -> Button:
 			return child
 	return null
 
+func click_surface(kind: int) -> void:
+	var camera := EditorInterface.get_editor_viewport_3d(0).get_camera_3d()
+	var old_transform := camera.global_transform
+	var wall: bool = plugin.POSE.wall_kind(kind)
+	var target := Vector3(5, 1.8, 0.3) if wall else Vector3(1.13, 0, 0.27)
+	camera.global_position = Vector3(0, 1.8, 0.3) if wall else Vector3(1.13, 6, 4)
+	camera.look_at(target, Vector3.UP)
+	var event := InputEventMouseButton.new()
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.pressed = true
+	event.position = camera.unproject_position(target)
+	plugin._forward_3d_gui_input(camera, event)
+	camera.global_transform = old_transform
+
+func capture_editor(label: String) -> void:
+	if DisplayServer.get_name() != "headless":
+		await RenderingServer.frame_post_draw
+		plugin.get_tree().root.get_texture().get_image().save_png("res://builds/validation/editor-polish/%s.png" % label)
+
 func run(editor_plugin: EditorPlugin) -> void:
 	plugin = editor_plugin
 	DirAccess.make_dir_recursive_absolute("res://builds/validation/level-authoring")
@@ -67,8 +86,11 @@ func run(editor_plugin: EditorPlugin) -> void:
 	var all_place := true
 	var all_undo := true
 	var all_redo := true
+	var all_arm := true
 	for kind in range(PLACEMENT.LABELS.size()):
 		button("+ " + PLACEMENT.LABELS[kind]).pressed.emit()
+		all_arm = all_arm and plugin.armed_kind == kind and placements.get_child_count() == initial
+		click_surface(kind)
 		await settle(2)
 		var marker = placements.get_children().back()
 		all_place = all_place and placements.get_child_count() == initial + 1 and marker.kind == kind and marker.owner == source and marker.preview != null
@@ -80,8 +102,39 @@ func run(editor_plugin: EditorPlugin) -> void:
 		all_redo = all_redo and placements.get_child_count() == initial + 1 and placements.get_children().back() == marker
 		history.undo()
 	check(all_place, "all thirteen palette buttons create correctly owned visible placements")
+	check(all_arm, "palette selection only arms placement; viewport click creates the marker")
 	check(all_undo and all_redo, "actual editor history undoes/redoes every placement without duplicates")
+	button("+ Warden").pressed.emit()
+	var camera := EditorInterface.get_editor_viewport_3d(0).get_camera_3d()
+	var before_invalid := placements.get_child_count()
+	var navigation := InputEventMouseButton.new()
+	navigation.button_index = MOUSE_BUTTON_LEFT
+	navigation.pressed = true
+	navigation.alt_pressed = true
+	check(plugin._forward_3d_gui_input(camera, navigation) == EditorPlugin.AFTER_GUI_INPUT_PASS and placements.get_child_count() == before_invalid, "Alt navigation is passed through without placing")
+	var escape := InputEventKey.new()
+	escape.keycode = KEY_ESCAPE
+	escape.pressed = true
+	plugin._forward_3d_gui_input(camera, escape)
+	check(plugin.armed_kind == -1 and plugin.ghost == null, "Escape cancels armed mode and frees the transient ghost")
+	button("+ Warden").pressed.emit()
+	var saved_camera := camera.global_transform
+	camera.global_position = Vector3(1, 4, 2)
+	camera.look_at(Vector3(1, 10, 2), Vector3.FORWARD)
+	var miss := InputEventMouseButton.new()
+	miss.button_index = MOUSE_BUTTON_LEFT
+	miss.pressed = true
+	miss.position = camera.get_viewport().get_visible_rect().size / 2.0
+	plugin._forward_3d_gui_input(camera, miss)
+	camera.global_transform = saved_camera
+	check(placements.get_child_count() == before_invalid and not plugin.last_pose.ok, "an actual viewport ray miss does not silently place at the origin")
+	var cancel := InputEventMouseButton.new()
+	cancel.button_index = MOUSE_BUTTON_RIGHT
+	cancel.pressed = true
+	plugin._forward_3d_gui_input(camera, cancel)
+	check(plugin.armed_kind == -1 and plugin.ghost == null, "RMB cancels placement without leaving a preview")
 	button("+ Health").pressed.emit()
+	click_surface(PLACEMENT.Kind.HEALTH)
 	await settle()
 	var health = placements.get_children().back()
 	health.position = Vector3(-2, 0, 1)
@@ -99,10 +152,12 @@ func run(editor_plugin: EditorPlugin) -> void:
 	var reopened := saved.instantiate()
 	var restored = reopened.get_node("Placements").get_children().back()
 	check(restored.amount == 33 and restored.position == Vector3(-2, 0, 1) and restored.get_child_count() == 0, "save/reopen retains placement properties without serialized preview children")
+	check(reopened.get_node_or_null("PlacementGhost") == null, "armed placement ghost is never serialized into the source")
 	reopened.free()
 	button("Build Level + Navigation").pressed.emit()
 	var result: Dictionary = await plugin.build_finished
 	check(result.ok and FileAccess.file_exists(output_path), "actual Build button converts template and saves per-level navigation")
+	check(plugin.armed_kind == -1 and plugin.ghost == null, "build cancels placement before saving or validating")
 	check(not BUILDER.is_stale(source), "successful output fingerprints its saved authoring source")
 	check(placements.get_child_count() == initial + 1 and source.get_node("Architecture").get_child_count() == 5, "build preserves all source blocks and hand placements")
 	button("Check Level").pressed.emit()
@@ -120,11 +175,28 @@ func run(editor_plugin: EditorPlugin) -> void:
 	start.position = Vector3(5.2, 0, 0)
 	result = await BUILDER.build(source, plugin.get_tree(), false)
 	check(not result.ok and "overlaps world collision" in str(result.errors), "obstructed player start causes a focused spatial build error")
+	plugin._show_result(result)
+	var issue_index := -1
+	for index in range(result.issues.size()):
+		if result.issues[index].code == "overlap" and result.issues[index].node_path == "Placements/PlayerStart":
+			issue_index = index
+	check(issue_index >= 0, "spatial validation retains an exact node path and stable issue code")
+	if issue_index >= 0:
+		plugin.issue_list.item_selected.emit(issue_index)
+		await settle(2)
+	check(EditorInterface.get_selection().get_selected_nodes() == [start], "clicking the actual validation issue selects its source marker")
+	await capture_editor("validation-issue")
+	var original_name: String = start.name
+	start.name = "RenamedStart"
+	plugin.issue_list.item_selected.emit(issue_index)
+	check("removed or renamed" in plugin.report.text, "deleted/renamed issue targets fail safely instead of selecting another node")
+	start.name = original_name
 	start.position = original_start
 	var key = placements.get_node("EmberKey")
 	placements.remove_child(key)
 	result = await BUILDER.build(source, plugin.get_tree(), false)
 	check(not result.ok and "Exactly one Ember Key" in str(result.errors), "missing key blocks build with an actionable diagnostic")
+	check(result.issues.any(func(issue): return issue.code == "required_count" and issue.node_path == "Placements"), "missing-object issues target the placements container")
 	placements.add_child(key)
 	key.owner = source
 	var original_key: Vector3 = key.position
@@ -155,6 +227,23 @@ func run(editor_plugin: EditorPlugin) -> void:
 	var session = wrapper.instantiate()
 	check(session.auto_start and session.default_level != null, "playtest wrapper selects normal session with authored default level and auto-start")
 	session.free()
+	button("Checked Export PCK…").pressed.emit()
+	check(plugin.export_dialog.visible, "actual Checked Export button opens a separate output dialog")
+	plugin.export_dialog.hide()
+	var checked_path := ProjectSettings.globalize_path("res://builds/validation/editor-polish/editor-checked-%d.pck" % Time.get_ticks_usec())
+	DirAccess.make_dir_recursive_absolute(checked_path.get_base_dir())
+	plugin.export_dialog.file_selected.emit(checked_path)
+	var exported: Dictionary = await plugin.export_finished
+	check(exported.ok and FileAccess.file_exists(checked_path) and not plugin.busy, "real non-blocking checked export completes and publishes a new PCK")
+	var artifact_hash := FileAccess.get_sha256(checked_path)
+	var refused: Dictionary = plugin._checked_export_to(checked_path)
+	check(not refused.ok and FileAccess.get_sha256(checked_path) == artifact_hash, "editor checked export refuses to replace an existing artifact")
+	EditorInterface.open_scene_from_path("res://scenes/authoring/mapping_example.tscn")
+	await settle(8)
+	button("+ Health").pressed.emit()
+	EditorInterface.open_scene_from_path(source_path)
+	await settle(8)
+	check(plugin.armed_kind == -1 and plugin.ghost == null, "changing scenes disarms placement and cleans up the old preview")
 	# Open the shipped example for handoff, never save test edits into it.
 	EditorInterface.open_scene_from_path("res://scenes/authoring/mapping_example.tscn")
 	await settle(20)
@@ -165,6 +254,7 @@ func run(editor_plugin: EditorPlugin) -> void:
 	if DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		plugin.get_tree().root.get_texture().get_image().save_png("res://builds/validation/level-authoring/editor-workflow.png")
+		await capture_editor("editor-workflow")
 	for path in [source_path, output_path]:
 		DirAccess.remove_absolute(path) # Only uniquely named files created by this suite.
 	print("RESULT: %d level-editor checks, %d failures" % [checks, failures])

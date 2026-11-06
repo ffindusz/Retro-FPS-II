@@ -7,6 +7,8 @@ const PRESENTATION = preload("res://scripts/levels/authored_presentation.gd")
 @export var baked_navigation: NavigationMesh
 @export var authoring_source: String
 @export var authoring_sha256: String
+@export var authoring_dependencies_sha256: String
+@export var authoring_build_version: int = 0
 var markers: Array[Node] = []
 
 func _ready() -> void:

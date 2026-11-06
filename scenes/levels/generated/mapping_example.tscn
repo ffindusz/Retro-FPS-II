@@ -1,7 +1,7 @@
-[gd_scene format=4 uid="uid://4oahixwbs647"]
+[gd_scene format=4]
 
-[ext_resource type="Script" uid="uid://dnx5406hssqt8" path="res://scripts/levels/authored_level.gd" id="1_duaii"]
-[ext_resource type="Script" uid="uid://cfweywcd6si80" path="res://scripts/levels/level_placement.gd" id="2_hk0o6"]
+[ext_resource type="Script" path="res://scripts/levels/authored_level.gd" id="1_duaii"]
+[ext_resource type="Script" path="res://scripts/levels/level_placement.gd" id="2_hk0o6"]
 [ext_resource type="Material" path="res://resources/materials/mapping_floor.tres" id="2_ksuih"]
 [ext_resource type="Material" path="res://resources/materials/mapping_wall.tres" id="3_rjxg6"]
 
@@ -656,328 +656,330 @@ shadow_mesh = SubResource("ArrayMesh_pwe7v")
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_d2xfm"]
 points = PackedVector3Array(-1, 0.225, -0.4, -1, 0.225, 0.4, -1, -0.225, 0.4, -1, -0.225, -0.4, 1, 0.225, -0.4, 1, 0.225, 0.4, 1, -0.225, 0.4, 1, -0.225, -0.4)
 
-[node name="MappingExample" type="Node3D" unique_id=1720705213]
+[node name="MappingExample" type="Node3D" unique_id=75889179]
 process_mode = 1
 script = ExtResource("1_duaii")
 level_title = "The Mason's Trial"
 baked_navigation = SubResource("NavigationMesh_ksuih")
 authoring_source = "res://scenes/authoring/mapping_example.tscn"
 authoring_sha256 = "daf367ddce46a740b06e50d64dcffbb08f8c540742584fd90a334143897fed4b"
+authoring_dependencies_sha256 = "61f0105f6b1a4739b1b2154024541b9ab1961392e547631c5fdeb011864dde99"
+authoring_build_version = 1
 
-[node name="Geometry" type="Node3D" parent="." unique_id=1430329872]
+[node name="Geometry" type="Node3D" parent="." unique_id=275365787]
 
-[node name="EntranceFloor" type="Node3D" parent="Geometry" unique_id=1563490342]
+[node name="EntranceFloor" type="Node3D" parent="Geometry" unique_id=1424625901]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 10)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/EntranceFloor" unique_id=1093998052]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/EntranceFloor" unique_id=1144197146]
 mesh = SubResource("ArrayMesh_fi6ld")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/EntranceFloor" unique_id=1988406059]
+[node name="Body" type="StaticBody3D" parent="Geometry/EntranceFloor" unique_id=1471525239]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21187" type="CollisionShape3D" parent="Geometry/EntranceFloor/Body" unique_id=1430029761]
+[node name="@CollisionShape3D@42" type="CollisionShape3D" parent="Geometry/EntranceFloor/Body" unique_id=778088630]
 shape = SubResource("ConvexPolygonShape3D_hrrbe")
 
-[node name="CourtyardFloor" type="Node3D" parent="Geometry" unique_id=1224948823]
+[node name="CourtyardFloor" type="Node3D" parent="Geometry" unique_id=210430917]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, -1)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardFloor" unique_id=1953708471]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardFloor" unique_id=559815526]
 mesh = SubResource("ArrayMesh_4pgst")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardFloor" unique_id=834168223]
+[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardFloor" unique_id=1060278169]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21188" type="CollisionShape3D" parent="Geometry/CourtyardFloor/Body" unique_id=1710965764]
+[node name="@CollisionShape3D@43" type="CollisionShape3D" parent="Geometry/CourtyardFloor/Body" unique_id=695099833]
 shape = SubResource("ConvexPolygonShape3D_i7j1d")
 
-[node name="CryptFloor" type="Node3D" parent="Geometry" unique_id=2113514504]
+[node name="CryptFloor" type="Node3D" parent="Geometry" unique_id=1945218559]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -0.25, -3)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/CryptFloor" unique_id=476569936]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/CryptFloor" unique_id=1131437634]
 mesh = SubResource("ArrayMesh_5wqig")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/CryptFloor" unique_id=1128654864]
+[node name="Body" type="StaticBody3D" parent="Geometry/CryptFloor" unique_id=1098984125]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21189" type="CollisionShape3D" parent="Geometry/CryptFloor/Body" unique_id=532755075]
+[node name="@CollisionShape3D@44" type="CollisionShape3D" parent="Geometry/CryptFloor/Body" unique_id=2105496893]
 shape = SubResource("ConvexPolygonShape3D_maa3i")
 
-[node name="EntranceWall" type="Node3D" parent="Geometry" unique_id=450754238]
+[node name="EntranceWall" type="Node3D" parent="Geometry" unique_id=766985271]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2, 2, 10)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/EntranceWall" unique_id=1561539081]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/EntranceWall" unique_id=1519574066]
 mesh = SubResource("ArrayMesh_4ohpi")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/EntranceWall" unique_id=1336424695]
+[node name="Body" type="StaticBody3D" parent="Geometry/EntranceWall" unique_id=397664345]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21190" type="CollisionShape3D" parent="Geometry/EntranceWall/Body" unique_id=334053071]
+[node name="@CollisionShape3D@45" type="CollisionShape3D" parent="Geometry/EntranceWall/Body" unique_id=840673298]
 shape = SubResource("ConvexPolygonShape3D_ort5y")
 
-[node name="EntranceWallEast" type="Node3D" parent="Geometry" unique_id=1574652307]
+[node name="EntranceWallEast" type="Node3D" parent="Geometry" unique_id=680190724]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 2, 10)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/EntranceWallEast" unique_id=1854648201]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/EntranceWallEast" unique_id=519141240]
 mesh = SubResource("ArrayMesh_j5fbn")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/EntranceWallEast" unique_id=1614077773]
+[node name="Body" type="StaticBody3D" parent="Geometry/EntranceWallEast" unique_id=1056325185]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21191" type="CollisionShape3D" parent="Geometry/EntranceWallEast/Body" unique_id=1190429061]
+[node name="@CollisionShape3D@46" type="CollisionShape3D" parent="Geometry/EntranceWallEast/Body" unique_id=442831264]
 shape = SubResource("ConvexPolygonShape3D_din0q")
 
-[node name="EntranceBack" type="Node3D" parent="Geometry" unique_id=790696682]
+[node name="EntranceBack" type="Node3D" parent="Geometry" unique_id=1043683049]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 15.2)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/EntranceBack" unique_id=2146980967]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/EntranceBack" unique_id=1099841838]
 mesh = SubResource("ArrayMesh_o8k10")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/EntranceBack" unique_id=1554894170]
+[node name="Body" type="StaticBody3D" parent="Geometry/EntranceBack" unique_id=882654255]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21192" type="CollisionShape3D" parent="Geometry/EntranceBack/Body" unique_id=1645660945]
+[node name="@CollisionShape3D@47" type="CollisionShape3D" parent="Geometry/EntranceBack/Body" unique_id=2083014145]
 shape = SubResource("ConvexPolygonShape3D_7x0ku")
 
-[node name="CourtyardSouth" type="Node3D" parent="Geometry" unique_id=1920606494]
+[node name="CourtyardSouth" type="Node3D" parent="Geometry" unique_id=1007381172]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 5.2)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardSouth" unique_id=1262037887]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardSouth" unique_id=774868238]
 mesh = SubResource("ArrayMesh_x711s")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardSouth" unique_id=509267021]
+[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardSouth" unique_id=1873120032]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21193" type="CollisionShape3D" parent="Geometry/CourtyardSouth/Body" unique_id=246819401]
+[node name="@CollisionShape3D@48" type="CollisionShape3D" parent="Geometry/CourtyardSouth/Body" unique_id=1539125811]
 shape = SubResource("ConvexPolygonShape3D_ngm2c")
 
-[node name="CourtyardSouthEast" type="Node3D" parent="Geometry" unique_id=1021390592]
+[node name="CourtyardSouthEast" type="Node3D" parent="Geometry" unique_id=210533666]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 5.2)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardSouthEast" unique_id=155160267]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardSouthEast" unique_id=292852710]
 mesh = SubResource("ArrayMesh_o15r5")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardSouthEast" unique_id=2100716599]
+[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardSouthEast" unique_id=837679810]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21194" type="CollisionShape3D" parent="Geometry/CourtyardSouthEast/Body" unique_id=1942493380]
+[node name="@CollisionShape3D@49" type="CollisionShape3D" parent="Geometry/CourtyardSouthEast/Body" unique_id=1154475493]
 shape = SubResource("ConvexPolygonShape3D_x1uib")
 
-[node name="CourtyardWest" type="Node3D" parent="Geometry" unique_id=1633202043]
+[node name="CourtyardWest" type="Node3D" parent="Geometry" unique_id=1314845839]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.2, 2, -1)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardWest" unique_id=993637568]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardWest" unique_id=883617792]
 mesh = SubResource("ArrayMesh_3f6gk")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardWest" unique_id=1025696528]
+[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardWest" unique_id=981707651]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21195" type="CollisionShape3D" parent="Geometry/CourtyardWest/Body" unique_id=2104478828]
+[node name="@CollisionShape3D@50" type="CollisionShape3D" parent="Geometry/CourtyardWest/Body" unique_id=1221536536]
 shape = SubResource("ConvexPolygonShape3D_2i4r4")
 
-[node name="CourtyardNorth" type="Node3D" parent="Geometry" unique_id=665708918]
+[node name="CourtyardNorth" type="Node3D" parent="Geometry" unique_id=944552842]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -7.2)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardNorth" unique_id=116074790]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardNorth" unique_id=1072936370]
 mesh = SubResource("ArrayMesh_b1bs0")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardNorth" unique_id=374076017]
+[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardNorth" unique_id=444055303]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21196" type="CollisionShape3D" parent="Geometry/CourtyardNorth/Body" unique_id=169106231]
+[node name="@CollisionShape3D@51" type="CollisionShape3D" parent="Geometry/CourtyardNorth/Body" unique_id=934217894]
 shape = SubResource("ConvexPolygonShape3D_1b06h")
 
-[node name="EastNorth" type="Node3D" parent="Geometry" unique_id=282302825]
+[node name="EastNorth" type="Node3D" parent="Geometry" unique_id=1957794276]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.2, 2, -5.3)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/EastNorth" unique_id=772209182]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/EastNorth" unique_id=1424283569]
 mesh = SubResource("ArrayMesh_6psmr")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/EastNorth" unique_id=588527594]
+[node name="Body" type="StaticBody3D" parent="Geometry/EastNorth" unique_id=1442539153]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21197" type="CollisionShape3D" parent="Geometry/EastNorth/Body" unique_id=2103837397]
+[node name="@CollisionShape3D@52" type="CollisionShape3D" parent="Geometry/EastNorth/Body" unique_id=1888229162]
 shape = SubResource("ConvexPolygonShape3D_rnkj6")
 
-[node name="EastSouth" type="Node3D" parent="Geometry" unique_id=1737599305]
+[node name="EastSouth" type="Node3D" parent="Geometry" unique_id=383258307]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.2, 2, 3)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/EastSouth" unique_id=141392937]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/EastSouth" unique_id=1342177966]
 mesh = SubResource("ArrayMesh_m634f")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/EastSouth" unique_id=1646765153]
+[node name="Body" type="StaticBody3D" parent="Geometry/EastSouth" unique_id=967443291]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21198" type="CollisionShape3D" parent="Geometry/EastSouth/Body" unique_id=2145173767]
+[node name="@CollisionShape3D@53" type="CollisionShape3D" parent="Geometry/EastSouth/Body" unique_id=222968686]
 shape = SubResource("ConvexPolygonShape3D_kd4qa")
 
-[node name="CryptLintel" type="Node3D" parent="Geometry" unique_id=194310913]
+[node name="CryptLintel" type="Node3D" parent="Geometry" unique_id=2059690038]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.2, 3.7, -1.3)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/CryptLintel" unique_id=1787678364]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/CryptLintel" unique_id=952594081]
 mesh = SubResource("ArrayMesh_qbhrf")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/CryptLintel" unique_id=770963789]
+[node name="Body" type="StaticBody3D" parent="Geometry/CryptLintel" unique_id=1280912032]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21199" type="CollisionShape3D" parent="Geometry/CryptLintel/Body" unique_id=1319079046]
+[node name="@CollisionShape3D@54" type="CollisionShape3D" parent="Geometry/CryptLintel/Body" unique_id=1674696572]
 shape = SubResource("ConvexPolygonShape3D_72bqw")
 
-[node name="CryptNorth" type="Node3D" parent="Geometry" unique_id=771508278]
+[node name="CryptNorth" type="Node3D" parent="Geometry" unique_id=643185312]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 2, -7.2)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/CryptNorth" unique_id=1546011570]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/CryptNorth" unique_id=242772609]
 mesh = SubResource("ArrayMesh_d3ajd")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/CryptNorth" unique_id=879164282]
+[node name="Body" type="StaticBody3D" parent="Geometry/CryptNorth" unique_id=297976935]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21200" type="CollisionShape3D" parent="Geometry/CryptNorth/Body" unique_id=2076385191]
+[node name="@CollisionShape3D@55" type="CollisionShape3D" parent="Geometry/CryptNorth/Body" unique_id=729853994]
 shape = SubResource("ConvexPolygonShape3D_rxmmt")
 
-[node name="CryptSouth" type="Node3D" parent="Geometry" unique_id=1724779067]
+[node name="CryptSouth" type="Node3D" parent="Geometry" unique_id=1156660804]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 2, 1.2)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/CryptSouth" unique_id=1297637811]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/CryptSouth" unique_id=424847551]
 mesh = SubResource("ArrayMesh_kf2c0")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/CryptSouth" unique_id=267733554]
+[node name="Body" type="StaticBody3D" parent="Geometry/CryptSouth" unique_id=1488993251]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21201" type="CollisionShape3D" parent="Geometry/CryptSouth/Body" unique_id=155806924]
+[node name="@CollisionShape3D@56" type="CollisionShape3D" parent="Geometry/CryptSouth/Body" unique_id=491735290]
 shape = SubResource("ConvexPolygonShape3D_2tq13")
 
-[node name="CryptEast" type="Node3D" parent="Geometry" unique_id=387680758]
+[node name="CryptEast" type="Node3D" parent="Geometry" unique_id=837750780]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.2, 2, -3)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/CryptEast" unique_id=968983400]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/CryptEast" unique_id=1081603640]
 mesh = SubResource("ArrayMesh_6gq26")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/CryptEast" unique_id=1621091483]
+[node name="Body" type="StaticBody3D" parent="Geometry/CryptEast" unique_id=1454751322]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21202" type="CollisionShape3D" parent="Geometry/CryptEast/Body" unique_id=738512291]
+[node name="@CollisionShape3D@57" type="CollisionShape3D" parent="Geometry/CryptEast/Body" unique_id=1922899616]
 shape = SubResource("ConvexPolygonShape3D_3q3gc")
 
-[node name="CourtyardCover" type="Node3D" parent="Geometry" unique_id=1540866753]
+[node name="CourtyardCover" type="Node3D" parent="Geometry" unique_id=510483518]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.1, -2)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardCover" unique_id=617673991]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/CourtyardCover" unique_id=1050167179]
 mesh = SubResource("ArrayMesh_rh16x")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardCover" unique_id=2077035917]
+[node name="Body" type="StaticBody3D" parent="Geometry/CourtyardCover" unique_id=2143172377]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21203" type="CollisionShape3D" parent="Geometry/CourtyardCover/Body" unique_id=1663018484]
+[node name="@CollisionShape3D@58" type="CollisionShape3D" parent="Geometry/CourtyardCover/Body" unique_id=1419908990]
 shape = SubResource("ConvexPolygonShape3D_wc3nx")
 
-[node name="PracticeStep" type="Node3D" parent="Geometry" unique_id=1098330029]
+[node name="PracticeStep" type="Node3D" parent="Geometry" unique_id=1835960833]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.075, 1.6)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/PracticeStep" unique_id=1719807793]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/PracticeStep" unique_id=757452634]
 mesh = SubResource("ArrayMesh_4hdb2")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/PracticeStep" unique_id=362849897]
+[node name="Body" type="StaticBody3D" parent="Geometry/PracticeStep" unique_id=325383334]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21204" type="CollisionShape3D" parent="Geometry/PracticeStep/Body" unique_id=441760809]
+[node name="@CollisionShape3D@59" type="CollisionShape3D" parent="Geometry/PracticeStep/Body" unique_id=934872853]
 shape = SubResource("ConvexPolygonShape3D_xyanm")
 
-[node name="PracticeStep2" type="Node3D" parent="Geometry" unique_id=311227221]
+[node name="PracticeStep2" type="Node3D" parent="Geometry" unique_id=1501623406]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.15, 0.8)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/PracticeStep2" unique_id=2094989134]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/PracticeStep2" unique_id=129501607]
 mesh = SubResource("ArrayMesh_cr2g5")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/PracticeStep2" unique_id=1380058598]
+[node name="Body" type="StaticBody3D" parent="Geometry/PracticeStep2" unique_id=659264093]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21205" type="CollisionShape3D" parent="Geometry/PracticeStep2/Body" unique_id=1524998650]
+[node name="@CollisionShape3D@60" type="CollisionShape3D" parent="Geometry/PracticeStep2/Body" unique_id=2110807619]
 shape = SubResource("ConvexPolygonShape3D_v54dg")
 
-[node name="PracticeStep3" type="Node3D" parent="Geometry" unique_id=430578389]
+[node name="PracticeStep3" type="Node3D" parent="Geometry" unique_id=2112610196]
 transform = Transform3D(0.90722704, 0, -0.42064127, 0, 1, 0, 0.42064127, 0, 0.90722704, 4, 0.2656506, 0)
 
-[node name="Mesh" type="MeshInstance3D" parent="Geometry/PracticeStep3" unique_id=1936638862]
+[node name="Mesh" type="MeshInstance3D" parent="Geometry/PracticeStep3" unique_id=1073452541]
 mesh = SubResource("ArrayMesh_yik2s")
 
-[node name="Body" type="StaticBody3D" parent="Geometry/PracticeStep3" unique_id=727857827]
+[node name="Body" type="StaticBody3D" parent="Geometry/PracticeStep3" unique_id=282616322]
 collision_mask = 0
 
-[node name="@CollisionShape3D@21206" type="CollisionShape3D" parent="Geometry/PracticeStep3/Body" unique_id=353962688]
+[node name="@CollisionShape3D@61" type="CollisionShape3D" parent="Geometry/PracticeStep3/Body" unique_id=1389735575]
 shape = SubResource("ConvexPolygonShape3D_d2xfm")
 
-[node name="Placements" type="Node3D" parent="." unique_id=895281703]
+[node name="Placements" type="Node3D" parent="." unique_id=769975880]
 
-[node name="PlayerStart" type="Node3D" parent="Placements" unique_id=504818868]
+[node name="PlayerStart" type="Node3D" parent="Placements" unique_id=1109917573]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13)
 script = ExtResource("2_hk0o6")
 
-[node name="CourtyardWarden" type="Node3D" parent="Placements" unique_id=581923820]
+[node name="CourtyardWarden" type="Node3D" parent="Placements" unique_id=1565101270]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -5, 0, -4)
 script = ExtResource("2_hk0o6")
 kind = 1
 
-[node name="CryptWarden" type="Node3D" parent="Placements" unique_id=1814741258]
+[node name="CryptWarden" type="Node3D" parent="Placements" unique_id=1217018910]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 12, 0, -4)
 script = ExtResource("2_hk0o6")
 kind = 1
 
-[node name="CryptAdept" type="Node3D" parent="Placements" unique_id=870650053]
+[node name="CryptAdept" type="Node3D" parent="Placements" unique_id=1072074056]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 16, 0, -1)
 script = ExtResource("2_hk0o6")
 kind = 2
 
-[node name="Health" type="Node3D" parent="Placements" unique_id=1756486391]
+[node name="Health" type="Node3D" parent="Placements" unique_id=914747616]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 10)
 script = ExtResource("2_hk0o6")
 kind = 3
 
-[node name="Mana" type="Node3D" parent="Placements" unique_id=632384231]
+[node name="Mana" type="Node3D" parent="Placements" unique_id=1747351942]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 10)
 script = ExtResource("2_hk0o6")
 kind = 4
 
-[node name="CryptHealth" type="Node3D" parent="Placements" unique_id=1913352115]
+[node name="CryptHealth" type="Node3D" parent="Placements" unique_id=8859614]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -5)
 script = ExtResource("2_hk0o6")
 kind = 3
 
-[node name="EmberKey" type="Node3D" parent="Placements" unique_id=946529362]
+[node name="EmberKey" type="Node3D" parent="Placements" unique_id=655144574]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -5)
 script = ExtResource("2_hk0o6")
 kind = 5
 
-[node name="ExitGate" type="Node3D" parent="Placements" unique_id=764759750]
+[node name="ExitGate" type="Node3D" parent="Placements" unique_id=1151585337]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5.7)
 script = ExtResource("2_hk0o6")
 kind = 6
 
-[node name="EntranceTorch" type="Node3D" parent="Placements" unique_id=337582514]
+[node name="EntranceTorch" type="Node3D" parent="Placements" unique_id=193592414]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.8, 2.3, 10)
 script = ExtResource("2_hk0o6")
 kind = 7
 
-[node name="CourtTorch" type="Node3D" parent="Placements" unique_id=1419948131]
+[node name="CourtTorch" type="Node3D" parent="Placements" unique_id=354931596]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7.8, 2.3, -3)
 script = ExtResource("2_hk0o6")
 kind = 7
 
-[node name="CryptTorch" type="Node3D" parent="Placements" unique_id=1279542209]
+[node name="CryptTorch" type="Node3D" parent="Placements" unique_id=243754366]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 17.8, 2.3, -3)
 script = ExtResource("2_hk0o6")
 kind = 7
 
-[node name="EntranceUrn" type="Node3D" parent="Placements" unique_id=611458686]
+[node name="EntranceUrn" type="Node3D" parent="Placements" unique_id=2007938384]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 14)
 script = ExtResource("2_hk0o6")
 kind = 8
 
-[node name="CryptUrn" type="Node3D" parent="Placements" unique_id=1976720759]
+[node name="CryptUrn" type="Node3D" parent="Placements" unique_id=1504136061]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, -6)
 script = ExtResource("2_hk0o6")
 kind = 8
 
-[node name="CryptAmbience" type="Node3D" parent="Placements" unique_id=1978881950]
+[node name="CryptAmbience" type="Node3D" parent="Placements" unique_id=2137405035]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1.5, -3)
 script = ExtResource("2_hk0o6")
 kind = 9

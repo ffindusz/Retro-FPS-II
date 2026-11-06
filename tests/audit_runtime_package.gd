@@ -17,6 +17,9 @@ func audit() -> void:
 	walk("res://")
 	paths.sort()
 	for path in paths:
+		if "_editor_test" in path or "catalog_test_" in path or "editor_polish_test_" in path:
+			push_error("Private test map leaked into package: " + path)
+			failures += 1
 		if "/prototypes/" in path or path.begins_with("res://addons/") or path.begins_with("res://scenes/authoring/") or path.begins_with("res://tools/") or path.begins_with("res://tests/") or path.begins_with("res://docs/") or path.begins_with("res://openspec/") or path.begins_with("res://builds/") or path.get_file().begins_with(".env") or path.ends_with(".exe"):
 			push_error("Forbidden packaged resource: " + path)
 			failures += 1
@@ -28,12 +31,15 @@ func audit() -> void:
 		if not ResourceLoader.exists(path):
 			push_error("Missing authored-level resource: " + path)
 			failures += 1
-	if ProjectSettings.get_setting("application/config/version") != "0.6.2":
+	if not ResourceLoader.exists("res://scripts/levels/built_level_catalog.gd"):
+		push_error("Missing runtime level catalog")
+		failures += 1
+	if ProjectSettings.get_setting("application/config/version") != "0.7.0":
 		push_error("Wrong packaged version")
 		failures += 1
 	var args := OS.get_cmdline_user_args()
 	if not args.is_empty():
 		var file := FileAccess.open(args[0], FileAccess.WRITE)
-		file.store_string(JSON.stringify({"version": "0.6.2", "resource_count": paths.size(), "failures": failures, "resources": paths}, "  ") + "\n")
+		file.store_string(JSON.stringify({"version": "0.7.0", "resource_count": paths.size(), "failures": failures, "resources": paths}, "  ") + "\n")
 	print("RESULT: package audit, %d resources, %d failures" % [paths.size(), failures])
 	quit(0 if failures == 0 else 1)

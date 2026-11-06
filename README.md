@@ -2,13 +2,16 @@
 
 An original dark-fantasy FPS prototype inspired by early 3D fantasy shooters, with visual level authoring inside Godot. Built with **Godot 4.7.x and GDScript**, a **2D HUD**, and **real 3D first-person weapons**.
 
-**Latest: 0.6.2 Meshy light fixtures** — Meshy-made braziers, wall lanterns and crystal lamps with procedural animated flames/glow, on top of 0.6.1's animated torch flames and Meshy-rigged Adept death (user: "animation much better"). Build: `builds/windows-0.6.2/Cinderkeep.exe`; records: [0.6.2](docs/release/release-0.6.2.json), [0.6.1](docs/release/release-0.6.1.json). Awaiting user review.
+**Latest: 0.7.0 editor-workflow polish, ready for user review.** Click-to-place with previews/snap/facing/cancel, clickable validation targets, automatic **Choose Level** discovery and a guarded **Checked Export** route. Existing 0.6.2 fixtures/animated Adept and combat rules are preserved. **557 source + 42 real-editor checks, 102 Python tests and 385 packaged checks** pass. [New controls, export boundary and evidence](docs/editor-workflow-polish.md).
 
-**Status: visual-level-authoring 0.6.0, user smoke-test confirmed ("simple test works").** Build architecture with pinned Cyclops 1.5.2, place gameplay objects through the Cinderkeep dock, then build/check/playtest through the normal game session. A complete editable example is included. After merging upstream 0.5.1 playtest fixes, current source passes **496 source checks + 27 real-editor checks**, **89 offline Python tests** and **348 checks against a temporary current-source PCK**. Versioned Windows handoffs remain unchanged. Basic workflow confirmation does not establish every usability/traversal check or a full disconnected native run. [Mapping guide and evidence](docs/level-authoring.md).
+**Historical foundation:** the user smoke-tested 0.6.0 ("simple test works"). Its subsequent 0.5.1-fix merge passed 496 source + 27 editor checks, 89 Python tests and 348 temporary-PCK checks at that checkpoint. The newer 0.6.2 art and 0.7.0 workflow remain separate follow-ups; prior feedback is not expanded into approval of new controls or a full disconnected native run. [Foundation history](docs/level-authoring.md).
 
 Repository sync preserves upstream's archived OpenSpec history and 0.5.1 fixes (Adept collapse, grounded enemy cues, audible ambience and stronger bounded torch flicker). The supplied `builds/windows-0.6.0/` remains the original smoke-tested mapping handoff, before that source merge; its recorded hashes/test counts are historical, not relabelled as a new export. Export current source to a separate validation/output folder when needed.
 
 ## Play
+
+- **Current Windows build:** `builds/windows-0.7.0/Cinderkeep.exe` with its adjacent PCK. **Choose Level** lists public built maps automatically; Start/default and Mapping Example remain available.
+- **Editor quick start:** open `scenes/authoring/mapping_example.tscn`, arm a palette kind and click a valid floor/wall. R rotates; Esc/RMB cancels. Use Build/Check/Playtest in the Cinderkeep dock. [Full polished workflow](docs/editor-workflow-polish.md).
 
 **Optional comparison preview:** run `scenes/prototypes/warden_pilot_preview.tscn` with **F6** to compare the old static Warden and selected body. It shares the corrected grip, but the prototype scene/code/assets remain excluded from exports; the game uses independent runtime resources. [Pilot history and controls](docs/warden-animation-ready-pilot.md).
 
@@ -56,21 +59,20 @@ Leave the safe entrance, cross the courtyard, and enter the crypt through the ea
 .\tools\verify.ps1
 .\tools\verify.ps1 -Render
 & .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --script tools/bake_navigation.gd
-New-Item -ItemType Directory -Force builds/windows-current
-& .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --export-release "Windows Desktop" "builds/windows-current/Cinderkeep.exe"
+.\tools\export_checked.ps1 -Output "$PWD/builds/windows-current/Cinderkeep.exe"
 ```
 
-`-Render` opens actual editor/game/prototype windows and captures only their viewports to `builds/validation/`. It exercises the real mapping dock, including launching/stopping playtest. Original game, runtime Warden and authored-map suites also apply to exported resources; editor/prototype paths stay excluded. Build authored maps with the dock before export; use `tools/bake_navigation.gd` only for changes to the original hardcoded demo. Windows export requires matching **4.7.2.stable** templates. The preset retains its 0.6.0 target; explicitly choose a separate output such as `windows-current` for post-handoff source. Addons, authoring sources, tests/tools/docs and prototypes stay excluded. Do not overwrite pinned 0.4.1/0.5.0/0.6.0 artifacts.
+`-Render` opens actual editor/game/prototype windows and captures only their viewports. It exercises placement InputEvents, issue selection, undo/redo, playtest and a real checked export. Original game, Warden, authored-map and selector suites also apply to exported resources; policy tests require source/editor helpers. Use **Checked Export PCK…** or `export_checked.ps1` to block stale maps before export. Stock Godot export can only warn, not enforce this gate. Windows EXE export requires matching **4.7.2.stable** templates. The preset targets separate 0.7.0 output; choose new filenames for later handoffs. Do not overwrite older pinned builds.
 
 Packaged-resource regression checks (using the editor executable with the exported PCK):
 
 ```powershell
-New-Item -ItemType Directory -Force builds/validation
 $pack = "$PWD/builds/validation/Cinderkeep-current.pck"
-& .\Godot_v4.7.2-stable_win64_console.exe --headless --path . --export-pack "Windows Desktop" $pack
+.\tools\export_checked.ps1 -Pack -Output $pack
 & .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack $pack --script "$PWD/tests/run_tests.gd"
 & .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack $pack --script "$PWD/tests/test_runtime_warden.gd"
 & .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack $pack --script "$PWD/tests/test_authored_level.gd"
+& .\Godot_v4.7.2-stable_win64_console.exe --headless --main-pack $pack --script "$PWD/tests/test_level_selection.gd"
 ```
 
 Release executables do not support the editor's external `--script` test override; do not mistake an idle main menu for completed tests.
@@ -105,6 +107,7 @@ Release executables do not support the editor's external `--script` test overrid
 - [Selected animation-ready Warden pilot, 90-credit result, five clips and separate rigid blade](docs/warden-animation-ready-pilot.md)
 - [Runtime Warden 0.5.0: corrected grip, state timing, validation and Windows handoff](docs/warden-runtime-integration.md)
 - [Visual map authoring 0.6.0: Cyclops, gameplay palette, build/check/playtest and example](docs/level-authoring.md)
+- [Editor workflow 0.7.0: surface placement, issue selection, map picker and checked export](docs/editor-workflow-polish.md)
 
 The first six-model API batch completed on 2026-10-20 for 90 credits and is now integrated, following the user's paid monthly plan confirmation. [Generation records](docs/meshy-generation.md) preserve source IDs/checksums; [the manifest](docs/asset-manifest.md) records rights and normalization. No additional generation credits were used for import. The melee result is more sword-like than the original cleaver prompt, so the HUD calls it **Iron Blade**; original asset IDs are retained for provenance. The urn's lid and torch's lower basket are accepted demo details.
 

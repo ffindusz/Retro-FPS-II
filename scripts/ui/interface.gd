@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 signal command(action: String)
+signal level_chosen(path: String)
 signal sfx_volume_changed(value: float)
 signal ambience_volume_changed(value: float)
 const GOLD = Color("c6a46a")
@@ -11,6 +12,7 @@ var title: Label
 var level_heading: Label
 var subtitle: Label
 var buttons: VBoxContainer
+var button_scroll: ScrollContainer
 var health_label: Label
 var mana_label: Label
 var weapon_label: Label
@@ -79,8 +81,13 @@ func _build_menu() -> void:
 	box.add_child(subtitle)
 	box.add_child(HSeparator.new())
 	buttons = VBoxContainer.new()
+	buttons.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	buttons.add_theme_constant_override("separation", 8)
-	box.add_child(buttons)
+	button_scroll = ScrollContainer.new()
+	button_scroll.follow_focus = true
+	button_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	button_scroll.add_child(buttons)
+	box.add_child(button_scroll)
 	volume_box = VBoxContainer.new()
 	box.add_child(volume_box)
 	volume_label = _label("SFX VOLUME   65%", 15, GOLD)
@@ -203,22 +210,55 @@ func show_menu(heading: String, description: String, actions: Array) -> void:
 	subtitle.text = description
 	volume_box.visible = actions.has("Resume")
 	ambience_box.visible = volume_box.visible
+	button_scroll.custom_minimum_size.y = minf(240.0, actions.size() * 52.0)
+	button_scroll.scroll_vertical = 0
 	for child in buttons.get_children():
 		buttons.remove_child(child)
 		child.queue_free()
 	for action in actions:
-		var button = Button.new()
-		button.text = action
-		button.custom_minimum_size.y = 44
-		button.add_theme_font_size_override("font_size", 20)
-		button.add_theme_color_override("font_color", PAPER)
-		button.add_theme_stylebox_override("normal", _panel(Color("202731"), Color("46505a")))
-		button.add_theme_stylebox_override("hover", _panel(Color("34322a")))
-		button.add_theme_stylebox_override("focus", _panel(Color(0, 0, 0, 0)))
+		var button := _menu_button(action)
 		button.pressed.connect(func(): command.emit(action))
 		buttons.add_child(button)
 	if buttons.get_child_count() > 0:
 		buttons.get_child(0).grab_focus()
+
+func _menu_button(text: String) -> Button:
+	var button := Button.new()
+	button.text = text
+	button.custom_minimum_size.y = 44
+	button.clip_text = true
+	button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	button.add_theme_font_size_override("font_size", 20)
+	button.add_theme_color_override("font_color", PAPER)
+	for state in ["normal", "hover", "focus"]:
+		var style := _panel(Color("202731") if state == "normal" else Color("34322a") if state == "hover" else Color(0, 0, 0, 0), Color("46505a") if state == "normal" else GOLD)
+		style.set_content_margin(SIDE_TOP, 8)
+		style.set_content_margin(SIDE_BOTTOM, 8)
+		style.set_content_margin(SIDE_LEFT, 12)
+		style.set_content_margin(SIDE_RIGHT, 12)
+		button.add_theme_stylebox_override(state, style)
+	return button
+
+func show_level_selection(entries: Array[Dictionary], notice: String = "") -> void:
+	var description := "Choose a built map. Restart will keep your selection."
+	if entries.is_empty():
+		description = "No public built maps yet. Build a level with the Cinderkeep editor dock."
+	if not notice.is_empty():
+		description = notice
+	show_menu("CHOOSE LEVEL", description, [])
+	button_scroll.custom_minimum_size.y = minf(240.0, (entries.size() + 1) * 52.0)
+	for entry in entries:
+		var button := _menu_button(entry.title + "  —  " + str(entry.path).get_file().get_basename())
+		button.tooltip_text = entry.path
+		button.custom_minimum_size = Vector2(0, 44)
+		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		button.pressed.connect(func(): level_chosen.emit(entry.path))
+		buttons.add_child(button)
+	var back := _menu_button("Back to Menu")
+	back.custom_minimum_size.y = 44
+	back.pressed.connect(func(): command.emit("Back to Menu"))
+	buttons.add_child(back)
+	buttons.get_child(0).grab_focus()
 
 func show_play() -> void:
 	menu.hide()

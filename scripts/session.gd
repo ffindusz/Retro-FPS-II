@@ -10,11 +10,14 @@ var sfx_volume: float = 0.65
 @export var default_level: PackedScene = preload("res://scenes/levels/demo_level.tscn")
 @export var auto_start: bool = false
 var selected_level: PackedScene
+const CATALOG = preload("res://scripts/levels/built_level_catalog.gd")
+var choosing_level: bool = false
 var ambience_volume: float = 0.3
 @onready var ui = $Interface
 
 func _ready() -> void:
 	ui.command.connect(_on_command)
+	ui.level_chosen.connect(_select_built_level)
 	ui.sfx_volume_changed.connect(_set_sfx_volume)
 	ui.ambience_volume_changed.connect(_set_ambience_volume)
 	get_window().focus_exited.connect(_on_focus_exited)
@@ -23,6 +26,7 @@ func _ready() -> void:
 		start_run.call_deferred()
 
 func start_run(level: PackedScene = null) -> void:
+	choosing_level = false
 	if level != null:
 		selected_level = level
 	if selected_level == null:
@@ -92,8 +96,28 @@ func finish(won: bool) -> void:
 func show_menu() -> void:
 	_dispose_run()
 	state = State.MENU
+	choosing_level = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	ui.show_menu("CINDERKEEP", "A dark-fantasy first-person demo\nLIVING LIGHTS 0.6.2", ["Start", "Mapping Example", "Quit"])
+	ui.show_menu("CINDERKEEP", "A dark-fantasy first-person demo\nEDITOR WORKFLOW 0.7.0", ["Start", "Choose Level", "Mapping Example", "Quit"])
+
+func show_level_selection(notice: String = "") -> void:
+	if state != State.MENU:
+		return
+	choosing_level = true
+	ui.show_level_selection(CATALOG.entries(), notice)
+
+func _select_built_level(path: String) -> void:
+	if state != State.MENU or not choosing_level:
+		return
+	var available := CATALOG.entries().any(func(entry: Dictionary): return entry.path == path)
+	if not available:
+		show_level_selection("Map is no longer available. Rebuild it or select another map.")
+		return
+	var packed := load(path) as PackedScene
+	if packed == null:
+		show_level_selection("Could not load this map. Rebuild it in the editor.")
+		return
+	start_run(packed)
 
 func _dispose_run() -> void:
 	get_tree().paused = false
@@ -110,7 +134,9 @@ func _dispose_run() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
-		if state == State.PLAYING:
+		if state == State.MENU and choosing_level:
+			show_menu()
+		elif state == State.PLAYING:
 			pause_run()
 		elif state == State.PAUSED:
 			resume_run()
@@ -132,6 +158,10 @@ func _set_ambience_volume(value: float) -> void:
 func _on_command(action: String) -> void:
 	match action:
 		"Start": start_run(default_level)
+		"Choose Level": show_level_selection()
+		"Back to Menu":
+			if state == State.MENU:
+				show_menu()
 		"Restart": start_run()
 		"Mapping Example": start_run(load("res://scenes/levels/generated/mapping_example.tscn"))
 		"Resume": resume_run()

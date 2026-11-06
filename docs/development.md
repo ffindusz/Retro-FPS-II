@@ -25,6 +25,8 @@ Projectiles are swept world-space ray queries, not colliding rigid bodies: playe
 
 ## Regression and authoring tools
 
+**0.7.0:** new `test_editor_polish.gd` checks build/provenance/export policy (source only); `test_level_selection.gd` checks both source and PCK. Editor tests now drive placement InputEvents and issue selection plus successful child-process checked export. `built_level_catalog.gd` is runtime-only; provenance/preflight/pose/export helpers are editor-only. [Architecture, API limitation and workflow](editor-workflow-polish.md). Stock EditorExportPlugin warnings cannot abort Godot export; never replace the checked route with a misleading `push_error` callback.
+
 `tools/verify.ps1` checks native exit codes **and** scans for script/runtime errors. It runs the original game, Warden, authored-level and prior isolated prototype suites. `-Render` additionally runs the actual mapping-editor integration suite (palette, undo/redo, save/build/check/playtest) and game/preview captures. The editor suite needs a rendered editor; headless Godot core scene-thumbnail saving is not used as a substitute. Only engine viewports are captured, never the desktop. Run offline Python tests with `python -m unittest discover -s tests -p 'test_*.py' -v`.
 
 ```powershell
