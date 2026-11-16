@@ -25,9 +25,11 @@
 
 ## 5. Human acceptance
 
-- [ ] 5.1 Obtain a human review of photographic stone matching, normal relief, torch-shadow readability/comfort and spell-light brightness/performance.
+- [x] 5.1 Obtain a human review of photographic stone matching, normal relief, torch-shadow readability/comfort and spell-light brightness/performance.
   - Playtest 2026-11-03 (0.5.0 build): stone matching looks good; torch shadows show no visible flicker; spell-light brightness/performance not reported - remains open.
-- [ ] 5.2 Obtain a human listening check of the unique key cue plus a complete run/offline result/restart review; do not infer unreported outcomes.
+  - Playtest 2026-11-16 (0.7.0 Windows export, played offline): user checked lights and visuals and found them OK; no performance problems noticed (FPS not measured).
+- [x] 5.2 Obtain a human listening check of the unique key cue plus a complete run/offline result/restart review; do not infer unreported outcomes.
   - Playtest 2026-11-03 (0.5.0 build): full run works; unique key cue not separately reported - remains open.
+  - Playtest 2026-11-16 (0.7.0 Windows export, played offline): user checked audio including the key cue, and a complete run with result/restart; all OK.
 
 The user subsequently approved the photographic textures ("textures are good"). Task 5.1 stays open for its remaining detailed lighting/performance criteria; the new sky has its own review task.

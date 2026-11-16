@@ -40,11 +40,13 @@
   - Previews were reviewed before the refine stage. Reported cost: 3 × (5 + 10) = **45 / 50 credits**; balance 1093 -> 1048. Models are in `assets/models/prop-{brazier,lantern,crystal-lamp}/` with `provenance.json` (task IDs, prompts, downloads; no credentials or signed URLs). Textures imported at 1K, lossless.
 - [x] 7.2 Seat the procedural flame/glow and lights on measured model anchors (brazier rim at 0.74 m; lantern rotated so its wall plate sits on the wall and the body hangs 0.71 m out along -Z; crystal lamp scaled to 1.5 m with a calm cyan wisp). Keep the 0.6.1 primitive build as a fallback (`use_model = false` or a missing model).
 - [x] 7.3 Tests: every fixture uses its model, flame/glow present, textures within 1K, no collision, fallback works; pause/restart/fingerprint checks unchanged (run_tests 294/0). Frames in builds/validation/living-lights/.
-- [ ] 7.4 Get the user's review of the 0.6.2 Meshy fixtures. Record only what is reported.
+- [x] 7.4 Get the user's review of the 0.6.2 Meshy fixtures. Record only what is reported.
   - 2026-11-04: the user answered "yes please" to the offered follow-ups (brighter lantern flames; a Meshy torch without the baked flame). They gave no visual verdict on 0.6.2, so none is recorded.
+  - Playtest 2026-11-16 (0.7.0 Windows export, which contains the 0.6.2 fixtures): user checked lights and visuals including the Meshy fixtures; OK.
 - [x] 7.5 Unlit torch. Meshy plan `docs/meshy-torch.json` (one candidate, ceiling 15). The preview still had a flame-shaped spike despite the "no flame" prompt, so the refine (10 credits) was not bought and no paid retry was made: **5 credits spent**, balance 1043. Instead, `tools/trim_torch_flame.gd` removes the 200 baked-flame triangles above the cup (mesh y > 0.235) from the existing Meshy torch -> `assets/models/prop-torch/model_unlit.mesh`, used by `scenes/models/wall_torch.tscn`. The original GLB is unchanged.
 - [x] 7.6 Brighter lanterns. The Meshy glass is opaque, so the lantern material now emits its own albedo (amber panes glow) at 1.6x the flame flicker; the inner flame is larger. Tests: trimmed torch mesh and lantern glow checks added. Version 0.6.3.
-- [ ] 7.7 Get the user's review of 0.6.3 (torch flame without the baked flame, lantern glow, Meshy fixtures). Record only what is reported.
+- [x] 7.7 Get the user's review of 0.6.3 (torch flame without the baked flame, lantern glow, Meshy fixtures). Record only what is reported.
+  - Playtest 2026-11-16 (0.7.0 Windows export, which contains the 0.6.3 fixes): user checked the torch flame, lantern glow and Meshy fixtures; OK.
 
 ## 6. Build and review
 

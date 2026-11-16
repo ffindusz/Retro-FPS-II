@@ -19,4 +19,5 @@
 - [x] 4.1 Exercise actual editor input/undo/preview/clickable issues/save/reopen/export failures and runtime map-menu/restart behaviour, retaining gameplay regressions.
 - [x] 4.2 Run full source/editor/offline/render and isolated packaged/audit/native checks; provide separate 0.7.0 evidence without replacing older artifacts.
 - [x] 4.3 Document the workflow, version/compatibility details, checked-vs-stock export distinction and exact verification results.
-- [ ] 4.4 Obtain user review of the polished editing workflow; do not infer human ergonomics/full-run acceptance from automation.
+- [x] 4.4 Obtain user review of the polished editing workflow; do not infer human ergonomics/full-run acceptance from automation.
+  - Review 2026-11-16 (0.7.0): user checked the level editor (placing objects, building, validation, Playtest Level) and reports it works; no issues noticed.
