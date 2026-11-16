@@ -9,7 +9,7 @@
   "snapshot_source_commit": "c632b44",
   "repository_sync_note": "The subsequent sync merges fc8570c's 0.6.3 torch/lantern fixes without replacing this initial handoff. Original hashes/counts below remain historical; combined source was separately validated with 559 source, 42 editor, 102 Python and 387 temporary-PCK checks.",
   "openspec_change": "polish-level-editor-workflow",
-  "status": "Technical validation passed; polished editing/menu/export workflow human review pending",
+  "status": "Technical validation passed; user reviewed the offline Windows export and the editor workflow on 2026-11-16 (no issues reported)",
   "source_checks": 557,
   "editor_checks": 42,
   "offline_python_tests": 102,
