@@ -69,6 +69,7 @@ func run_tests() -> void:
 	await test_session()
 	await fresh()
 	await test_navigation()
+	await test_key_ward()
 	await test_imported_models()
 	await test_melee_cycle()
 	await test_melee_volume()
@@ -412,7 +413,7 @@ func test_session() -> void:
 			actor.set_physics_process(false)
 		await settle()
 		check(player.health == 100 and player.mana == 60 and not player.has_key and player.weapon_slot == 0, "restart %d restores player state" % (index + 1))
-		check(get_nodes_in_group("enemies").size() == 6 and get_nodes_in_group("pickups").size() == 7 and get_nodes_in_group("projectiles").is_empty(), "restart %d has exact initial actors and no old projectiles" % (index + 1))
+		check(get_nodes_in_group("enemies").size() == 7 and get_nodes_in_group("pickups").size() == 7 and get_nodes_in_group("projectiles").is_empty(), "restart %d has exact initial actors and no old projectiles" % (index + 1))
 	session.finish(true)
 	player.take_damage(10, null)
 	check(player.health == 100 and paused, "terminal victory freezes damage")
@@ -422,6 +423,52 @@ func test_session() -> void:
 	session.start_run()
 	player = session.run.player
 	check(player.health == 100 and not player.has_key, "start from returned menu creates fresh run")
+
+func ward_blocks(ward: KeyWard) -> bool:
+	var query = PhysicsRayQueryParameters3D.create(Vector3(28, 1.2, -7), Vector3(28, 1.2, -12), 1)
+	return session.run.get_world_3d().direct_space_state.intersect_ray(query).get("collider") == ward
+
+func test_key_ward() -> void:
+	await fresh()
+	var ward: KeyWard = session.run.key_ward
+	var messages: Array[String] = []
+	player.message.connect(func(text: String) -> void: messages.append(text))
+	var key_pickup = get_nodes_in_group("pickups").filter(func(p) -> bool: return p.kind == 2)[0]
+	check(is_instance_valid(ward) and not ward.is_open and ward.guards.size() == 3 and ward.living_guards() == 3, "closed ward starts with three living guards")
+	check(get_nodes_in_group("enemies").size() == 7, "the encounter has seven enemies including the key guards")
+	check(key_pickup.position.x > 25.8 and key_pickup.position.z < -9.8, "ember key lies inside the walled alcove")
+	check(ward_blocks(ward), "closed ward blocks the alcove gateway")
+	player.position = Vector3(28, 0.1, -7)
+	await settle(3)
+	await settle(3)
+	check(messages.count(KeyWard.HINT_TEXT) == 1, "approaching the closed ward shows the hint once")
+	player.position = Vector3(28, 0.1, -2)
+	await settle(2)
+	player.position = Vector3(28, 0.1, -7)
+	await settle(2)
+	check(messages.count(KeyWard.HINT_TEXT) == 2, "the hint returns on a new approach")
+	ward.guards[0].take_damage(1000, player)
+	ward.guards[2].take_damage(1000, player)
+	await settle()
+	check(not ward.is_open and ward.living_guards() == 1 and ward_blocks(ward), "ward stays closed while a guard lives")
+	ward.guards[1].take_damage(1000, player)
+	check(ward.is_open and messages.count(KeyWard.OPEN_TEXT) == 1, "last guard death opens the ward with its message")
+	session.pause_run()
+	var height = ward.visual.position.y
+	await settle(10)
+	check(ward.visual.position.y == height and height > -KeyWard.SINK, "pause freezes the ward sinking")
+	session.resume_run()
+	await settle()
+	check(ward.shape.disabled and not ward_blocks(ward), "opened ward no longer blocks the gateway")
+	await create_timer(KeyWard.OPEN_TIME + 0.3).timeout
+	check(is_equal_approx(ward.visual.position.y, -KeyWard.SINK) and not ward.visual.visible, "ward finishes sinking out of sight after resume")
+	ward.open()
+	check(messages.count(KeyWard.OPEN_TEXT) == 1, "ward opens only once")
+	session.start_run()
+	player = session.run.player
+	await settle()
+	ward = session.run.key_ward
+	check(not ward.is_open and ward.living_guards() == 3 and get_nodes_in_group("enemies").size() == 7 and ward_blocks(ward), "restart recreates a closed ward with three living guards")
 
 func test_navigation() -> void:
 	var map = session.run.get_world_3d().navigation_map
@@ -845,7 +892,7 @@ func test_encounter_tuning() -> void:
 	for enemy in get_nodes_in_group("enemies"):
 		idle = idle and enemy.state == enemy.State.IDLE
 		enemy.set_physics_process(false)
-	check(melee_count == 4 and ranged_count == 2 and idle and player.health == 100, "revised packs keep six actors and safe idle spawn")
+	check(melee_count == 5 and ranged_count == 2 and idle and player.health == 100, "revised packs keep seven actors (three key guards) and safe idle spawn")
 	var pickup_counts = [0, 0, 0]
 	for pickup in get_nodes_in_group("pickups"):
 		pickup_counts[pickup.kind] += 1

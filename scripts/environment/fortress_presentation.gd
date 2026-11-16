@@ -143,7 +143,8 @@ func _dress() -> void:
 	add_fixture(LightFixture.make(LightFixture.Kind.LANTERN), Vector3(26, 2.9, -0.02))
 	add_fixture(LightFixture.make(LightFixture.Kind.CRYSTAL), Vector3(9.25, 0, -12.9))
 	add_fixture(LightFixture.make(LightFixture.Kind.CRYSTAL), Vector3(12.72, 0, -12.9))
-	add_fixture(LightFixture.make(LightFixture.Kind.CRYSTAL), Vector3(25.9, 0, -13.4))
+	# Inside the key alcove, clear of its west wall (inner face x = 25.8).
+	add_fixture(LightFixture.make(LightFixture.Kind.CRYSTAL), Vector3(26.5, 0, -13.4))
 
 ## Slow sway, mid flutter and small fast jitter (all under 8 Hz, no strobing), clamped to +-25%.
 static func flicker(time: float, phase: float) -> float:

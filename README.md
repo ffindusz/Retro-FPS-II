@@ -2,7 +2,9 @@
 
 An original dark-fantasy FPS prototype inspired by early 3D fantasy shooters, with visual level authoring inside Godot. Built with **Godot 4.7.x and GDScript**, a **2D HUD**, and **real 3D first-person weapons**.
 
-**Latest source: 0.7.0 editor-workflow polish, ready for user review.** Click-to-place with previews/snap/facing/cancel, clickable validation targets, automatic **Choose Level** discovery and a guarded **Checked Export** route. Upstream 0.6.3's torch/lantern fixes and existing combat rules are preserved. Combined source passes **559 source + 42 real-editor checks, 102 Python tests and 387 checks against a temporary checked-export PCK**. [New controls, export boundary and evidence](docs/editor-workflow-polish.md).
+**Latest source: 0.8.0 guarded ember key, ready for user review.** The key now lies in a walled alcove in the crypt's northeast corner, sealed by an arcane ward. Two Wardens and an Adept guard the gateway; when all three have died, the ward sinks into the floor. Approaching the closed ward explains this. The encounter grows from six to seven enemies; all stats and the gate/victory rules are unchanged. No new Windows export has been made yet. [OpenSpec change](openspec/changes/guarded-ember-key/proposal.md).
+
+**0.7.0 editor-workflow polish (user-reviewed 2026-11-16).** Click-to-place with previews/snap/facing/cancel, clickable validation targets, automatic **Choose Level** discovery and a guarded **Checked Export** route. Upstream 0.6.3's torch/lantern fixes and existing combat rules are preserved. Combined source passes **559 source + 42 real-editor checks, 102 Python tests and 387 checks against a temporary checked-export PCK**. [New controls, export boundary and evidence](docs/editor-workflow-polish.md).
 
 Source sync also retains upstream **0.6.3**: the Meshy torch has its baked static flame trimmed so only the animated flame remains, and Meshy lantern panes glow with the flicker. [Original 0.6.3 record](docs/release/release-0.6.3.json). The separate 0.7.0 Windows handoff predates this source merge and remains unchanged.
 
@@ -47,7 +49,7 @@ The build directory is generated/ignored; rebuild if it is not present. No .NET,
 | Environmental sound volume / mute | Independent Ambience slider in pause menu |
 | Menu navigation / activate | Tab or arrows / Enter or Space |
 
-Leave the safe entrance, cross the courtyard, and enter the crypt through the eastern opening. Find the gold **ember key**, then return to the sealed gate in the courtyard's northeast corner and press **E**. Red flasks restore health; blue flasks restore arcana. Full-resource flasks remain on the ground. The iron blade costs no mana; eliminating every enemy is not required. Defeat and victory both offer a clean restart.
+Leave the safe entrance, cross the courtyard, and enter the crypt through the eastern opening. The gold **ember key** lies behind a warded gate in the crypt's northeast corner: defeat its three guards to lift the ward, take the key, then return to the sealed gate in the courtyard's northeast corner and press **E**. Red flasks restore health; blue flasks restore arcana. Full-resource flasks remain on the ground. The iron blade costs no mana; eliminating every enemy is not required. Defeat and victory both offer a clean restart.
 
 **Melee:** get close and swing toward the enemy. Contact now sweeps an 80° frontal arc within 2.7m during the visible stroke, rather than hitting instantly along the crosshair. A swing has .12s preparation, .16s contact, and .24s recovery; holding LMB repeats after recovery. Weapon changes requested during a swing take effect when recovery ends. A gold crosshair hit marker confirms actual enemy damage; wall sparks/clangs do not. Nonlethal hits no longer cancel enemy windups—use cover, movement, or a lethal hit to avoid the committed attack.
 

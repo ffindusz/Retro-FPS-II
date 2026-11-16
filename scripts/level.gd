@@ -23,6 +23,7 @@ var event_serial: int = 0
 var feedback: CombatFeedback
 var presentation: FortressPresentation
 var ambience: Node
+var key_ward: KeyWard
 
 func emit_combat(event: Dictionary) -> void:
 	if not combat_enabled or get_tree().paused:
@@ -96,6 +97,12 @@ func build_geometry() -> void:
 	for point in [Vector3(-4, 0, -3), Vector3(4, 0, -7), Vector3(23, 0, -6)]:
 		solid(point + Vector3.UP * 1.25, Vector3(2, 2.5, 2), TRIM)
 		solid(point + Vector3.UP * 2.65, Vector3(2.4, 0.3, 2.4), STONE)
+	# Key alcove x[25.8,31], z[-14,-9.8]; its 2m gateway at x[27,29] is sealed by the KeyWard.
+	solid(Vector3(25.4, 1.6, -11.5), Vector3(0.8, 3.2, 5))
+	solid(Vector3(26, 1.6, -9.4), Vector3(2, 3.2, 0.8))
+	solid(Vector3(30, 1.6, -9.4), Vector3(2, 3.2, 0.8))
+	for x in [26.9, 29.1]:
+		PrimitiveArt.box(geometry, Vector3(x, 1.65, -9.4), Vector3(0.3, 3.3, 0.95), TRIM)
 	# Battlements and wall bands make the blockout readable without external art.
 	for x in range(-12, 14, 2):
 		PrimitiveArt.box(geometry, Vector3(x, 5.25, -14.4), Vector3(1, 0.6, 0.8), TRIM)
@@ -107,7 +114,7 @@ func build_geometry() -> void:
 	_build_exit()
 	_sign("THE COURTYARD", Vector3(0, 3.0, 4.9), 0)
 	_sign("EMBER CRYPT  →", Vector3(8, 2.6, -13.9), 0)
-	_sign("THE EMBER KEY", Vector3(28, 2.6, -13.9), 0)
+	_sign("THE EMBER KEY", Vector3(28, 3.6, -8.95), 0)
 	for point in [Vector3(-4.8, 2.3, 10), Vector3(4.8, 2.3, 10), Vector3(-12.8, 2.3, -6), Vector3(12.8, 2.3, -1), Vector3(21, 2.3, -13.8), Vector3(30.8, 2.3, -7)]:
 		_torch(point)
 	for point in [Vector3(-4, 0, 17), Vector3(4, 0, 17), Vector3(16, 0, -12), Vector3(30, 0, -2)]:
@@ -195,21 +202,28 @@ func _setup_navigation() -> void:
 
 func _populate() -> void:
 	# Courtyard flanks overlap a rear caster lane, but remain outside spawn detection.
-	for point in [Vector3(-9, 0.1, -10.5), Vector3(10, 0.1, -10), Vector3(18, 0.1, -4), Vector3(25, 0.1, -10)]:
+	for point in [Vector3(-9, 0.1, -10.5), Vector3(10, 0.1, -10), Vector3(18, 0.1, -4)]:
 		_spawn_enemy(MELEE, point)
-	for point in [Vector3(-6, 0.1, -12), Vector3(29, 0.1, -8)]:
-		_spawn_enemy(RANGED, point)
+	_spawn_enemy(RANGED, Vector3(-6, 0.1, -12))
+	key_ward = KeyWard.new()
+	key_ward.position = Vector3(28, 0, -9.4)
+	key_ward.player = player
+	add_child(key_ward)
+	# Two Wardens and an Adept hold the gateway; the ward lifts when all three have died.
+	for guard in [[MELEE, Vector3(26.5, 0.1, -7.5)], [MELEE, Vector3(30, 0.1, -7.5)], [RANGED, Vector3(28, 0.1, -8.3)]]:
+		key_ward.add_guard(_spawn_enemy(guard[0], guard[1]))
 	for point in [Vector3(-2, 0.5, 8), Vector3(-10, 0.5, -9), Vector3(28, 0.5, -2)]:
 		_spawn_pickup(0, point)
 	for point in [Vector3(2, 0.5, 8), Vector3(8, 0.5, -10), Vector3(17, 0.5, -3)]:
 		_spawn_pickup(1, point)
 	_spawn_pickup(2, Vector3(28, 0.5, -12))
 
-func _spawn_enemy(scene: PackedScene, position: Vector3) -> void:
+func _spawn_enemy(scene: PackedScene, position: Vector3) -> Node:
 	var enemy = scene.instantiate()
 	enemy.position = position
 	add_child(enemy)
 	enemy.target = player
+	return enemy
 
 func _spawn_pickup(kind: int, position: Vector3) -> void:
 	var pickup = PICKUP.instantiate()

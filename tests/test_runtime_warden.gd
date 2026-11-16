@@ -120,7 +120,7 @@ func run_tests() -> void:
 			wardens.append(enemy)
 		else:
 			adepts.append(enemy)
-	check(wardens.size() == 4 and adepts.size() == 2, "integration preserves four Wardens and two Adepts")
+	check(wardens.size() == 5 and adepts.size() == 2, "integration has five Wardens (two guarding the key) and two Adepts")
 	check(wardens.all(func(enemy): return enemy.presentation != null and enemy.model_scene.resource_path == "res://scenes/models/warden_animated.tscn"), "all default melee enemies use the runtime animated visual")
 	check(adepts.all(func(enemy): return enemy.presentation != null and not enemy.presentation.has_method("update_weapon") and enemy.model_scene.resource_path == "res://scenes/models/adept_animated.tscn"), "Adepts use their own animated presentation, separate from the Warden's")
 	var baseline: Dictionary = load("res://resources/atmosphere_baseline.tres").get_meta("snapshot")
@@ -237,7 +237,7 @@ func run_tests() -> void:
 	session.start_run()
 	freeze_run()
 	await settle()
-	check(not is_instance_valid(old_weapon) and get_nodes_in_group("enemies").size() == 6, "restart disposes old top-level blades and recreates the exact encounter")
+	check(not is_instance_valid(old_weapon) and get_nodes_in_group("enemies").size() == 7, "restart disposes old top-level blades and recreates the exact encounter")
 	check(WorldFingerprint.snapshot(session.run) == baseline, "fresh integrated run still matches every gameplay fingerprint")
 	var fallback = load("res://scenes/enemies/melee_enemy.tscn").instantiate()
 	fallback.use_placeholder = true
