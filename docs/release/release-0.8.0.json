@@ -1,0 +1,29 @@
+{
+  "version": "0.8.0",
+  "title": "Guarded ember key",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "platform": "windows-x64",
+  "build_date": "2026-11-16",
+  "directory": "builds/windows-0.8.0",
+  "source_commit": "73836d1",
+  "openspec_change": "guarded-ember-key",
+  "status": "Technical validation passed; user playtest of the guarded key pending",
+  "source_checks": 310,
+  "other_godot_suite_checks": 263,
+  "offline_python_tests": "not run (no Python on the build machine)",
+  "packaged_checks": "not run; external package audit and native headless startup only",
+  "audited_resources": 266,
+  "artifacts": [
+    {
+      "name": "Cinderkeep.exe",
+      "bytes": 109268480,
+      "sha256": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562"
+    },
+    {
+      "name": "Cinderkeep.pck",
+      "bytes": 60240500,
+      "sha256": "11d9cbe0c514ea655e5e44abf13a13a57e10a2503e16fd7e5775dc6cc1551190"
+    }
+  ],
+  "note": "Produced through tools/export_checked.ps1 with the official 4.7.2 Windows templates (checksum-verified download). EXE is the unchanged official engine loader, identical to 0.7.0's. The PCK passed tests/audit_runtime_package.gd from an external directory (266 resources, 0 failures, includes scripts/props/key_ward.gd), and the EXE started and quit cleanly headless. No previous build or record was replaced."
+}
