@@ -16,4 +16,5 @@
   - 2026-11-16, Godot 4.7.2: all suites pass with 0 failures: 310 main, 42 runtime-Warden, 30 authored-level, 24 editor-polish, 19 level-selection, 32 motion-study, 39 rig-preview, 33 A/B, 13 candidate and 31 pilot checks. Python tests were not run (no Python on this machine). No Windows export or packaged audit was made.
 - [x] 3.3 Bump the version to 0.8.0 and update README.
   - 2026-11-16: Windows build `builds/windows-0.8.0/` exported through `tools/export_checked.ps1`. External package audit: 266 resources, 0 failures; the EXE starts and quits cleanly headless. Record: `docs/release/release-0.8.0.json`.
-- [ ] 3.4 Get the user's playtest of the guarded key. Record only what is reported.
+- [x] 3.4 Get the user's playtest of the guarded key. Record only what is reported.
+  - 2026-11-17 user playtest: "played it - works fine. gateway i good." The guarded gateway is accepted and the game works. The build played, run length and the guard fight's difficulty were not separately reported, so they are not recorded.

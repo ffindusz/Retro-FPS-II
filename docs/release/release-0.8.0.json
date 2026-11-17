@@ -7,7 +7,7 @@
   "directory": "builds/windows-0.8.0",
   "source_commit": "73836d1",
   "openspec_change": "guarded-ember-key",
-  "status": "Technical validation passed; user playtest of the guarded key pending",
+  "status": "Technical validation passed; user playtested on 2026-11-17: works fine, gateway is good",
   "source_checks": 310,
   "other_godot_suite_checks": 263,
   "offline_python_tests": "not run (no Python on the build machine)",
