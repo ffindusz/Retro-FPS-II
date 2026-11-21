@@ -187,6 +187,15 @@ static func spatial_errors(geometry: Node3D, markers: Node, nav: NavigationMesh,
 			query.transform.origin = point + Vector3.UP * 0.8
 		if not space.intersect_shape(query, 1).is_empty():
 			add_error(errors, issues, "%s: placement overlaps world collision." % marker.name, source, marker, "overlap")
+		if marker.kind == PLACEMENT.Kind.BAT:
+			var wingspan := SphereShape3D.new()
+			wingspan.radius = 0.5
+			var air := PhysicsShapeQueryParameters3D.new()
+			air.collision_mask = 1
+			air.shape = wingspan
+			air.transform.origin = point + Vector3.UP * 2.4
+			if not space.intersect_shape(air, 1).is_empty():
+				add_error(errors, issues, "%s: no room to fly at 2.4 m above the marker." % marker.name, source, marker, "hover_clearance")
 		var nearest := NavigationServer3D.map_get_closest_point(map, point)
 		if nearest.distance_to(point) > 0.8:
 			add_error(errors, issues, "%s: placement is outside usable navigation." % marker.name, source, marker, "outside_navigation")

@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/bat_enemy.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/models/bat_animated.tscn" id="2"]
+[sub_resource type="SphereShape3D" id="Body"]
+radius = 0.45
+
+[node name="BatEnemy" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1")
+archetype = 2
+use_placeholder = false
+model_scene = ExtResource("2")
+max_health = 30
+move_speed = 3.4
+detection_range = 16.0
+attack_damage = 7
+attack_cooldown = 2.2
+windup_duration = 0.5
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("Body")
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="NavigationAgent" type="NavigationAgent3D" parent="."]

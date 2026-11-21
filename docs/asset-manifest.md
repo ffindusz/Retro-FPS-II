@@ -123,3 +123,11 @@ The new example uses original authored Cyclops geometry, existing cleared photog
 - Torch flames and fixture flames/glow are procedural (`resources/shaders/flame.gdshader`).
 - 0.6.2: `assets/models/prop-brazier`, `prop-lantern` and `prop-crystal-lamp` are Meshy text-to-3D models (meshy-t2.5, preview + PBR refine, 45 credits, user-authorized ceiling 50, one candidate each). Prompts: `docs/meshy-fixtures.json`; per-model `provenance.json`. The 0.6.1 primitive builds remain as fallbacks.
 - 0.6.3: `assets/models/prop-torch/model_unlit.mesh` is derived from the unchanged Meshy `prop-torch/model.glb` by `tools/trim_torch_flame.gd` (removes the baked flame above the cup). A 5-credit Meshy preview for a new unlit torch (`docs/meshy-torch.json`) was not refined or used.
+
+## Fire Bat — 0.9.0
+
+- **Asset:** `assets/models/bat-animated/bat_animated.glb`, wrapped by `scenes/models/bat_animated.tscn` (scale 0.9, yaw 180°, Y offset 0.05 m; about 1.7 m wingspan in game).
+- **Source:** Meshy text-to-3D, generated 2026-11-20 with original text prompts only (preview task `01a1fa5a-d26f-716e-86ff-fbddb8193f46`, texture task `01a1fb38-4bb7-73ef-8699-6a148b07e69a`). 8,141 triangles, one PBR material. Cost 30 credits of the user's 100-credit authorization (balance 1,580 → 1,550).
+- **Rig and animation:** Meshy rigging only supports humanoids, so `tools/blender/rig_bat.py` rigs it headlessly in Blender 5.3: a body bone plus two bones per wing, with skin weights from each vertex's distance to the midline. Clips: `fly` (loop), `attack`, `hit`, `death`.
+- **Rights:** same basis as the other Meshy assets: paid plan confirmed by the user on 2026-10-20, no reference uploads. Full record: `assets/models/bat-animated/provenance.json`.
+- **Fallback:** `use_placeholder = true` on `scenes/enemies/bat_enemy.tscn` restores the procedural bat (body, ears, eyes, flapping wing boxes).

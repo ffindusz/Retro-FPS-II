@@ -3,7 +3,7 @@ extends CharacterBody3D
 signal died
 enum State { IDLE, CHASE, ATTACK, DEAD }
 const PROJECTILE = preload("res://scenes/weapons/projectile.tscn")
-@export_enum("Melee", "Ranged") var archetype: int = 0
+@export_enum("Melee", "Ranged", "Fire Bat") var archetype: int = 0
 @export var use_placeholder: bool = true
 @export var model_scene: PackedScene
 @export var max_health: int = 68

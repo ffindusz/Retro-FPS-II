@@ -1,0 +1,16 @@
+{
+  "asset": "bat-animated",
+  "date": "2026-11-20",
+  "service": "Meshy text-to-3D (ai_model latest), user-authorized budget 100 credits",
+  "prompt": "fantasy cave bat creature, single animal, wings fully spread out horizontally in a symmetric gliding pose seen from the front, compact furry dark brown body, large pointed ears, small fangs, thin leathery dark red wing membranes with visible finger bones, short legs tucked under the body, game asset",
+  "texture_prompt": "dark brown fur on body and head, thin dark red leathery wing membranes slightly translucent, black finger bones and claws, pale pink inner ears, small glowing orange eyes",
+  "preview_task": "01a1fa5a-d26f-716e-86ff-fbddb8193f46",
+  "refine_task": "01a1fb38-4bb7-73ef-8699-6a148b07e69a",
+  "credits": {"preview": 20, "texture": 10, "total": 30, "balance_before": 1580, "balance_after": 1550},
+  "meshy_model_sha256": "03a878428466389f2915a7eb621bf8b013379272273e5eca1c65140d5de960a5",
+  "triangles": 8141,
+  "rig": "tools/blender/rig_bat.py with Blender 5.3 (headless): body + two bones per wing, distance-based skin weights; clips fly (16f loop), attack (16f), hit (8f), death (20f) at 24 fps. Meshy rigging is humanoid-only, so it was not used.",
+  "runtime_glb_sha256": "65b954f28e559086d744cbfe32d601ef1d9343e8d8b159039c46a22dfe1b87d4",
+  "staging": "%LOCALAPPDATA%/Temp/cinderkeep-meshy-bat-2026-11-20/ (requests, task records without signed URLs, preview.glb, model.glb, renders)",
+  "rights": "Paid Meshy plan (confirmed by the user 2026-10-20); original text prompts only, no reference uploads. See docs/asset-manifest.md."
+}

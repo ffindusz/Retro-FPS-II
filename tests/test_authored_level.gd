@@ -42,7 +42,7 @@ func run_tests() -> void:
 	check(level.baked_navigation.get_polygon_count() > 0 and level.navigation.navigation_mesh == level.baked_navigation, "authored level uses its embedded per-level navigation")
 	check(level.geometry.get_child_count() == 21, "twenty converted architecture blocks plus runtime gate are present")
 	check(level.geometry.find_children("*", "StaticBody3D", true, false).size() == 20, "Cyclops architecture becomes native static world collision")
-	check(get_nodes_in_group("enemies").size() == 3 and get_nodes_in_group("pickups").size() == 4, "authored placements create exact enemy and pickup counts")
+	check(get_nodes_in_group("enemies").size() == 4 and get_nodes_in_group("pickups").size() == 4, "authored placements create exact enemy (incl. one Fire Bat) and pickup counts")
 	check(level.get_node("Placements").get_children().all(func(marker): return marker.preview == null), "runtime placements never create editor previews or duplicate actors")
 	check(get_nodes_in_group("enemies").filter(func(enemy): return enemy.archetype == 0 and enemy.presentation != null).size() == 2, "placed Wardens reuse the accepted animated controller")
 	check(level.presentation.torches.size() == 3 and level.presentation.extra_urns == 0, "authored atmosphere registers placed torches without demo-coordinate dressing")
@@ -89,7 +89,7 @@ func run_tests() -> void:
 	freeze()
 	await settle()
 	check(session.run.level_title == "The Mason's Trial" and not is_instance_valid(old_player), "victory restart disposes old map and retains selected authored level")
-	check(session.run.player.health == 100 and not session.run.player.has_key and get_nodes_in_group("enemies").size() == 3, "authored restart resets resources/objectives and exact actor counts")
+	check(session.run.player.health == 100 and not session.run.player.has_key and get_nodes_in_group("enemies").size() == 4, "authored restart resets resources/objectives and exact actor counts")
 	var p = get_nodes_in_group("enemies")[0].presentation
 	var before: float = p.idle_time
 	session.pause_run()

@@ -3,6 +3,7 @@ extends "res://scripts/level.gd"
 
 const PLACEMENT = preload("res://scripts/levels/level_placement.gd")
 const PRESENTATION = preload("res://scripts/levels/authored_presentation.gd")
+const BAT = preload("res://scenes/enemies/bat_enemy.tscn")
 @export var level_title: String = "Untitled Level"
 @export var baked_navigation: NavigationMesh
 @export var authoring_source: String
@@ -56,6 +57,12 @@ func _populate() -> void:
 				enemy.transform = marker.transform
 				add_child(enemy)
 				enemy.target = player
+			PLACEMENT.Kind.BAT:
+				var bat = BAT.instantiate()
+				bat.transform = marker.transform
+				bat.position += Vector3.UP * bat.hover_height
+				add_child(bat)
+				bat.target = player
 			PLACEMENT.Kind.HEALTH, PLACEMENT.Kind.MANA, PLACEMENT.Kind.KEY:
 				var pickup = PICKUP.instantiate()
 				pickup.kind = marker.kind - PLACEMENT.Kind.HEALTH

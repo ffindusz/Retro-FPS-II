@@ -4,8 +4,8 @@ extends Node3D
 ## Saved authoring data. Preview descendants are transient; gameplay is spawned by the level.
 
 # Append new kinds only: saved maps store the integer value.
-enum Kind { PLAYER_START, WARDEN, ADEPT, HEALTH, MANA, KEY, EXIT, TORCH, URN, AMBIENCE, BRAZIER, LANTERN, CRYSTAL_LAMP }
-const LABELS := ["Player Start", "Warden", "Adept", "Health", "Mana", "Ember Key", "Exit Gate", "Torch", "Urn", "Crypt Ambience", "Brazier", "Wall Lantern", "Crystal Lamp"]
+enum Kind { PLAYER_START, WARDEN, ADEPT, HEALTH, MANA, KEY, EXIT, TORCH, URN, AMBIENCE, BRAZIER, LANTERN, CRYSTAL_LAMP, BAT }
+const LABELS := ["Player Start", "Warden", "Adept", "Health", "Mana", "Ember Key", "Exit Gate", "Torch", "Urn", "Crypt Ambience", "Brazier", "Wall Lantern", "Crystal Lamp", "Fire Bat"]
 const FIXTURES := {Kind.BRAZIER: 0, Kind.LANTERN: 1, Kind.CRYSTAL_LAMP: 2}
 @export var kind: Kind = Kind.PLAYER_START:
 	set(value):
@@ -43,7 +43,7 @@ func _refresh_preview() -> void:
 	add_child(preview) # Deliberately no owner: never serialized.
 	var label := Label3D.new()
 	label.text = LABELS[kind]
-	label.position.y = 2.3 if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.EXIT] else 1.5
+	label.position.y = 3.2 if kind == Kind.BAT else (2.3 if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.EXIT] else 1.5)
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	label.font_size = 30
 	preview.add_child(label)
@@ -83,11 +83,25 @@ func _refresh_preview() -> void:
 		Kind.BRAZIER, Kind.LANTERN, Kind.CRYSTAL_LAMP:
 			var fixture := LightFixture.make(FIXTURES[kind])
 			preview.add_child(fixture)
+		Kind.BAT:
+			# The marker is the floor anchor; the bat itself flies 2.4 m above it.
+			var post := CylinderMesh.new()
+			post.top_radius = 0.02
+			post.bottom_radius = 0.02
+			post.height = 2.4
+			_mesh(post, Vector3.UP * 1.2, Color(1.0, 0.55, 0.2, 0.5))
+			var body := SphereMesh.new()
+			body.radius = 0.24
+			body.height = 0.48
+			_mesh(body, Vector3.UP * 2.4, Color("3a2b2a"))
+			var wing := BoxMesh.new()
+			wing.size = Vector3(2.0, 0.03, 0.42)
+			_mesh(wing, Vector3(0, 2.45, 0.02), Color("5a3a35"))
 		Kind.AMBIENCE:
 			var box := BoxMesh.new()
 			box.size = zone_size.max(Vector3.ONE * 0.01)
 			_mesh(box, Vector3.ZERO, Color(0.4, 0.7, 1.0, 0.12))
-	if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.TORCH, Kind.EXIT, Kind.LANTERN]:
+	if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.TORCH, Kind.EXIT, Kind.LANTERN, Kind.BAT]:
 		var arrow := BoxMesh.new()
 		arrow.size = Vector3(0.08, 0.08, 1.0)
 		_mesh(arrow, Vector3(0, 0.12, -0.65), Color.YELLOW)

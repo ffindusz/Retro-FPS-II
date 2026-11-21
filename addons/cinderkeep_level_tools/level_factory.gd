@@ -92,6 +92,7 @@ static func _example(root: Node3D) -> void:
 	placement(root, "CourtyardWarden", PLACEMENT.Kind.WARDEN, Vector3(-5, 0, -4), PI)
 	placement(root, "CryptWarden", PLACEMENT.Kind.WARDEN, Vector3(12, 0, -4), -PI / 2.0)
 	placement(root, "CryptAdept", PLACEMENT.Kind.ADEPT, Vector3(16, 0, -1), -PI / 2.0)
+	placement(root, "CourtyardBat", PLACEMENT.Kind.BAT, Vector3(3, 0, -3))
 	placement(root, "Health", PLACEMENT.Kind.HEALTH, Vector3(-2, 0, 10))
 	placement(root, "Mana", PLACEMENT.Kind.MANA, Vector3(2, 0, 10))
 	placement(root, "CryptHealth", PLACEMENT.Kind.HEALTH, Vector3(10, 0, -5))
