@@ -20,4 +20,5 @@
   - 2026-11-21 (Meshy model): 24 bat checks (adds clips, looping, rigged wing motion, attack/hit/death clips, placeholder fallback). Full `tools/verify.ps1` passes with 0 failures. Python tests not run (no Python on this machine).
 - [x] 3.2 Render the bat in the Mapping Example; bump to 0.9.0; update README.
   - `tools/capture_bat.gd` renders hover, windup, fireball and death to `builds/validation/fire-bat/`.
+  - 2026-11-21: Windows build `builds/windows-0.9.0/Cinderkeep.exe` from 2c4978f via `tools/export_checked.ps1`; external package audit 283 resources, 0 failures; EXE starts headless. Record: `docs/release/release-0.9.0.json`.
 - [ ] 3.3 Get the user's playtest of the bat. Record only what is reported.

@@ -1,0 +1,29 @@
+{
+  "version": "0.9.0",
+  "title": "Fire Bat",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "platform": "windows-x64",
+  "build_date": "2026-11-21",
+  "directory": "builds/windows-0.9.0",
+  "source_commit": "2c4978f",
+  "openspec_change": "fire-bat-enemy",
+  "status": "Technical validation passed; awaiting user playtest",
+  "source_checks": 310,
+  "other_godot_suite_checks": 287,
+  "offline_python_tests": "not run (no Python on the build machine)",
+  "packaged_checks": "not run; external package audit and native headless startup only",
+  "audited_resources": 283,
+  "artifacts": [
+    {
+      "name": "Cinderkeep.exe",
+      "bytes": 109268480,
+      "sha256": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562"
+    },
+    {
+      "name": "Cinderkeep.pck",
+      "bytes": 78294140,
+      "sha256": "f7077bab5c79d0fa81129c3fc41000b2c710a1bce8300c752db1d9363b7b431b"
+    }
+  ],
+  "note": "Produced through tools/export_checked.ps1 with the official 4.7.2 Windows templates after a full headless import (the first export attempt stopped during reimport and published nothing). EXE is the unchanged official engine loader, identical to 0.8.0's. The PCK passed tests/audit_runtime_package.gd from an external directory (283 resources, 0 failures, includes the bat scenes, scripts and model), and the EXE started and quit cleanly headless. No previous build or record was replaced."
+}
