@@ -1,0 +1,29 @@
+{
+  "version": "0.10.0",
+  "title": "The Ossuary",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "platform": "windows-x64",
+  "build_date": "2026-11-23",
+  "directory": "builds/windows-0.10.0",
+  "source_commit": "bb903f4",
+  "openspec_change": "skeleton-ossuary",
+  "status": "Technical validation passed; source playtested by the user 2026-11-23 (\"ossuary is good\"); build awaiting user playtest",
+  "source_checks": 310,
+  "other_godot_suite_checks": 321,
+  "offline_python_tests": "not run (no Python on the build machine)",
+  "packaged_checks": "not run; external package audit and native headless startup only",
+  "audited_resources": 313,
+  "artifacts": [
+    {
+      "name": "Cinderkeep.exe",
+      "bytes": 109268480,
+      "sha256": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562"
+    },
+    {
+      "name": "Cinderkeep.pck",
+      "bytes": 90995636,
+      "sha256": "f3eff882283c3eb63568e15fffc816986144dcf88aa106bd90fca421470a5d6b"
+    }
+  ],
+  "note": "Produced through tools/export_checked.ps1 with the official 4.7.2 Windows templates after a full headless import. EXE is the unchanged official engine loader, identical to 0.9.0's. The PCK passed tests/audit_runtime_package.gd from an external directory (313 resources, 0 failures; includes the skeleton scenes, scripts, models and The Ossuary; excludes the .blend files and source/ folders), and the EXE started and quit cleanly headless. No previous build or record was replaced."
+}
