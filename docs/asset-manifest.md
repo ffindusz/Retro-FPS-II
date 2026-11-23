@@ -140,4 +140,4 @@ The new example uses original authored Cyclops geometry, existing cleared photog
 - **Eyes:** `EyeGlow` (emissive red, attached to the Head bone) is pulsed by the supplied `eye_flicker.gd` at energy 5.0 instead of the imported 1.0, plus a small red light (0.35 m range, no shadows).
 - **Known model notes:** the archer's `Arrow` mesh has zero size, so no nocked arrow is visible; the fired arrow is drawn by the game. The GLB/Blender files were not modified.
 - **Not packaged:** `.blend` files (Blender import is disabled in `project.godot`) and the `source/` folders (`.gdignore`).
-- **Rights:** supplied by the user; the `source/` file names indicate Meshy origin. The rights basis is not recorded yet; to be confirmed by the user.
+- **Rights:** supplied by the user, generated with Meshy. On 2026-11-23 the user confirmed the same basis as the other Meshy assets: the paid monthly plan confirmed on 2026-10-20. Prompts, reference uploads and credit use for these generations were not reported, so they are not recorded. AI origin stays explicit; no exclusive copyright is asserted.
