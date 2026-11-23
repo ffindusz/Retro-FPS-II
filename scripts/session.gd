@@ -98,7 +98,7 @@ func show_menu() -> void:
 	state = State.MENU
 	choosing_level = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	ui.show_menu("CINDERKEEP", "A dark-fantasy first-person demo\nEDITOR WORKFLOW 0.7.0", ["Start", "Choose Level", "Mapping Example", "Quit"])
+	ui.show_menu("CINDERKEEP", "A dark-fantasy first-person demo\nEDITOR WORKFLOW 0.7.0", ["Start", "Choose Level", "Mapping Example", "The Ossuary", "Quit"])
 
 func show_level_selection(notice: String = "") -> void:
 	if state != State.MENU:
@@ -164,6 +164,7 @@ func _on_command(action: String) -> void:
 				show_menu()
 		"Restart": start_run()
 		"Mapping Example": start_run(load("res://scenes/levels/generated/mapping_example.tscn"))
+		"The Ossuary": start_run(load("res://scenes/levels/generated/ossuary.tscn"))
 		"Resume": resume_run()
 		"Quit to Menu": show_menu()
 		"Quit": get_tree().quit()

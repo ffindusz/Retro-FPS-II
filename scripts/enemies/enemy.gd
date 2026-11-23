@@ -4,6 +4,14 @@ signal died
 enum State { IDLE, CHASE, ATTACK, DEAD }
 const PROJECTILE = preload("res://scenes/weapons/projectile.tscn")
 @export_enum("Melee", "Ranged", "Fire Bat") var archetype: int = 0
+## Enemy type (warden, adept, skeleton, ...). Skeletons reuse the melee/ranged AI archetypes.
+@export var species: StringName = &""
+## Optional combat event names; empty keeps the archetype's default windup/release events.
+@export var windup_event: StringName = &""
+@export var release_event: StringName = &""
+## Ranged projectile look: &"magic" (glowing bolt) or &"arrow".
+@export var projectile_style: StringName = &"magic"
+@export var projectile_tint: Color = Color("e59143")
 @export var use_placeholder: bool = true
 @export var model_scene: PackedScene
 @export var max_health: int = 68
@@ -99,7 +107,8 @@ func _physics_process(delta: float) -> void:
 				windup = windup_duration
 				if presentation != null:
 					presentation.begin_attack()
-				CombatEvents.publish(self, &"enemy_melee_windup" if archetype == 0 else &"enemy_charge", global_position + Vector3.UP * 1.3)
+				var event := windup_event if not windup_event.is_empty() else (&"enemy_melee_windup" if archetype == 0 else &"enemy_charge")
+				CombatEvents.publish(self, event, global_position + Vector3.UP * 1.3)
 		else:
 			_chase(delta)
 	if not is_on_floor():
@@ -187,10 +196,11 @@ func resolve_attack() -> void:
 			target.take_damage(attack_damage, self)
 	else:
 		var origin = global_position + Vector3.UP * 1.3
-		CombatEvents.publish(self, &"enemy_cast", origin)
+		CombatEvents.publish(self, release_event if not release_event.is_empty() else &"enemy_cast", origin)
 		var direction = (target.camera.global_position - origin).normalized()
 		var bolt = PROJECTILE.instantiate()
-		bolt.configure(self, direction, attack_damage, ranged_speed, 3, Color("e59143"))
+		bolt.configure(self, direction, attack_damage, ranged_speed, 3, projectile_tint)
+		bolt.style = projectile_style
 		get_parent().add_child(bolt)
 		bolt.global_position = origin
 

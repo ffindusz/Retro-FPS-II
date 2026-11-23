@@ -131,3 +131,13 @@ The new example uses original authored Cyclops geometry, existing cleared photog
 - **Rig and animation:** Meshy rigging only supports humanoids, so `tools/blender/rig_bat.py` rigs it headlessly in Blender 5.3: a body bone plus two bones per wing, with skin weights from each vertex's distance to the midline. Clips: `fly` (loop), `attack`, `hit`, `death`.
 - **Rights:** same basis as the other Meshy assets: paid plan confirmed by the user on 2026-10-20, no reference uploads. Full record: `assets/models/bat-animated/provenance.json`.
 - **Fallback:** `use_placeholder = true` on `scenes/enemies/bat_enemy.tscn` restores the procedural bat (body, ears, eyes, flapping wing boxes).
+
+## Skeleton warrior and archer — 0.10.0
+
+- **Assets (supplied by the user, 2026-11-22):** `assets/models/skeleton/skeleton_warrior.glb` (sha256 `17c3678ae5c562a7…`) and `assets/models/skeleton_archer/skeleton_archer.glb` (sha256 `bc7d3dce92857ee2…`), each with its Blender file and `eye_flicker.gd`. Meshy source models and textures are in each `source/` folder.
+- **Rig and clips:** a shared 26-bone (warrior) / 27-bone (archer) humanoid rig. Godot imports `idle`, `walk`, `run` (looping), `attack` and `death`; the archer also has `aim_idle` (looping). The sword, shield, bow, quiver and eyes are attached to bones (`Prop_*`, `Head`).
+- **Use in game:** wrapped by `scenes/models/skeleton_warrior.tscn` and `scenes/models/skeleton_archer.tscn` with `scripts/enemies/skeleton_presentation.gd`. Both models face +Z and are turned 180°. The idle combat stance is turned back 30° so the face points forward. The warrior's attack contact is at 0.56 s. The archer's attack uses `aim_idle` 3.6 → 4.5 s (the bow draw). The 7.8 s `attack` clip keeps the bow lowered and is not used.
+- **Eyes:** `EyeGlow` (emissive red, attached to the Head bone) is pulsed by the supplied `eye_flicker.gd` at energy 5.0 instead of the imported 1.0, plus a small red light (0.35 m range, no shadows).
+- **Known model notes:** the archer's `Arrow` mesh has zero size, so no nocked arrow is visible; the fired arrow is drawn by the game. The GLB/Blender files were not modified.
+- **Not packaged:** `.blend` files (Blender import is disabled in `project.godot`) and the `source/` folders (`.gdignore`).
+- **Rights:** supplied by the user; the `source/` file names indicate Meshy origin. The rights basis is not recorded yet; to be confirmed by the user.

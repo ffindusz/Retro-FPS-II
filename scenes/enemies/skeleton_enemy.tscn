@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/melee_enemy.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/models/skeleton_warrior.tscn" id="2"]
+
+[node name="SkeletonEnemy" instance=ExtResource("1")]
+archetype = 0
+species = &"skeleton"
+model_scene = ExtResource("2")
+max_health = 48
+move_speed = 3.0
+detection_range = 16.0
+attack_damage = 11
+attack_cooldown = 1.5
+windup_duration = 0.6

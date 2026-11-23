@@ -4,6 +4,8 @@ extends "res://scripts/level.gd"
 const PLACEMENT = preload("res://scripts/levels/level_placement.gd")
 const PRESENTATION = preload("res://scripts/levels/authored_presentation.gd")
 const BAT = preload("res://scenes/enemies/bat_enemy.tscn")
+const SKELETON = preload("res://scenes/enemies/skeleton_enemy.tscn")
+const SKELETON_ARCHER = preload("res://scenes/enemies/skeleton_archer.tscn")
 @export var level_title: String = "Untitled Level"
 @export var baked_navigation: NavigationMesh
 @export var authoring_source: String
@@ -52,8 +54,9 @@ func _setup_navigation() -> void:
 func _populate() -> void:
 	for marker in markers:
 		match marker.kind:
-			PLACEMENT.Kind.WARDEN, PLACEMENT.Kind.ADEPT:
-				var enemy = (MELEE if marker.kind == PLACEMENT.Kind.WARDEN else RANGED).instantiate()
+			PLACEMENT.Kind.WARDEN, PLACEMENT.Kind.ADEPT, PLACEMENT.Kind.SKELETON, PLACEMENT.Kind.SKELETON_ARCHER:
+				var scenes := {PLACEMENT.Kind.WARDEN: MELEE, PLACEMENT.Kind.ADEPT: RANGED, PLACEMENT.Kind.SKELETON: SKELETON, PLACEMENT.Kind.SKELETON_ARCHER: SKELETON_ARCHER}
+				var enemy = scenes[marker.kind].instantiate()
 				enemy.transform = marker.transform
 				add_child(enemy)
 				enemy.target = player

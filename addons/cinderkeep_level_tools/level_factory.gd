@@ -31,11 +31,80 @@ static func placement(root: Node3D, label: String, kind: int, point: Vector3, ya
 	return node
 
 static func create_level(example: bool = false) -> Node3D:
+	var root := _shell("MappingExample" if example else "NewLevel", "The Mason's Trial" if example else "New Cinderkeep Level", "res://scenes/levels/generated/mapping_example.tscn" if example else "res://scenes/levels/generated/new_level.tscn")
+	if example:
+		_example(root)
+	else:
+		block(root, "Floor", Vector3(0, -0.25, 0), Vector3(10, 0.5, 12), true)
+		block(root, "WestWall", Vector3(-5.2, 2, 0), Vector3(0.4, 4, 12.8))
+		block(root, "EastWall", Vector3(5.2, 2, 0), Vector3(0.4, 4, 12.8))
+		block(root, "NorthWall", Vector3(0, 2, -6.2), Vector3(10, 4, 0.4))
+		block(root, "SouthWall", Vector3(0, 2, 6.2), Vector3(10, 4, 0.4))
+		placement(root, "PlayerStart", PLACEMENT.Kind.PLAYER_START, Vector3(0, 0, 4))
+		placement(root, "EmberKey", PLACEMENT.Kind.KEY, Vector3(-3, 0, -3))
+		placement(root, "ExitGate", PLACEMENT.Kind.EXIT, Vector3(3, 0, -4))
+	BUILDER.own_recursive(root, root)
+	return root
+
+## Second test map: entrance hall, pillared gallery and a side chamber, held by skeletons.
+static func create_ossuary() -> Node3D:
+	var root := _shell("Ossuary", "The Ossuary", "res://scenes/levels/generated/ossuary.tscn")
+	# Floors: entrance hall (x -4..4, z 8..16), gallery (x -6..6, z -14..8), chamber (x 6..14, z -10..-2).
+	block(root, "EntranceFloor", Vector3(0, -0.25, 12), Vector3(8, 0.5, 8), true)
+	block(root, "GalleryFloor", Vector3(0, -0.25, -3), Vector3(12, 0.5, 22), true)
+	block(root, "ChamberFloor", Vector3(10, -0.25, -6), Vector3(8, 0.5, 8), true)
+	for x in [-4.2, 4.2]:
+		block(root, "EntranceWall", Vector3(x, 2, 12), Vector3(0.4, 4, 8.4))
+	block(root, "EntranceBack", Vector3(0, 2, 16.2), Vector3(8.8, 4, 0.4))
+	for x in [-5.2, 5.2]:
+		block(root, "GallerySouth", Vector3(x, 2, 8.2), Vector3(2.4, 4, 0.4))
+	block(root, "GalleryWest", Vector3(-6.2, 2, -3), Vector3(0.4, 4, 22.8))
+	block(root, "GalleryNorth", Vector3(0, 2, -14.2), Vector3(12.8, 4, 0.4))
+	# East wall with a 2.4 m doorway into the chamber (z -7.2..-4.8).
+	block(root, "GalleryEastNorth", Vector3(6.2, 2, -10.8), Vector3(0.4, 4, 7.2))
+	block(root, "GalleryEastSouth", Vector3(6.2, 2, 1.8), Vector3(0.4, 4, 13.2))
+	block(root, "ChamberLintel", Vector3(6.2, 3.7, -6), Vector3(0.4, 0.6, 2.4))
+	block(root, "ChamberNorth", Vector3(10.2, 2, -10.2), Vector3(8.4, 4, 0.4))
+	block(root, "ChamberSouth", Vector3(10.2, 2, -1.8), Vector3(8.4, 4, 0.4))
+	block(root, "ChamberEast", Vector3(14.2, 2, -6), Vector3(0.4, 4, 8.8))
+	# Pillars give cover from the archers down the gallery.
+	for z in [3.0, -3.0, -9.0]:
+		for x in [-3.0, 3.0]:
+			block(root, "Pillar", Vector3(x, 2, z), Vector3(1, 4, 1))
+	placement(root, "PlayerStart", PLACEMENT.Kind.PLAYER_START, Vector3(0, 0, 14))
+	placement(root, "GallerySkeleton", PLACEMENT.Kind.SKELETON, Vector3(-1.5, 0, -1), PI)
+	placement(root, "PillarSkeleton", PLACEMENT.Kind.SKELETON, Vector3(1.5, 0, -6), PI)
+	placement(root, "ChamberSkeleton", PLACEMENT.Kind.SKELETON, Vector3(9.5, 0, -4), PI / 2.0)
+	placement(root, "NorthArcher", PLACEMENT.Kind.SKELETON_ARCHER, Vector3(-1.5, 0, -12.5), PI)
+	placement(root, "WestArcher", PLACEMENT.Kind.SKELETON_ARCHER, Vector3(-5, 0, -6), PI)
+	placement(root, "ChamberArcher", PLACEMENT.Kind.SKELETON_ARCHER, Vector3(13, 0, -8.8), PI / 2.0)
+	placement(root, "Health", PLACEMENT.Kind.HEALTH, Vector3(-2.5, 0, 11))
+	placement(root, "Mana", PLACEMENT.Kind.MANA, Vector3(2.5, 0, 11))
+	placement(root, "GalleryHealth", PLACEMENT.Kind.HEALTH, Vector3(-5, 0, 5))
+	placement(root, "ChamberMana", PLACEMENT.Kind.MANA, Vector3(8, 0, -9))
+	placement(root, "EmberKey", PLACEMENT.Kind.KEY, Vector3(12.8, 0, -3.2))
+	placement(root, "ExitGate", PLACEMENT.Kind.EXIT, Vector3(3, 0, -12.7))
+	placement(root, "EntranceTorch", PLACEMENT.Kind.TORCH, Vector3(-3.8, 2.3, 12), PI / 2.0)
+	placement(root, "GalleryTorchWest", PLACEMENT.Kind.TORCH, Vector3(-5.8, 2.3, 0), PI / 2.0)
+	placement(root, "GalleryTorchEast", PLACEMENT.Kind.TORCH, Vector3(5.8, 2.3, 3), -PI / 2.0)
+	placement(root, "NorthTorch", PLACEMENT.Kind.TORCH, Vector3(-5.8, 2.3, -11), PI / 2.0)
+	placement(root, "ChamberTorch", PLACEMENT.Kind.TORCH, Vector3(13.8, 2.3, -6), -PI / 2.0)
+	placement(root, "GalleryBrazier", PLACEMENT.Kind.BRAZIER, Vector3(5, 0, -7.5))
+	placement(root, "NorthUrn", PLACEMENT.Kind.URN, Vector3(-5.3, 0, -13.3))
+	placement(root, "ChamberUrn", PLACEMENT.Kind.URN, Vector3(13.3, 0, -9.3))
+	var gallery := placement(root, "GalleryAmbience", PLACEMENT.Kind.AMBIENCE, Vector3(0, 1.5, -3))
+	gallery.zone_size = Vector3(12, 3, 22)
+	var chamber := placement(root, "ChamberAmbience", PLACEMENT.Kind.AMBIENCE, Vector3(10, 1.5, -6))
+	chamber.zone_size = Vector3(8, 3, 8)
+	BUILDER.own_recursive(root, root)
+	return root
+
+static func _shell(node_name: String, title: String, runtime_path: String) -> Node3D:
 	var root := Node3D.new()
 	root.set_script(AUTHORING)
-	root.name = "MappingExample" if example else "NewLevel"
-	root.level_title = "The Mason's Trial" if example else "New Cinderkeep Level"
-	root.runtime_path = "res://scenes/levels/generated/mapping_example.tscn" if example else "res://scenes/levels/generated/new_level.tscn"
+	root.name = node_name
+	root.level_title = title
+	root.runtime_path = runtime_path
 	for label in ["Architecture", "Placements"]:
 		var group := Node3D.new()
 		group.name = label
@@ -53,18 +122,6 @@ static func create_level(example: bool = false) -> Node3D:
 	light.name = "EditorLight"
 	light.rotation_degrees = Vector3(-55, -30, 0)
 	root.add_child(light)
-	if example:
-		_example(root)
-	else:
-		block(root, "Floor", Vector3(0, -0.25, 0), Vector3(10, 0.5, 12), true)
-		block(root, "WestWall", Vector3(-5.2, 2, 0), Vector3(0.4, 4, 12.8))
-		block(root, "EastWall", Vector3(5.2, 2, 0), Vector3(0.4, 4, 12.8))
-		block(root, "NorthWall", Vector3(0, 2, -6.2), Vector3(10, 4, 0.4))
-		block(root, "SouthWall", Vector3(0, 2, 6.2), Vector3(10, 4, 0.4))
-		placement(root, "PlayerStart", PLACEMENT.Kind.PLAYER_START, Vector3(0, 0, 4))
-		placement(root, "EmberKey", PLACEMENT.Kind.KEY, Vector3(-3, 0, -3))
-		placement(root, "ExitGate", PLACEMENT.Kind.EXIT, Vector3(3, 0, -4))
-	BUILDER.own_recursive(root, root)
 	return root
 
 static func _example(root: Node3D) -> void:

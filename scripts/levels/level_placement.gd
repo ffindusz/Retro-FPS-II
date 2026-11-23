@@ -4,8 +4,8 @@ extends Node3D
 ## Saved authoring data. Preview descendants are transient; gameplay is spawned by the level.
 
 # Append new kinds only: saved maps store the integer value.
-enum Kind { PLAYER_START, WARDEN, ADEPT, HEALTH, MANA, KEY, EXIT, TORCH, URN, AMBIENCE, BRAZIER, LANTERN, CRYSTAL_LAMP, BAT }
-const LABELS := ["Player Start", "Warden", "Adept", "Health", "Mana", "Ember Key", "Exit Gate", "Torch", "Urn", "Crypt Ambience", "Brazier", "Wall Lantern", "Crystal Lamp", "Fire Bat"]
+enum Kind { PLAYER_START, WARDEN, ADEPT, HEALTH, MANA, KEY, EXIT, TORCH, URN, AMBIENCE, BRAZIER, LANTERN, CRYSTAL_LAMP, BAT, SKELETON, SKELETON_ARCHER }
+const LABELS := ["Player Start", "Warden", "Adept", "Health", "Mana", "Ember Key", "Exit Gate", "Torch", "Urn", "Crypt Ambience", "Brazier", "Wall Lantern", "Crystal Lamp", "Fire Bat", "Skeleton", "Skeleton Archer"]
 const FIXTURES := {Kind.BRAZIER: 0, Kind.LANTERN: 1, Kind.CRYSTAL_LAMP: 2}
 @export var kind: Kind = Kind.PLAYER_START:
 	set(value):
@@ -43,7 +43,7 @@ func _refresh_preview() -> void:
 	add_child(preview) # Deliberately no owner: never serialized.
 	var label := Label3D.new()
 	label.text = LABELS[kind]
-	label.position.y = 3.2 if kind == Kind.BAT else (2.3 if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.EXIT] else 1.5)
+	label.position.y = 3.2 if kind == Kind.BAT else (2.3 if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.EXIT, Kind.SKELETON, Kind.SKELETON_ARCHER] else 1.5)
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	label.font_size = 30
 	preview.add_child(label)
@@ -57,6 +57,14 @@ func _refresh_preview() -> void:
 			for mesh in body.find_children("*", "MeshInstance3D", true, false):
 				mesh.material_override = material
 			texture_source.free()
+		Kind.SKELETON, Kind.SKELETON_ARCHER:
+			var model_path := "res://assets/models/skeleton/skeleton_warrior.glb" if kind == Kind.SKELETON else "res://assets/models/skeleton_archer/skeleton_archer.glb"
+			var skeleton_body := load(model_path).instantiate() as Node3D
+			skeleton_body.rotation.y = PI
+			preview.add_child(skeleton_body)
+			var clips := skeleton_body.find_children("*", "AnimationPlayer", true, false)
+			if not clips.is_empty():
+				clips[0].play(&"idle")
 		Kind.ADEPT, Kind.TORCH, Kind.URN:
 			var paths := {Kind.ADEPT: "adept", Kind.TORCH: "wall_torch", Kind.URN: "stone_urn"}
 			preview.add_child(load("res://scenes/models/%s.tscn" % paths[kind]).instantiate())
@@ -101,7 +109,7 @@ func _refresh_preview() -> void:
 			var box := BoxMesh.new()
 			box.size = zone_size.max(Vector3.ONE * 0.01)
 			_mesh(box, Vector3.ZERO, Color(0.4, 0.7, 1.0, 0.12))
-	if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.TORCH, Kind.EXIT, Kind.LANTERN, Kind.BAT]:
+	if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.TORCH, Kind.EXIT, Kind.LANTERN, Kind.BAT, Kind.SKELETON, Kind.SKELETON_ARCHER]:
 		var arrow := BoxMesh.new()
 		arrow.size = Vector3(0.08, 0.08, 1.0)
 		_mesh(arrow, Vector3(0, 0.12, -0.65), Color.YELLOW)

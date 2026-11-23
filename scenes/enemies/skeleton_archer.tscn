@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/melee_enemy.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/models/skeleton_archer.tscn" id="2"]
+
+[node name="SkeletonArcher" instance=ExtResource("1")]
+archetype = 1
+species = &"skeleton_archer"
+model_scene = ExtResource("2")
+max_health = 40
+move_speed = 2.2
+detection_range = 18.0
+attack_damage = 9
+attack_cooldown = 2.4
+windup_duration = 0.9
+ranged_speed = 18.0
+windup_event = &"enemy_draw"
+release_event = &"enemy_shot"
+projectile_style = &"arrow"
+projectile_tint = Color(0.42, 0.31, 0.2, 1)

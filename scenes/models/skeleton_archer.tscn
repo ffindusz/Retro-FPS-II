@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/skeleton_presentation.gd" id="1"]
+[ext_resource type="PackedScene" path="res://assets/models/skeleton_archer/skeleton_archer.glb" id="2"]
+
+[node name="SkeletonArcherVisual" type="Node3D"]
+script = ExtResource("1")
+body = ExtResource("2")
+clips = {
+&"Attack": &"aim_idle",
+&"Death": &"death",
+&"Idle": &"idle",
+&"Run": &"run",
+&"Walk": &"walk"
+}
+attack_start = 3.6
+attack_release = 4.5
+attack_recovery = 0.25
+walk_stride_meters = 1.1
+run_stride_meters = 1.7
+run_speed = 2.4

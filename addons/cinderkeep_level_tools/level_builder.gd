@@ -174,7 +174,7 @@ static func spatial_errors(geometry: Node3D, markers: Node, nav: NavigationMesh,
 			add_error(errors, issues, "%s: place its floor anchor on a supported walkable floor." % marker.name, source, marker, "floor_support")
 		var query := PhysicsShapeQueryParameters3D.new()
 		query.collision_mask = 1
-		if marker.kind in [PLACEMENT.Kind.PLAYER_START, PLACEMENT.Kind.WARDEN, PLACEMENT.Kind.ADEPT]:
+		if marker.kind in [PLACEMENT.Kind.PLAYER_START, PLACEMENT.Kind.WARDEN, PLACEMENT.Kind.ADEPT, PLACEMENT.Kind.SKELETON, PLACEMENT.Kind.SKELETON_ARCHER]:
 			var capsule := CapsuleShape3D.new()
 			capsule.radius = 0.28 if marker.kind == PLACEMENT.Kind.PLAYER_START else 0.38
 			capsule.height = 1.8

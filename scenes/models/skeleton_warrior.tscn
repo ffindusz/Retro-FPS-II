@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/skeleton_presentation.gd" id="1"]
+[ext_resource type="PackedScene" path="res://assets/models/skeleton/skeleton_warrior.glb" id="2"]
+
+[node name="SkeletonWarriorVisual" type="Node3D"]
+script = ExtResource("1")
+body = ExtResource("2")
+attack_start = 0.0
+attack_release = 0.56
+attack_recovery = 0.94
+walk_stride_meters = 1.1
+run_stride_meters = 1.7
+run_speed = 2.4

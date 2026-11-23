@@ -10,6 +10,8 @@ var source_rid: RID
 var tint: Color = Color("5fcbd7")
 var resolved: bool = false
 var player_owned: bool = false
+## &"magic" (glowing bolt) or &"arrow"; also the weapon tag reported on impact.
+var style: StringName = &"magic"
 
 func configure(actor: Node3D, travel: Vector3, amount: int, velocity: float, mask: int, color: Color) -> void:
 	source = actor
@@ -24,6 +26,13 @@ func configure(actor: Node3D, travel: Vector3, amount: int, velocity: float, mas
 
 func _ready() -> void:
 	add_to_group("projectiles")
+	if style == &"arrow":
+		# Unlit-by-design arrow: shaft, iron head and pale fletching along its flight (-Z).
+		basis = Basis.looking_at(direction, Vector3.UP if absf(direction.y) < 0.99 else Vector3.FORWARD)
+		PrimitiveArt.box(self, Vector3(0, 0, 0.18), Vector3(0.035, 0.035, 0.7), Color("6b4f33"))
+		PrimitiveArt.box(self, Vector3(0, 0, -0.2), Vector3(0.06, 0.06, 0.1), Color("8d8f92"))
+		PrimitiveArt.box(self, Vector3(0, 0, 0.48), Vector3(0.11, 0.015, 0.14), Color("d9d2c0"))
+		return
 	PrimitiveArt.orb(self, Vector3.ZERO, 0.12, tint, 2.5)
 	PrimitiveArt.orb(self, Vector3.ZERO, 0.055, Color.WHITE, 3.0)
 	get_parent().feedback.light_projectile(self, tint)
@@ -49,9 +58,9 @@ func advance(delta: float) -> void:
 		global_position = hit.position
 		resolved = true
 		if hit.collider.has_method("take_damage"):
-			CombatEvents.apply_hit(self, hit.collider, damage, source if is_instance_valid(source) else null, hit.position, hit.normal, &"magic", get_instance_id())
+			CombatEvents.apply_hit(self, hit.collider, damage, source if is_instance_valid(source) else null, hit.position, hit.normal, style, get_instance_id())
 		else:
-			CombatEvents.publish(self, &"world_impact", hit.position, {"normal": hit.normal, "weapon": &"magic", "player_owned": player_owned})
+			CombatEvents.publish(self, &"world_impact", hit.position, {"normal": hit.normal, "weapon": style, "player_owned": player_owned})
 		queue_free()
 	else:
 		global_position = destination

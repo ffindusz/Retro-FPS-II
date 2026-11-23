@@ -5,7 +5,8 @@ func setup(owner_level: Node3D) -> void:
 	level = owner_level
 	for node in level.find_children("*", "OmniLight3D", true, false):
 		var light := node as OmniLight3D
-		if _fixture_of(light) != null:
+		# Fixtures drive themselves; actor lights (skeleton eyes) belong to their presentation.
+		if _fixture_of(light) != null or light.is_in_group(&"actor_lights"):
 			continue
 		light.light_color = Color("ffc28a")
 		light.light_energy = 2.0
