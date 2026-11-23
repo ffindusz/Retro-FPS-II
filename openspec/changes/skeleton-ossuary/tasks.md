@@ -20,4 +20,5 @@
   - 2026-11-23: `tests/test_skeletons.gd` 34 checks. Full `tools/verify.ps1` passes with 0 failures. Real-editor `--test-level-editor`: 42 checks, 0 failures (the first editor launch crashed during the one-time texture re-import, before the tests ran; the second launch passed). Python tests not run (no Python on this machine).
 - [x] 3.2 Render the skeletons in The Ossuary; bump to 0.10.0; update README and asset manifest.
   - `tools/capture_ossuary.gd` renders overview, eyes, slash, bow draw, arrow, run and death to `builds/validation/ossuary/`.
-- [ ] 3.3 Get the user's playtest of The Ossuary. Record only what is reported.
+- [x] 3.3 Get the user's playtest of The Ossuary. Record only what is reported.
+  - 2026-11-23: user reports "ossuary is good".
