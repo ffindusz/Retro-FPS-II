@@ -1,0 +1,29 @@
+{
+  "version": "0.11.0",
+  "title": "Golem Sanctum",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "platform": "windows-x64",
+  "build_date": "2026-11-24",
+  "directory": "builds/windows-0.11.0",
+  "source_commit": "d1ed4a1",
+  "openspec_change": "golem-sanctum",
+  "status": "Technical validation passed; source playtested by the user 2026-11-24 (\"works\"); build awaiting user playtest",
+  "source_checks": 310,
+  "other_godot_suite_checks": 359,
+  "offline_python_tests": "not run (no Python on the build machine)",
+  "packaged_checks": "not run; external package audit and native headless startup only",
+  "audited_resources": 331,
+  "artifacts": [
+    {
+      "name": "Cinderkeep.exe",
+      "bytes": 109268480,
+      "sha256": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562"
+    },
+    {
+      "name": "Cinderkeep.pck",
+      "bytes": 97042308,
+      "sha256": "a003be727a4b36e16e5050c2240d26dd718c0b1ac72b7972014a0e0f56307aa4"
+    }
+  ],
+  "note": "Produced through tools/export_checked.ps1 with the official 4.7.2 Windows templates after a full headless import. EXE is the unchanged official engine loader, identical to 0.10.0's. The PCK passed tests/audit_runtime_package.gd from an external directory (331 resources, 0 failures; includes the stone golem scenes, scripts, statue and model; excludes the .blend files and source/ folders), and the EXE started and quit cleanly headless. No previous build or record was replaced."
+}
