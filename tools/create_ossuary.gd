@@ -1,12 +1,13 @@
 extends SceneTree
-## Offline fixture authoring for the second test map. Refuses to overwrite a designer-modified source.
+## Offline fixture authoring for the second test map. Refuses to overwrite an existing source unless
+## run with `-- --replace` (only for a source that has not been edited by hand).
 
 func _initialize() -> void:
 	call_deferred("create")
 
 func create() -> void:
 	var path := "res://scenes/authoring/ossuary.tscn"
-	if FileAccess.file_exists(path):
+	if FileAccess.file_exists(path) and not OS.get_cmdline_user_args().has("--replace"):
 		push_error("Existing Ossuary source preserved; edit it in Godot instead.")
 		quit(1)
 		return

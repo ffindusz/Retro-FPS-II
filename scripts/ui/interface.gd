@@ -32,6 +32,9 @@ var volume_label: Label
 var ambience_box: VBoxContainer
 var ambience_slider: HSlider
 var ambience_label: Label
+var boss_box: VBoxContainer
+var boss_label: Label
+var boss_bar: ProgressBar
 
 func _ready() -> void:
 	_build_hud()
@@ -194,6 +197,36 @@ func _build_hud() -> void:
 	message_label.offset_top = -165
 	message_label.offset_bottom = -125
 	hud.add_child(message_label)
+	# Boss health: top centre, shown only while a boss is awake (and briefly after it dies).
+	boss_box = VBoxContainer.new()
+	boss_box.name = "BossBar"
+	boss_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	boss_box.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	boss_box.offset_left = -300
+	boss_box.offset_right = 300
+	boss_box.offset_top = 52
+	boss_box.offset_bottom = 96
+	boss_box.add_theme_constant_override("separation", 6)
+	boss_box.hide()
+	hud.add_child(boss_box)
+	boss_label = _label("", 18, GOLD)
+	boss_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	boss_box.add_child(boss_label)
+	boss_bar = _bar(Color("b5532c"))
+	boss_bar.custom_minimum_size.y = 14
+	boss_box.add_child(boss_bar)
+
+## Shows the first awake boss in the running level (group `active_bosses`), else hides the bar.
+func refresh_boss() -> void:
+	var boss: Node = null
+	if is_instance_valid(player) and player.is_inside_tree():
+		boss = player.get_tree().get_first_node_in_group("active_bosses")
+	boss_box.visible = boss != null
+	if boss == null:
+		return
+	boss_label.text = str(boss.boss_name).to_upper()
+	boss_bar.max_value = boss.max_health
+	boss_bar.value = boss.health
 
 func _bar(color: Color) -> ProgressBar:
 	var bar = ProgressBar.new()
@@ -274,6 +307,8 @@ func bind_player(value: Node) -> void:
 
 func unbind_player() -> void:
 	clear_combat_feedback()
+	if is_instance_valid(boss_box):
+		boss_box.hide()
 	if is_instance_valid(player):
 		player.stats_changed.disconnect(refresh)
 		player.message.disconnect(show_message)
@@ -298,6 +333,7 @@ func show_message(text: String) -> void:
 func _process(delta: float) -> void:
 	if get_tree().paused:
 		return
+	refresh_boss()
 	hit_time = maxf(0.0, hit_time - delta)
 	hurt_time = maxf(0.0, hurt_time - delta)
 	hit_marker.visible = hit_time > 0.0

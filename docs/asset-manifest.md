@@ -141,3 +141,13 @@ The new example uses original authored Cyclops geometry, existing cleared photog
 - **Known model notes:** the archer's `Arrow` mesh has zero size, so no nocked arrow is visible; the fired arrow is drawn by the game. The GLB/Blender files were not modified.
 - **Not packaged:** `.blend` files (Blender import is disabled in `project.godot`) and the `source/` folders (`.gdignore`).
 - **Rights:** supplied by the user, generated with Meshy. On 2026-11-23 the user confirmed the same basis as the other Meshy assets: the paid monthly plan confirmed on 2026-10-20. Prompts, reference uploads and credit use for these generations were not reported, so they are not recorded. AI origin stays explicit; no exclusive copyright is asserted.
+
+## Stone golem — 0.11.0
+
+- **Asset (supplied by the user, 2026-11-24):** `assets/models/stone_golem/stone_golem.glb` (sha256 `4d38fa2eccad0f43…`) with its Blender file. Meshy source models and textures are in `source/`.
+- **Rig and clips:** 25-bone humanoid rig. Godot imports `idle` and `walk` (looping), `attack` (1.83 s two-handed overhead hammer slam) and `death`. No run or hit clip. The hammer is attached to the `Prop_Hammer` bone. There are no eye meshes; a `headfront` bone sits at the face.
+- **Use in game:** the boss wraps it in `scenes/models/stone_golem.tscn` with `scripts/enemies/golem_presentation.gd` at 1.35× scale, turned 180° (the model faces +Z). The body texture is multiplied by a 0.62 grey tint because it read as white under torchlight. Slam contact at 1.55 s. Two small ember eyes are added by the game on the `headfront` bone and pulsed by the skeletons' `eye_flicker.gd`.
+- **Statues:** `scripts/props/golem_statue.gd` reuses the same GLB at 0.6× scale, frozen in one of four clip poses, with darker weathered-stone materials. No separate model or Meshy generation.
+- **Known model notes:** the GLB/Blender files were not modified.
+- **Not packaged:** the `.blend` file (Blender import is disabled) and `source/` (`.gdignore`).
+- **Rights:** supplied by the user; the `source/` file names indicate Meshy origin. The rights basis for this model is not recorded yet; to be confirmed by the user.

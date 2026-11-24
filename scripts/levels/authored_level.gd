@@ -6,6 +6,12 @@ const PRESENTATION = preload("res://scripts/levels/authored_presentation.gd")
 const BAT = preload("res://scenes/enemies/bat_enemy.tscn")
 const SKELETON = preload("res://scenes/enemies/skeleton_enemy.tscn")
 const SKELETON_ARCHER = preload("res://scenes/enemies/skeleton_archer.tscn")
+const STONE_GOLEM = preload("res://scenes/enemies/stone_golem.tscn")
+const GOLEM_STATUE = preload("res://scenes/props/golem_statue.tscn")
+const SEAL_HINT := "The seal holds while the dead still walk. Destroy them all."
+const SEAL_OPEN := "The bone seal shatters. The sanctum lies open."
+## A key marker this close to a golem marker is held by that golem until it dies.
+const HELD_KEY_RANGE: float = 1.5
 @export var level_title: String = "Untitled Level"
 @export var baked_navigation: NavigationMesh
 @export var authoring_source: String
@@ -13,6 +19,8 @@ const SKELETON_ARCHER = preload("res://scenes/enemies/skeleton_archer.tscn")
 @export var authoring_dependencies_sha256: String
 @export var authoring_build_version: int = 0
 var markers: Array[Node] = []
+var bone_seals: Array[KeyWard] = []
+var golems: Array[Node] = []
 
 func _ready() -> void:
 	markers = get_node("Placements").get_children()
@@ -52,6 +60,7 @@ func _setup_navigation() -> void:
 	add_child(navigation)
 
 func _populate() -> void:
+	var statues := 0
 	for marker in markers:
 		match marker.kind:
 			PLACEMENT.Kind.WARDEN, PLACEMENT.Kind.ADEPT, PLACEMENT.Kind.SKELETON, PLACEMENT.Kind.SKELETON_ARCHER:
@@ -60,6 +69,28 @@ func _populate() -> void:
 				enemy.transform = marker.transform
 				add_child(enemy)
 				enemy.target = player
+			PLACEMENT.Kind.STONE_GOLEM:
+				var golem = STONE_GOLEM.instantiate()
+				golem.transform = marker.transform
+				add_child(golem)
+				golem.target = player
+				golems.append(golem)
+			PLACEMENT.Kind.GOLEM_STATUE:
+				var statue := GOLEM_STATUE.instantiate() as Node3D
+				statue.pose = statues
+				statues += 1
+				statue.transform = marker.transform
+				add_child(statue)
+			PLACEMENT.Kind.BONE_SEAL:
+				var seal := KeyWard.new()
+				seal.transform = marker.transform
+				seal.player = player
+				seal.hint_text = SEAL_HINT
+				seal.open_text = SEAL_OPEN
+				add_child(seal)
+				seal.name = "BoneSeal"
+				seal.add_to_group("bone_seals")
+				bone_seals.append(seal)
 			PLACEMENT.Kind.BAT:
 				var bat = BAT.instantiate()
 				bat.transform = marker.transform
@@ -89,3 +120,14 @@ func _populate() -> void:
 				geometry.add_child(gate)
 				PrimitiveArt.box(gate, Vector3.UP * 1.5, Vector3(2.5, 3, 0.25), Color("28343d"))
 				PrimitiveArt.orb(gate, Vector3(0, 1.8, 0.2), 0.2, Color.GOLD, 0.8)
+	# Bone seals hold until every other enemy has died; golems are the bosses behind them.
+	for seal in bone_seals:
+		for enemy in get_tree().get_nodes_in_group("enemies"):
+			if enemy.is_inside_tree() and is_ancestor_of(enemy) and not enemy in golems:
+				seal.add_guard(enemy)
+		if seal.guards.is_empty():
+			seal.open.call_deferred()
+	for golem in golems:
+		for pickup in get_tree().get_nodes_in_group("pickups"):
+			if is_ancestor_of(pickup) and pickup.kind == 2 and Vector2(pickup.position.x, pickup.position.z).distance_to(Vector2(golem.position.x, golem.position.z)) <= HELD_KEY_RANGE:
+				golem.hold_key(pickup)

@@ -101,7 +101,7 @@ func run(editor_plugin: EditorPlugin) -> void:
 		history.redo()
 		all_redo = all_redo and placements.get_child_count() == initial + 1 and placements.get_children().back() == marker
 		history.undo()
-	check(all_place, "all sixteen palette buttons create correctly owned visible placements")
+	check(all_place, "all nineteen palette buttons create correctly owned visible placements")
 	check(all_arm, "palette selection only arms placement; viewport click creates the marker")
 	check(all_undo and all_redo, "actual editor history undoes/redoes every placement without duplicates")
 	button("+ Warden").pressed.emit()

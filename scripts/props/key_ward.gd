@@ -9,6 +9,8 @@ const OPEN_TIME := 1.2
 const HINT_RANGE := 3.5
 const OPEN_TEXT := "The ward lifts. The ember key is free."
 const HINT_TEXT := "Defeat the key guards to lift the ward."
+var open_text: String = OPEN_TEXT
+var hint_text: String = HINT_TEXT
 var guards: Array[Node] = []
 var is_open: bool = false
 var player: DemoPlayer
@@ -72,7 +74,7 @@ func open() -> void:
 	tween.tween_property(visual, "position:y", -SINK, OPEN_TIME).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	tween.tween_callback(visual.hide)
 	if is_instance_valid(player):
-		player.message.emit(OPEN_TEXT)
+		player.message.emit(open_text)
 	opened.emit()
 
 func _physics_process(_delta: float) -> void:
@@ -80,5 +82,5 @@ func _physics_process(_delta: float) -> void:
 		return
 	var near = player.global_position.distance_to(global_position) <= HINT_RANGE
 	if near and not player_near and player.can_act():
-		player.message.emit(HINT_TEXT)
+		player.message.emit(hint_text)
 	player_near = near

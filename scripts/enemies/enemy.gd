@@ -21,6 +21,8 @@ const PROJECTILE = preload("res://scenes/weapons/projectile.tscn")
 @export var attack_cooldown: float = 1.6
 @export var windup_duration: float = 0.55
 @export var ranged_speed: float = 10.0
+## Melee reach for starting and landing an attack (archetype 0).
+@export var melee_range: float = 1.9
 var health: int
 var state: State = State.IDLE
 var target: DemoPlayer
@@ -100,7 +102,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		if presentation == null:
 			visual.rotation.x = 0.0
-		var range_limit = 10.0 if archetype == 1 else 1.9
+		var range_limit = 10.0 if archetype == 1 else melee_range
 		if distance <= range_limit and has_line_of_sight():
 			if cooldown <= 0.0:
 				state = State.ATTACK
@@ -192,7 +194,7 @@ func resolve_attack() -> void:
 	if state == State.DEAD or not is_instance_valid(target) or not target.can_act() or not has_line_of_sight():
 		return
 	if archetype == 0:
-		if global_position.distance_to(target.global_position) <= 1.9:
+		if global_position.distance_to(target.global_position) <= melee_range:
 			target.take_damage(attack_damage, self)
 	else:
 		var origin = global_position + Vector3.UP * 1.3

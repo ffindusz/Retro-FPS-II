@@ -27,6 +27,12 @@ const EYE_FADE_SECONDS: float = 1.2
 @export var clip_yaw: Dictionary = {&"Idle": 30.0}
 @export var eye_energy: float = 5.0
 @export var eye_light_energy: float = 0.2
+@export var eye_light_color: Color = Color(1.0, 0.18, 0.06)
+@export var eye_light_range: float = 0.35
+## Uniform scale of the model inside the presentation (the actor collider is sized by its own scene).
+@export var model_scale: float = 1.0
+## Peak backward tilt (radians) of the hit reaction.
+@export var flinch_amount: float = 0.16
 
 var model: Node3D
 var holder: Node3D
@@ -67,9 +73,11 @@ func _ready() -> void:
 	holder = Node3D.new()
 	holder.name = "Model"
 	holder.rotation.y = PI
+	holder.scale = Vector3.ONE * model_scale
 	holder.set_script(EYE_FLICKER)
 	holder.base_energy = eye_energy
 	model = body.instantiate()
+	_prepare_model()
 	holder.add_child(model)
 	flinch.add_child(holder)
 	# eye_flicker.gd copied the eye material in _ready; start bright instead of waiting a frame.
@@ -85,15 +93,15 @@ func _ready() -> void:
 			mesh.set_surface_override_material(0, material)
 			# Visual-only culling bound that covers the lying death pose.
 			var to_mesh: Transform3D = mesh.global_transform.affine_inverse() * global_transform
-			mesh.custom_aabb = to_mesh * AABB(Vector3(-1.75, -0.4, -1.75), Vector3(3.5, 3.0, 3.5))
+			mesh.custom_aabb = to_mesh * AABB(Vector3(-1.75, -0.4, -1.75) * model_scale, Vector3(3.5, 3.0, 3.5) * model_scale)
 	base_color = material.albedo_color
 	eyes = model.find_child("EyeGlow", true, false) as MeshInstance3D
 	if eyes != null:
 		eye_light = OmniLight3D.new()
 		eye_light.name = "EyeLight"
-		eye_light.light_color = Color(1.0, 0.18, 0.06)
+		eye_light.light_color = eye_light_color
 		eye_light.light_energy = eye_light_energy
-		eye_light.omni_range = 0.35
+		eye_light.omni_range = eye_light_range
 		eye_light.shadow_enabled = false
 		# Not a torch: the authored-level presentation must not restyle it or add a flame.
 		eye_light.add_to_group(&"actor_lights")
@@ -102,6 +110,10 @@ func _ready() -> void:
 		eye_light.position = eyes.get_aabb().get_center()
 	root_bone = skeleton.find_bone(&"Hips")
 	_sample(&"Idle", fposmod(position.x * 0.37 + position.z * 0.61, clip_length(&"Idle")), 0.0, true)
+
+## Hook for subclasses: add nodes to the model before it enters the tree (eye_flicker.gd looks for EyeGlow on entry).
+func _prepare_model() -> void:
+	pass
 
 func has_clips() -> bool:
 	for role in clips:
@@ -233,7 +245,7 @@ func advance_visual(delta: float, movement_distance: float, ai_attacking: bool, 
 		hit_remaining = maxf(0.0, hit_remaining - delta)
 		# Brief backward tilt about the feet; peaks early and settles.
 		var age := 1.0 - hit_remaining / HIT_SECONDS
-		flinch.rotation.x = 0.16 * sin(age * PI) * (1.0 - age * 0.5)
+		flinch.rotation.x = flinch_amount * sin(age * PI) * (1.0 - age * 0.5)
 	else:
 		flinch.rotation.x = 0.0
 	if dead:

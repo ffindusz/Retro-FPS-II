@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/golem_presentation.gd" id="1"]
+[ext_resource type="PackedScene" path="res://assets/models/stone_golem/stone_golem.glb" id="2"]
+
+[node name="StoneGolemVisual" type="Node3D"]
+script = ExtResource("1")
+body = ExtResource("2")
+clips = {
+&"Attack": &"attack",
+&"Death": &"death",
+&"Idle": &"idle",
+&"Run": &"walk",
+&"Walk": &"walk"
+}
+attack_start = 0.4
+attack_release = 1.55
+attack_recovery = 0.28
+walk_stride_meters = 1.9
+run_stride_meters = 1.9
+run_speed = 99.0
+clip_yaw = {}
+eye_energy = 6.0
+eye_light_energy = 0.5
+eye_light_color = Color(1, 0.45, 0.12, 1)
+eye_light_range = 0.8
+model_scale = 1.35
+flinch_amount = 0.04

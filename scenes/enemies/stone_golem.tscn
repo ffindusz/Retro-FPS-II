@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/enemies/melee_enemy.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/enemies/golem_enemy.gd" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/models/stone_golem.tscn" id="3"]
+
+[sub_resource type="CapsuleShape3D" id="GolemBody"]
+radius = 0.7
+height = 3.0
+
+[node name="StoneGolem" instance=ExtResource("1")]
+script = ExtResource("2")
+archetype = 0
+species = &"stone_golem"
+model_scene = ExtResource("3")
+max_health = 420
+move_speed = 2.2
+detection_range = 30.0
+attack_damage = 24
+attack_cooldown = 2.0
+windup_duration = 1.2
+melee_range = 3.0
+
+[node name="Collision" parent="." index="0"]
+position = Vector3(0, 1.5, 0)
+shape = SubResource("GolemBody")

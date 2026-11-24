@@ -4,8 +4,8 @@ extends Node3D
 ## Saved authoring data. Preview descendants are transient; gameplay is spawned by the level.
 
 # Append new kinds only: saved maps store the integer value.
-enum Kind { PLAYER_START, WARDEN, ADEPT, HEALTH, MANA, KEY, EXIT, TORCH, URN, AMBIENCE, BRAZIER, LANTERN, CRYSTAL_LAMP, BAT, SKELETON, SKELETON_ARCHER }
-const LABELS := ["Player Start", "Warden", "Adept", "Health", "Mana", "Ember Key", "Exit Gate", "Torch", "Urn", "Crypt Ambience", "Brazier", "Wall Lantern", "Crystal Lamp", "Fire Bat", "Skeleton", "Skeleton Archer"]
+enum Kind { PLAYER_START, WARDEN, ADEPT, HEALTH, MANA, KEY, EXIT, TORCH, URN, AMBIENCE, BRAZIER, LANTERN, CRYSTAL_LAMP, BAT, SKELETON, SKELETON_ARCHER, BONE_SEAL, STONE_GOLEM, GOLEM_STATUE }
+const LABELS := ["Player Start", "Warden", "Adept", "Health", "Mana", "Ember Key", "Exit Gate", "Torch", "Urn", "Crypt Ambience", "Brazier", "Wall Lantern", "Crystal Lamp", "Fire Bat", "Skeleton", "Skeleton Archer", "Bone Seal", "Stone Golem", "Golem Statue"]
 const FIXTURES := {Kind.BRAZIER: 0, Kind.LANTERN: 1, Kind.CRYSTAL_LAMP: 2}
 @export var kind: Kind = Kind.PLAYER_START:
 	set(value):
@@ -43,7 +43,7 @@ func _refresh_preview() -> void:
 	add_child(preview) # Deliberately no owner: never serialized.
 	var label := Label3D.new()
 	label.text = LABELS[kind]
-	label.position.y = 3.2 if kind == Kind.BAT else (2.3 if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.EXIT, Kind.SKELETON, Kind.SKELETON_ARCHER] else 1.5)
+	label.position.y = 3.2 if kind in [Kind.BAT, Kind.BONE_SEAL] else (3.4 if kind == Kind.STONE_GOLEM else (2.3 if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.EXIT, Kind.SKELETON, Kind.SKELETON_ARCHER, Kind.GOLEM_STATUE] else 1.5))
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	label.font_size = 30
 	preview.add_child(label)
@@ -65,6 +65,18 @@ func _refresh_preview() -> void:
 			var clips := skeleton_body.find_children("*", "AnimationPlayer", true, false)
 			if not clips.is_empty():
 				clips[0].play(&"idle")
+		Kind.STONE_GOLEM:
+			var golem := load("res://assets/models/stone_golem/stone_golem.glb").instantiate() as Node3D
+			golem.rotation.y = PI
+			golem.scale = Vector3.ONE * 1.35
+			preview.add_child(golem)
+		Kind.GOLEM_STATUE:
+			preview.add_child(load("res://scenes/props/golem_statue.tscn").instantiate())
+		Kind.BONE_SEAL:
+			# Same footprint as the runtime ward: 2 m wide, 3 m high, across the marker's X axis.
+			var seal := BoxMesh.new()
+			seal.size = Vector3(2.0, 3.0, 0.3)
+			_mesh(seal, Vector3.UP * 1.5, Color(0.9, 0.45, 0.15, 0.4))
 		Kind.ADEPT, Kind.TORCH, Kind.URN:
 			var paths := {Kind.ADEPT: "adept", Kind.TORCH: "wall_torch", Kind.URN: "stone_urn"}
 			preview.add_child(load("res://scenes/models/%s.tscn" % paths[kind]).instantiate())
@@ -109,7 +121,7 @@ func _refresh_preview() -> void:
 			var box := BoxMesh.new()
 			box.size = zone_size.max(Vector3.ONE * 0.01)
 			_mesh(box, Vector3.ZERO, Color(0.4, 0.7, 1.0, 0.12))
-	if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.TORCH, Kind.EXIT, Kind.LANTERN, Kind.BAT, Kind.SKELETON, Kind.SKELETON_ARCHER]:
+	if kind in [Kind.WARDEN, Kind.ADEPT, Kind.PLAYER_START, Kind.TORCH, Kind.EXIT, Kind.LANTERN, Kind.BAT, Kind.SKELETON, Kind.SKELETON_ARCHER, Kind.STONE_GOLEM, Kind.GOLEM_STATUE]:
 		var arrow := BoxMesh.new()
 		arrow.size = Vector3(0.08, 0.08, 1.0)
 		_mesh(arrow, Vector3(0, 0.12, -0.65), Color.YELLOW)
