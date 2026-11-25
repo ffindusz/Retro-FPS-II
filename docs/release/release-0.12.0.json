@@ -1,0 +1,29 @@
+{
+  "version": "0.12.0",
+  "title": "Rune Door",
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "platform": "windows-x64",
+  "build_date": "2026-11-25",
+  "directory": "builds/windows-0.12.0",
+  "source_commit": "f3fcb57",
+  "openspec_change": "rune-door",
+  "status": "Technical validation passed; source playtested by the user 2026-11-25 (\"i like it!\"); build awaiting user playtest",
+  "source_checks": 310,
+  "other_godot_suite_checks": 389,
+  "offline_python_tests": "not run (no Python on the build machine)",
+  "packaged_checks": "not run; external package audit and native headless startup only",
+  "audited_resources": 366,
+  "artifacts": [
+    {
+      "name": "Cinderkeep.exe",
+      "bytes": 109268480,
+      "sha256": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562"
+    },
+    {
+      "name": "Cinderkeep.pck",
+      "bytes": 107270408,
+      "sha256": "b1746ec94b1986a5bc7b00c6d89e7ad5b807ac632c3b196bc56215ae9eb28107"
+    }
+  ],
+  "note": "Produced through tools/export_checked.ps1 with the official 4.7.2 Windows templates after a full headless import. EXE is the unchanged official engine loader, identical to 0.11.0's. The PCK passed tests/audit_runtime_package.gd from an external directory (366 resources, 0 failures; includes the rune door scene, script, three Meshy models and two glow masks), and the EXE started and quit cleanly headless. No previous build or record was replaced."
+}
