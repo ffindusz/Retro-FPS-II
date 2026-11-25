@@ -151,3 +151,12 @@ The new example uses original authored Cyclops geometry, existing cleared photog
 - **Known model notes:** the GLB/Blender files were not modified.
 - **Not packaged:** the `.blend` file (Blender import is disabled) and `source/` (`.gdignore`).
 - **Rights:** supplied by the user; the `source/` file names indicate Meshy origin. The rights basis for this model is not recorded yet; to be confirmed by the user.
+
+## Rune door — 0.12.0
+
+- **Assets:** `assets/models/rune-door-frame`, `rune-door-leaf` and `rune-key-socket` (`model.glb` plus textures) are Meshy text-to-3D models generated 2026-11-25 with original text prompts only (meshy-t2.5, smart topology, preview + 2k PBR refine). Prompts: `docs/meshy-rune-door.json`; per-model `provenance.json` with task IDs, credits and download hashes.
+- **Cost:** 50 credits (balance 1,331 → 1,281) of a self-set 60-credit ceiling for the user's request "let meshy generate a impressive door". The first door-leaf preview (plan id `rune-door-leaf`, task `01a21308-6022-75a2-bac3-b09c0e918f5b`, 5 credits) came out as a hollow frame and was not refined or used; one replacement preview (plan id `rune-door-leaf-solid`) was refined and is what `assets/models/rune-door-leaf/` holds. No other retries.
+- **Tool:** `tools/meshy_generate.ps1`, a PowerShell port of `tools/meshy_generate.py` (same safety rules: key read from `.env` and never printed, task IDs checkpointed before waiting, no automatic paid retries), used because Python is not installed on this machine.
+- **Glow:** `rune_glow.png` in the frame and socket folders are emission masks baked from the Meshy albedo textures by `tools/make_rune_masks.gd` (ember-orange runes; the red keyhole). The leaf texture has no glowing parts, so the game adds emissive rune strokes over its carved ring and spine.
+- **Use in game:** `scripts/props/rune_door.gd` (`scenes/props/rune_door.tscn`): frame at 6× (about 4.25 × 5.7 m, doorway 2.32 × 4.22 m), leaves at 1.2 × 4.3 × 0.36 m (the second leaf shows the slab's back face instead of a mirrored copy), socket 1.15 m tall. The leaf albedo is brightened 2.2×; metallic is set to 0.
+- **Rights:** same basis as the other Meshy assets generated for this project: the paid plan confirmed by the user on 2026-10-20, no reference uploads. AI origin stays explicit; no exclusive copyright is asserted.

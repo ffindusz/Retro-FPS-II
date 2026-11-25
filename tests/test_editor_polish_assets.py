@@ -32,7 +32,7 @@ class EditorPolishAssetsTests(unittest.TestCase):
         preset = (ROOT / "export_presets.cfg").read_text()
         for pattern in ("addons/*", "scenes/authoring/*", "scenes/levels/generated/_*", "scenes/levels/generated/catalog_test_*", "scenes/levels/generated/editor_polish_test_*", "tools/*", "tests/*", ".env"):
             self.assertIn(pattern, preset)
-        self.assertIn('export_path="builds/windows-0.11.0/Cinderkeep.exe"', preset)
+        self.assertIn('export_path="builds/windows-0.12.0/Cinderkeep.exe"', preset)
 
     def test_checked_cli_preflights_before_export_and_uses_non_overwriting_copy(self):
         script = (ROOT / "tools/export_checked.ps1").read_text()

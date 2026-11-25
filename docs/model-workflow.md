@@ -14,6 +14,8 @@ The initial API batch uses `meshy-t2.5` Smart Topology at 2,000–8,000 target f
 
 `tools/meshy_generate.py` uses Python 3.11+ standard library only. It reads `MESHY_API_KEY` from the process environment or the ignored root `.env` without printing it. It is not part of the exported game. It permits two in-flight assets, checkpoints each paid task before waiting, and never silently creates replacement paid tasks after a failure or ambiguous submission.
 
+On machines without Python, `tools/meshy_generate.ps1` is a PowerShell port with the same rules and stages (`-Stage balance|preview|refine`, `-Plan`, `-Only`, `-Output`, `-Submit`). It submits every selected asset before waiting on them. The 0.12.0 rune door was generated with it from `docs/meshy-rune-door.json`.
+
 ```powershell
 python tools/meshy_generate.py balance
 # Paid stages: only run --submit after explicitly authorizing the cost.

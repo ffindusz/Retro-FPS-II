@@ -1,0 +1,74 @@
+{
+  "asset": {
+    "id": "rune-key-socket",
+    "target_polycount": 3000,
+    "prompt": "One original waist-high dark fantasy stone key pedestal. A short square stone pillar with a slanted top plate; in the center of the plate a round recessed socket with a vertical keyhole slot made to receive a large ornate key. Carved runic glyphs ring the socket and run down the pillar sides. Chunky readable shapes, slightly weathered edges. Entire isolated object only, no key, no floor, no background, no text, no logo.",
+    "texture_prompt": "Original ancient dark grey granite pedestal, cool grey stone with subtle weathering and chipped edges. The carved runes and the ring around the socket are filled with bright glowing ember orange light; the keyhole itself is dark. No other colors, no lettering, no logos, no baked directional shadows."
+  },
+  "model": "meshy-t2.5",
+  "model_type": "smart-topology",
+  "requested_at_utc": "2026-11-25T14:07:27.9398548Z",
+  "rights_status": "unresolved: confirm account plan and applicable Meshy terms before distribution",
+  "source_inputs": "Original text prompts only; no uploaded reference assets or personal data.",
+  "preview": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "preview",
+      "prompt": "One original waist-high dark fantasy stone key pedestal. A short square stone pillar with a slanted top plate; in the center of the plate a round recessed socket with a vertical keyhole slot made to receive a large ornate key. Carved runic glyphs ring the socket and run down the pillar sides. Chunky readable shapes, slightly weathered edges. Entire isolated object only, no key, no floor, no background, no text, no logo.",
+      "ai_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "topology": "triangle",
+      "target_polycount": 3000,
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a21308-68e3-7504-9a9f-bafb15e92262",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1795615650113,
+    "started_at": 1795615650121,
+    "finished_at": 1795615673949,
+    "consumed_credits": 5,
+    "model_download": {
+      "file": "preview.glb",
+      "bytes": 54216,
+      "sha256": "4ffe38d655181f94c3f696bd6fa8bc425ce62f2efd2562910c41d5fb152ef424"
+    },
+    "thumbnail_download": {
+      "file": "preview.png",
+      "bytes": 73477,
+      "sha256": "f6cce12e4cc60d7b630b7fca3449c9432664459d9fcd4a3606de642bd9e50395"
+    }
+  },
+  "refine": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "refine",
+      "preview_task_id": "01a21308-68e3-7504-9a9f-bafb15e92262",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "texture_prompt": "Original ancient dark grey granite pedestal, cool grey stone with subtle weathering and chipped edges. The carved runes and the ring around the socket are filled with bright glowing ember orange light; the keyhole itself is dark. No other colors, no lettering, no logos, no baked directional shadows.",
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a21309-d30c-7599-a406-c3a5e4f3c35a",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1795615742976,
+    "started_at": 1795615742987,
+    "finished_at": 1795615774952,
+    "consumed_credits": 10,
+    "model_download": {
+      "file": "model.glb",
+      "bytes": 9134772,
+      "sha256": "ed72f07c33161eba25e9987d3f6c6c31cd69b82a4b95cf990721b8128a7e9964"
+    },
+    "thumbnail_download": {
+      "file": "textured.png",
+      "bytes": 102035,
+      "sha256": "301d20ade6d08f228f579afbe8519622cc9617e5733011e6278aec6a385a9132"
+    }
+  }
+}

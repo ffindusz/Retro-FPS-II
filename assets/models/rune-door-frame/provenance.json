@@ -1,0 +1,74 @@
+{
+  "asset": {
+    "id": "rune-door-frame",
+    "target_polycount": 6000,
+    "prompt": "One original massive dark fantasy stone door frame, front view, standing upright. Two thick square stone pillars joined at the top by a heavy stone lintel, forming a tall empty rectangular doorway, about twice as tall as it is wide. Deep carved runic glyphs run up both pillars and across the lintel; a large carved circular rune seal sits in the middle of the lintel. Chunky readable shapes, slightly weathered edges. The doorway opening is empty, no door inside it. Entire isolated object only, no wall, no floor, no background, no text, no logo.",
+    "texture_prompt": "Original ancient dark grey granite door frame, cool grey stone with subtle moss-free weathering and chipped edges. The carved runic glyphs and the circular rune seal are filled with bright glowing ember orange light, clearly contrasting with the dark stone. No other colors, no lettering, no logos, no baked directional shadows."
+  },
+  "model": "meshy-t2.5",
+  "model_type": "smart-topology",
+  "requested_at_utc": "2026-11-25T14:07:23.1819026Z",
+  "rights_status": "unresolved: confirm account plan and applicable Meshy terms before distribution",
+  "source_inputs": "Original text prompts only; no uploaded reference assets or personal data.",
+  "preview": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "preview",
+      "prompt": "One original massive dark fantasy stone door frame, front view, standing upright. Two thick square stone pillars joined at the top by a heavy stone lintel, forming a tall empty rectangular doorway, about twice as tall as it is wide. Deep carved runic glyphs run up both pillars and across the lintel; a large carved circular rune seal sits in the middle of the lintel. Chunky readable shapes, slightly weathered edges. The doorway opening is empty, no door inside it. Entire isolated object only, no wall, no floor, no background, no text, no logo.",
+      "ai_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a21308-566f-7581-ba86-48d0bfc4bc3e",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1795615645456,
+    "started_at": 1795615645474,
+    "finished_at": 1795615660712,
+    "consumed_credits": 5,
+    "model_download": {
+      "file": "preview.glb",
+      "bytes": 94800,
+      "sha256": "b2d96597fba9a4e2017c07670bf983fe9140efac9e2bcdf9f9d6c0d419890387"
+    },
+    "thumbnail_download": {
+      "file": "preview.png",
+      "bytes": 103911,
+      "sha256": "377418f581455601f16c8d8e5d1f886aca1890d9ed42ecfedd6eb4887992dabb"
+    }
+  },
+  "refine": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "refine",
+      "preview_task_id": "01a21308-566f-7581-ba86-48d0bfc4bc3e",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "texture_prompt": "Original ancient dark grey granite door frame, cool grey stone with subtle moss-free weathering and chipped edges. The carved runic glyphs and the circular rune seal are filled with bright glowing ember orange light, clearly contrasting with the dark stone. No other colors, no lettering, no logos, no baked directional shadows.",
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a21309-d1fe-705d-b3d6-2d6021b4ab60",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1795615742566,
+    "started_at": 1795615742579,
+    "finished_at": 1795615778430,
+    "consumed_credits": 10,
+    "model_download": {
+      "file": "model.glb",
+      "bytes": 6067900,
+      "sha256": "8fa4168736d682e2cffb9c63e98bd553528def49d2b6fe2bed9a52daf5ff7a07"
+    },
+    "thumbnail_download": {
+      "file": "textured.png",
+      "bytes": 144525,
+      "sha256": "9c3e7a0273c17c96e9599a252415b7bc9517142472f2fb52fdab2a884a423f9f"
+    }
+  }
+}

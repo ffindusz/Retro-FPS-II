@@ -1,6 +1,6 @@
 extends SceneTree
 ## The Golem Sanctum in The Ossuary: bone seal, dormant stone golem, boss bar, slam, held key,
-## statues, exit gate, restart, and the new placement kinds in the builder.
+## statues, rune door exit, restart, and the new placement kinds in the builder.
 
 const BUILDER = preload("res://addons/cinderkeep_level_tools/level_builder.gd")
 const PLACEMENT = preload("res://scripts/levels/level_placement.gd")
@@ -72,7 +72,7 @@ func run_tests() -> void:
 	session = load("res://scenes/main.tscn").instantiate()
 	root.add_child(session)
 	root.focus_exited.disconnect(session._on_focus_exited)
-	check(PLACEMENT.Kind.BONE_SEAL == 16 and PLACEMENT.Kind.STONE_GOLEM == 17 and PLACEMENT.Kind.GOLEM_STATUE == 18 and PLACEMENT.LABELS.slice(16) == ["Bone Seal", "Stone Golem", "Golem Statue"], "new kinds are appended as 16, 17 and 18")
+	check(PLACEMENT.Kind.BONE_SEAL == 16 and PLACEMENT.Kind.STONE_GOLEM == 17 and PLACEMENT.Kind.GOLEM_STATUE == 18 and PLACEMENT.LABELS.slice(16, 19) == ["Bone Seal", "Stone Golem", "Golem Statue"], "new kinds are appended as 16, 17 and 18")
 	await start()
 
 	# Layout.
@@ -192,13 +192,21 @@ func run_tests() -> void:
 	await settle(6)
 	check(player.has_key, "the player picks up the revealed key")
 
-	# Exit gate on the far wall.
+	# Rune door on the far wall: key into the socket, door opens, walking through ends the run.
 	var won := [false]
 	level.completed.connect(func() -> void: won[0] = true)
-	put_player(level.exit_position + Vector3(0, 0, 1.5))
-	player.camera.look_at(level.exit_position + Vector3.UP * 1.5, Vector3.UP)
+	var door: RuneDoor = level.rune_door
+	put_player(door.socket.global_position + door.socket.global_basis.z * 1.2)
+	player.camera.look_at(door.socket.global_position + Vector3.UP * 0.8, Vector3.UP)
 	await settle(2)
-	check(level.interact_exit() and won[0], "with the key, the sanctum gate ends the run")
+	check(level.interact_exit() and not won[0], "with the key, the rune door takes it at its socket")
+	for frame in range(400):
+		await settle(1)
+		if door.is_open():
+			break
+	put_player(door.to_global(Vector3(0, 0, 1.6)))
+	await settle(3)
+	check(door.is_open() and won[0], "walking through the opened rune door ends the run")
 
 	# The player can climb the dais.
 	session._on_command("Restart")
@@ -223,7 +231,7 @@ func run_tests() -> void:
 	var result: Dictionary = await BUILDER.build(source, self, false)
 	check(result.ok, "builder accepts The Ossuary with its sanctum")
 	var marker = source.get_node("Placements/StoneGolem")
-	marker.position = CENTER + Vector3(0, 0, -6.4)
+	marker.position = CENTER + Vector3(6.4, 0, 0)
 	result = await BUILDER.build(source, self, false)
 	var codes: Array = result.issues.map(func(issue): return issue.code)
 	check(not result.ok and codes.has("overlap"), "builder rejects a golem pushed into the sanctum wall")

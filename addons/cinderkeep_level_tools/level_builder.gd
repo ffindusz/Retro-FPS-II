@@ -58,9 +58,12 @@ static func structural_errors(source: Node3D, issues: Array[Dictionary] = []) ->
 			add_error(errors, issues, "%s: ambience zone must have positive dimensions and no rotation." % marker.name, source, marker, "zone_size")
 		if marker.amount < 1:
 			add_error(errors, issues, "%s: pickup amount must be positive." % marker.name, source, marker, "pickup_amount")
-	for kind in [PLACEMENT.Kind.PLAYER_START, PLACEMENT.Kind.KEY, PLACEMENT.Kind.EXIT]:
+	for kind in [PLACEMENT.Kind.PLAYER_START, PLACEMENT.Kind.KEY]:
 		if counts.get(kind, 0) != 1:
 			add_error(errors, issues, "Exactly one %s is required (found %d)." % [PLACEMENT.LABELS[kind], counts.get(kind, 0)], source, source.get_node("Placements"), "required_count")
+	var exits: int = counts.get(PLACEMENT.Kind.EXIT, 0) + counts.get(PLACEMENT.Kind.RUNE_DOOR, 0)
+	if exits != 1:
+		add_error(errors, issues, "Exactly one Exit Gate or Rune Door is required (found %d)." % exits, source, source.get_node("Placements"), "required_count")
 	return errors
 
 static func output_errors(source: Node3D) -> Array[String]:

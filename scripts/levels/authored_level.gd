@@ -8,6 +8,7 @@ const SKELETON = preload("res://scenes/enemies/skeleton_enemy.tscn")
 const SKELETON_ARCHER = preload("res://scenes/enemies/skeleton_archer.tscn")
 const STONE_GOLEM = preload("res://scenes/enemies/stone_golem.tscn")
 const GOLEM_STATUE = preload("res://scenes/props/golem_statue.tscn")
+const RUNE_DOOR = preload("res://scenes/props/rune_door.tscn")
 const SEAL_HINT := "The seal holds while the dead still walk. Destroy them all."
 const SEAL_OPEN := "The bone seal shatters. The sanctum lies open."
 ## A key marker this close to a golem marker is held by that golem until it dies.
@@ -21,13 +22,14 @@ const HELD_KEY_RANGE: float = 1.5
 var markers: Array[Node] = []
 var bone_seals: Array[KeyWard] = []
 var golems: Array[Node] = []
+var rune_door: RuneDoor
 
 func _ready() -> void:
 	markers = get_node("Placements").get_children()
 	for marker in markers:
 		if marker.kind == PLACEMENT.Kind.PLAYER_START:
 			spawn_position = marker.position
-		elif marker.kind == PLACEMENT.Kind.EXIT:
+		elif marker.kind in PLACEMENT.EXITS:
 			exit_position = marker.position
 	# Base gameplay services are reused, but not coordinate-specific demo atmosphere.
 	var atmosphere := atmosphere_enabled
@@ -120,6 +122,11 @@ func _populate() -> void:
 				geometry.add_child(gate)
 				PrimitiveArt.box(gate, Vector3.UP * 1.5, Vector3(2.5, 3, 0.25), Color("28343d"))
 				PrimitiveArt.orb(gate, Vector3(0, 1.8, 0.2), 0.2, Color.GOLD, 0.8)
+			PLACEMENT.Kind.RUNE_DOOR:
+				rune_door = RUNE_DOOR.instantiate()
+				rune_door.transform = marker.transform
+				add_child(rune_door)
+				rune_door.passed.connect(_on_rune_door_passed)
 	# Bone seals hold until every other enemy has died; golems are the bosses behind them.
 	for seal in bone_seals:
 		for enemy in get_tree().get_nodes_in_group("enemies"):
@@ -131,3 +138,17 @@ func _populate() -> void:
 		for pickup in get_tree().get_nodes_in_group("pickups"):
 			if is_ancestor_of(pickup) and pickup.kind == 2 and Vector2(pickup.position.x, pickup.position.z).distance_to(Vector2(golem.position.x, golem.position.z)) <= HELD_KEY_RANGE:
 				golem.hold_key(pickup)
+
+## A Rune Door takes the key at its socket and finishes the level once the player walks through.
+func interact_exit() -> bool:
+	if rune_door == null:
+		return super.interact_exit()
+	if exit_used:
+		return false
+	return rune_door.interact(player)
+
+func _on_rune_door_passed() -> void:
+	if exit_used:
+		return
+	exit_used = true
+	completed.emit()

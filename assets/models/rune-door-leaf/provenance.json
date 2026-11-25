@@ -1,0 +1,74 @@
+{
+  "asset": {
+    "id": "rune-door-leaf-solid",
+    "target_polycount": 4000,
+    "prompt": "One original solid stone door slab: a single thick heavy block of stone shaped like a tall rectangular tablet, standing upright, front view, two and a half times as tall as wide. Completely solid and closed, no opening, no hole, no window, no hollow center. Its front face is covered by a vertical column of deep carved angular runic glyphs, and a carved half circle rune touches its inner vertical edge. Flat plain back. No handle, no hinges, no frame, no wall. Entire isolated object only, no background, no text, no logo.",
+    "texture_prompt": "Original ancient dark grey granite door slab, cool grey stone with subtle weathering and chipped edges. The carved runic glyphs and the half circle rune are filled with bright glowing ember orange light, clearly contrasting with the dark stone. No other colors, no lettering, no logos, no baked directional shadows."
+  },
+  "model": "meshy-t2.5",
+  "model_type": "smart-topology",
+  "requested_at_utc": "2026-11-25T14:08:19.7308005Z",
+  "rights_status": "unresolved: confirm account plan and applicable Meshy terms before distribution",
+  "source_inputs": "Original text prompts only; no uploaded reference assets or personal data.",
+  "preview": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "preview",
+      "prompt": "One original solid stone door slab: a single thick heavy block of stone shaped like a tall rectangular tablet, standing upright, front view, two and a half times as tall as wide. Completely solid and closed, no opening, no hole, no window, no hollow center. Its front face is covered by a vertical column of deep carved angular runic glyphs, and a carved half circle rune touches its inner vertical edge. Flat plain back. No handle, no hinges, no frame, no wall. Entire isolated object only, no background, no text, no logo.",
+      "ai_model": "meshy-t2.5",
+      "model_type": "smart-topology",
+      "topology": "triangle",
+      "target_polycount": 4000,
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a21309-3346-726c-9db9-3a7e5fddc43d",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1795615702762,
+    "started_at": 1795615702772,
+    "finished_at": 1795615726087,
+    "consumed_credits": 5,
+    "model_download": {
+      "file": "preview.glb",
+      "bytes": 72624,
+      "sha256": "cfa5f52b14621ede736a43e1b089d96f5a9d26842ab5bcf6d7f49788a2988913"
+    },
+    "thumbnail_download": {
+      "file": "preview.png",
+      "bytes": 42723,
+      "sha256": "46fad6d170af3fb82a898a90a84a3199e8bd104969b272c3c8ac6d61f4e7b922"
+    }
+  },
+  "refine": {
+    "submission": "CONFIRMED",
+    "request": {
+      "mode": "refine",
+      "preview_task_id": "01a21309-3346-726c-9db9-3a7e5fddc43d",
+      "enable_pbr": true,
+      "texture_resolution": "2k",
+      "texture_prompt": "Original ancient dark grey granite door slab, cool grey stone with subtle weathering and chipped edges. The carved runic glyphs and the half circle rune are filled with bright glowing ember orange light, clearly contrasting with the dark stone. No other colors, no lettering, no logos, no baked directional shadows.",
+      "target_formats": [
+        "glb"
+      ]
+    },
+    "id": "01a21309-d291-7777-9221-39fe72814696",
+    "status": "SUCCEEDED",
+    "progress": 100,
+    "created_at": 1795615742761,
+    "started_at": 1795615742772,
+    "finished_at": 1795615768732,
+    "consumed_credits": 10,
+    "model_download": {
+      "file": "model.glb",
+      "bytes": 6939668,
+      "sha256": "a87498cc065f13283eb10f852d83bf137e4be72a02392ed3b707c8b49c37504d"
+    },
+    "thumbnail_download": {
+      "file": "textured.png",
+      "bytes": 46261,
+      "sha256": "87e0047f83dfb7439afaece708e77e85ab2edc23c372a79f75133a1284151af8"
+    }
+  }
+}

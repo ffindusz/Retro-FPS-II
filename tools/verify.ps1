@@ -20,6 +20,7 @@ Invoke-CheckedGodot @('--headless', '--script', 'res://tests/test_authored_level
 Invoke-CheckedGodot @('--headless', '--script', 'res://tests/test_bat_enemy.gd')
 Invoke-CheckedGodot @('--headless', '--script', 'res://tests/test_skeletons.gd')
 Invoke-CheckedGodot @('--headless', '--script', 'res://tests/test_golem_boss.gd')
+Invoke-CheckedGodot @('--headless', '--script', 'res://tests/test_rune_door.gd')
 Invoke-CheckedGodot @('--headless', '--script', 'res://tests/test_editor_polish.gd')
 Invoke-CheckedGodot @('--headless', '--script', 'res://tests/test_level_selection.gd')
 Invoke-CheckedGodot @('--headless', '--script', 'res://tests/test_warden_motion.gd')

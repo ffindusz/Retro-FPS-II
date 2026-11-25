@@ -231,16 +231,19 @@ static func _example(root: Node3D) -> void:
 	zone.zone_size = Vector3(10, 3, 8)
 
 ## The Golem Sanctum: a round room north of the Ossuary gallery (centre (0, 0, -23), 7 m inner
-## radius), entered through a short passage sealed by a bone seal. A stepped dais in the middle
-## holds the dormant stone golem and the ember key; the exit gate is on the far wall.
+## radius), entered through a short passage sealed by a bone seal. A sloped dais in the middle
+## holds the dormant stone golem and the ember key; the rune door is set into the far wall, with a
+## short corridor behind it.
 static func _sanctum(root: Node3D) -> void:
 	var center := Vector3(0, 0, -23)
 	block(root, "SanctumPassageFloor", Vector3(0, -0.25, -15.3), Vector3(3.2, 0.5, 2.6), true)
 	for x in [-1.2, 1.2]:
 		block(root, "SanctumPassageWall", Vector3(x, 2, -15.25), Vector3(0.4, 4, 1.7))
 	prism(root, "SanctumFloor", center + Vector3(0, -0.25, 0), circle(7.6, 24), 0.5, true)
-	# 24 wall segments of 15 degrees; the three facing the gallery are replaced by a straight facade.
-	ring(root, "SanctumWall", center, 7.0, 7.5, 5.0, 24, [23, 0, 1])
+	# 24 wall segments of 15 degrees; the three facing the gallery and the three behind the rune
+	# door are replaced by straight facades.
+	ring(root, "SanctumWall", center, 7.0, 7.5, 5.0, 24, [23, 0, 1, 11, 12, 13])
+	_rune_door_wall(root, center + Vector3(0, 0, -6.9))
 	for x in [-2.05, 2.05]:
 		block(root, "SanctumFacade", Vector3(x, 2.5, -16.35), Vector3(2.1, 5, 0.6))
 	block(root, "SanctumLintel", Vector3(0, 4, -16.35), Vector3(2, 2, 0.6))
@@ -252,14 +255,16 @@ static func _sanctum(root: Node3D) -> void:
 	var top := center + Vector3(0, 0.45, 0)
 	placement(root, "StoneGolem", PLACEMENT.Kind.STONE_GOLEM, top, facing(top, door))
 	placement(root, "EmberKey", PLACEMENT.Kind.KEY, top)
-	placement(root, "ExitGate", PLACEMENT.Kind.EXIT, center + Vector3(0, 0, -6.75))
+	# Front faces the room; the key socket stands in front of the right-hand pillar.
+	placement(root, "RuneDoor", PLACEMENT.Kind.RUNE_DOOR, center + Vector3(0, 0, -6.9), PI)
 	for angle in [60.0, -60.0, 120.0, -120.0]:
 		var spot := center + Vector3(sin(deg_to_rad(angle)), 0, cos(deg_to_rad(angle))) * 5.6
 		placement(root, "GolemStatue", PLACEMENT.Kind.GOLEM_STATUE, spot, facing(spot, center))
 	for x in [-4.6, 4.6]:
 		placement(root, "SanctumBrazier", PLACEMENT.Kind.BRAZIER, center + Vector3(x, 0, 0))
-	for x in [-2.2, 2.2]:
-		placement(root, "GateLamp", PLACEMENT.Kind.CRYSTAL_LAMP, center + Vector3(x, 0, -6.0))
+	for x in [-4.3, 4.3]:
+		placement(root, "GateLamp", PLACEMENT.Kind.CRYSTAL_LAMP, center + Vector3(x, 0, -4.9))
+	placement(root, "BeyondLamp", PLACEMENT.Kind.CRYSTAL_LAMP, center + Vector3(0, 0, -10.6))
 	# Wall lanterns on the inner face of the segments at +-30 and +-150 degrees.
 	for angle in [30.0, -30.0, 150.0, -150.0]:
 		var radians := deg_to_rad(angle)
@@ -269,3 +274,17 @@ static func _sanctum(root: Node3D) -> void:
 	placement(root, "SanctumMana", PLACEMENT.Kind.MANA, center + Vector3(3.0, 0, 4.6))
 	var zone := placement(root, "SanctumAmbience", PLACEMENT.Kind.AMBIENCE, center + Vector3(0, 2, 0))
 	zone.zone_size = Vector3(14, 4, 14)
+
+## Straight 0.8 m thick wall around a rune door at `door` (threshold middle, facing +Z): a 2.2 x
+## 4.22 m opening (a little inside the frame's 2.32 m doorway, hiding the model's rough inner
+## faces), wall blocks on both sides deep enough to swallow the sliding leaves, and a roofed 4 m
+## corridor behind it.
+static func _rune_door_wall(root: Node3D, door: Vector3) -> void:
+	for side in [-1.0, 1.0]:
+		block(root, "RuneDoorWall", door + Vector3(side * 2.2, 3.0, 0), Vector3(2.2, 6.0, 0.8))
+	block(root, "RuneDoorLintel", door + Vector3(0, 5.11, 0), Vector3(2.2, 1.78, 0.8))
+	block(root, "BeyondFloor", door + Vector3(0, -0.25, -2.3), Vector3(4.8, 0.5, 4.0), true)
+	for side in [-1.0, 1.0]:
+		block(root, "BeyondWall", door + Vector3(side * 1.75, 2.5, -2.3), Vector3(1.3, 5.0, 4.0))
+	block(root, "BeyondEnd", door + Vector3(0, 2.5, -4.5), Vector3(4.8, 5.0, 0.4))
+	block(root, "BeyondRoof", door + Vector3(0, 4.5, -2.3), Vector3(2.2, 0.4, 4.0))

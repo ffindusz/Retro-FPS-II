@@ -63,7 +63,7 @@ func run_tests() -> void:
 	var warriors := of_species(&"skeleton")
 	var archers := of_species(&"skeleton_archer")
 	check(warriors.size() == 3 and archers.size() == 3 and get_nodes_in_group("enemies").size() == 7, "The Ossuary spawns three skeleton warriors and three archers (plus its golem)")
-	check(level.exit_position.distance_to(Vector3(0, 0, -29.75)) < 0.05, "the Ossuary's exit gate is on the far wall of the Golem Sanctum")
+	check(level.exit_position.distance_to(Vector3(0, 0, -29.9)) < 0.05, "the Ossuary's rune door is in the far wall of the Golem Sanctum")
 	var warrior = at_marker("GallerySkeleton")
 	var archer = at_marker("NorthArcher")
 	check(warrior.archetype == 0 and warrior.max_health == 48 and warrior.attack_damage == 11, "skeleton warrior uses the melee AI with its own stats")

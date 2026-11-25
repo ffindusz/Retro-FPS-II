@@ -48,6 +48,8 @@ func consume(event: Dictionary) -> void:
 		&"enemy_shot": cue = "swing"
 		&"boss_awaken": cue = "enemy_charge"
 		&"golem_slam": cue = "wall"
+		&"rune_door_key": cue = "magic_cast"
+		&"rune_door_open": cue = "enemy_charge"
 		&"player_hurt": cue = "hurt"
 		&"pickup_health": cue = "pickup_health"
 		&"pickup_mana": cue = "pickup_mana"

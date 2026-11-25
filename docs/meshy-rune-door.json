@@ -1,0 +1,35 @@
+{
+  "purpose": "Rune door for the Ossuary exit (0.12.0): a stone frame, one sliding door leaf (mirrored for the second side) and a key socket, so the two halves can slide into the walls in-game.",
+  "authorization": "User asked on 2026-11-25: 'let meshy generate a impressive door for the exit of the level'. Three assets, one candidate each. The first leaf preview came out as a hollow frame (not a door), so one replacement leaf preview (rune-door-leaf-solid) was submitted; the rejected leaf is never refined. Ceiling covers all four entries.",
+  "authorized_ceiling_credits": 60,
+  "model": "meshy-t2.5",
+  "model_type": "smart-topology",
+  "estimated_preview_credits": 5,
+  "estimated_refine_credits": 10,
+  "assets": [
+    {
+      "id": "rune-door-frame",
+      "target_polycount": 6000,
+      "prompt": "One original massive dark fantasy stone door frame, front view, standing upright. Two thick square stone pillars joined at the top by a heavy stone lintel, forming a tall empty rectangular doorway, about twice as tall as it is wide. Deep carved runic glyphs run up both pillars and across the lintel; a large carved circular rune seal sits in the middle of the lintel. Chunky readable shapes, slightly weathered edges. The doorway opening is empty, no door inside it. Entire isolated object only, no wall, no floor, no background, no text, no logo.",
+      "texture_prompt": "Original ancient dark grey granite door frame, cool grey stone with subtle moss-free weathering and chipped edges. The carved runic glyphs and the circular rune seal are filled with bright glowing ember orange light, clearly contrasting with the dark stone. No other colors, no lettering, no logos, no baked directional shadows."
+    },
+    {
+      "id": "rune-door-leaf",
+      "target_polycount": 4000,
+      "prompt": "One original single tall rectangular stone door slab, standing upright, front view, about two and a half times as tall as it is wide, thick and heavy. The front face is carved with a raised border and a vertical column of deep angular runic glyphs down the middle, with a carved half circle rune at the inner edge so two mirrored slabs form a full circle. Flat plain back. No handle, no hinges, no frame, no wall. Entire isolated object only, no background, no text, no logo.",
+      "texture_prompt": "Original ancient dark grey granite door slab, cool grey stone with subtle weathering and chipped edges. The carved runic glyphs and the half circle rune are filled with bright glowing ember orange light, clearly contrasting with the dark stone. No other colors, no lettering, no logos, no baked directional shadows."
+    },
+    {
+      "id": "rune-door-leaf-solid",
+      "target_polycount": 4000,
+      "prompt": "One original solid stone door slab: a single thick heavy block of stone shaped like a tall rectangular tablet, standing upright, front view, two and a half times as tall as wide. Completely solid and closed, no opening, no hole, no window, no hollow center. Its front face is covered by a vertical column of deep carved angular runic glyphs, and a carved half circle rune touches its inner vertical edge. Flat plain back. No handle, no hinges, no frame, no wall. Entire isolated object only, no background, no text, no logo.",
+      "texture_prompt": "Original ancient dark grey granite door slab, cool grey stone with subtle weathering and chipped edges. The carved runic glyphs and the half circle rune are filled with bright glowing ember orange light, clearly contrasting with the dark stone. No other colors, no lettering, no logos, no baked directional shadows."
+    },
+    {
+      "id": "rune-key-socket",
+      "target_polycount": 3000,
+      "prompt": "One original waist-high dark fantasy stone key pedestal. A short square stone pillar with a slanted top plate; in the center of the plate a round recessed socket with a vertical keyhole slot made to receive a large ornate key. Carved runic glyphs ring the socket and run down the pillar sides. Chunky readable shapes, slightly weathered edges. Entire isolated object only, no key, no floor, no background, no text, no logo.",
+      "texture_prompt": "Original ancient dark grey granite pedestal, cool grey stone with subtle weathering and chipped edges. The carved runes and the ring around the socket are filled with bright glowing ember orange light; the keyhole itself is dark. No other colors, no lettering, no logos, no baked directional shadows."
+    }
+  ]
+}
