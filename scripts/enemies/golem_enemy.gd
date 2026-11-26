@@ -6,7 +6,8 @@ extends "res://scripts/enemies/enemy.gd"
 signal awakened
 const WAKE_TEXT := "The stone golem awakens!"
 const KEY_TEXT := "The golem crumbles. The ember key glows in the rubble."
-const KEY_REVEAL_DELAY: float = 1.0
+## The key shows once the crumbling rubble has mostly settled.
+const KEY_REVEAL_DELAY: float = 2.0
 ## How long the boss bar stays up after the golem dies.
 const BAR_LINGER: float = 2.5
 @export var boss_name: String = "Stone Golem"
@@ -65,6 +66,11 @@ func awaken() -> void:
 		target.message.emit(WAKE_TEXT)
 	awakened.emit()
 
+## The hit that wakes the statue does not also stagger it; neither do hits while it wakes
+## (`awakening` is already set when the waking hit lands).
+func _can_stagger() -> bool:
+	return super._can_stagger() and not dormant and awakening == 0.0
+
 func take_damage(amount: int, source: Node) -> int:
 	if dormant and state != State.DEAD and amount > 0 and not get_tree().paused:
 		if source is DemoPlayer:
@@ -80,6 +86,7 @@ func resolve_attack() -> void:
 
 func _on_died() -> void:
 	awakening = 0.0
+	stagger = 0.0
 	get_tree().create_timer(KEY_REVEAL_DELAY, false).timeout.connect(_reveal_key)
 	get_tree().create_timer(BAR_LINGER, false).timeout.connect(func() -> void:
 		if is_inside_tree():

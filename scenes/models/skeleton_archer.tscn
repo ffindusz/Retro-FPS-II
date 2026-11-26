@@ -9,6 +9,7 @@ body = ExtResource("2")
 clips = {
 &"Attack": &"aim_idle",
 &"Death": &"death",
+&"Hit": &"hit",
 &"Idle": &"idle",
 &"Run": &"run",
 &"Walk": &"walk"

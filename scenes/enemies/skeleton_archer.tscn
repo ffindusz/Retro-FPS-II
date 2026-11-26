@@ -13,6 +13,7 @@ detection_range = 18.0
 attack_damage = 9
 attack_cooldown = 2.4
 windup_duration = 0.9
+stagger_on_hit = true
 ranged_speed = 18.0
 windup_event = &"enemy_draw"
 release_event = &"enemy_shot"

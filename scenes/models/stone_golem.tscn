@@ -9,6 +9,7 @@ body = ExtResource("2")
 clips = {
 &"Attack": &"attack",
 &"Death": &"death",
+&"Hit": &"hit",
 &"Idle": &"idle",
 &"Run": &"walk",
 &"Walk": &"walk"
@@ -26,3 +27,4 @@ eye_light_color = Color(1, 0.45, 0.12, 1)
 eye_light_range = 0.8
 model_scale = 1.35
 flinch_amount = 0.04
+cull_radius = 2.6

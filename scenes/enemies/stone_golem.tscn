@@ -20,6 +20,8 @@ attack_damage = 24
 attack_cooldown = 2.0
 windup_duration = 1.2
 melee_range = 3.0
+stagger_on_hit = true
+stagger_event = &"golem_stagger"
 
 [node name="Collision" parent="." index="0"]
 position = Vector3(0, 1.5, 0)

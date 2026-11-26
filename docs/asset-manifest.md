@@ -134,23 +134,23 @@ The new example uses original authored Cyclops geometry, existing cleared photog
 
 ## Skeleton warrior and archer — 0.10.0
 
-- **Assets (supplied by the user, 2026-11-22):** `assets/models/skeleton/skeleton_warrior.glb` (sha256 `17c3678ae5c562a7…`) and `assets/models/skeleton_archer/skeleton_archer.glb` (sha256 `bc7d3dce92857ee2…`), each with its Blender file and `eye_flicker.gd`. Meshy source models and textures are in each `source/` folder.
-- **Rig and clips:** a shared 26-bone (warrior) / 27-bone (archer) humanoid rig. Godot imports `idle`, `walk`, `run` (looping), `attack` and `death`; the archer also has `aim_idle` (looping). The sword, shield, bow, quiver and eyes are attached to bones (`Prop_*`, `Head`).
+- **Assets (supplied by the user, 2026-11-22):** `assets/models/skeleton/skeleton_warrior.glb` (sha256 `17c3678ae5c562a7…`; with the hit clip, 2026-11-25: `811903e86a59cdb6…`) and `assets/models/skeleton_archer/skeleton_archer.glb` (sha256 `bc7d3dce92857ee2…`; with the hit clip: `dbb028fbdb44d1ee…`), each with its Blender file and `eye_flicker.gd`. Meshy source models and textures are in each `source/` folder.
+- **Rig and clips:** a shared 26-bone (warrior) / 27-bone (archer) humanoid rig. Godot imports `idle`, `walk`, `run` (looping), `attack`, `death` and `hit` (added 2026-11-25); the archer also has `aim_idle` (looping). The sword, shield, bow, quiver and eyes are attached to bones (`Prop_*`, `Head`).
 - **Use in game:** wrapped by `scenes/models/skeleton_warrior.tscn` and `scenes/models/skeleton_archer.tscn` with `scripts/enemies/skeleton_presentation.gd`. Both models face +Z and are turned 180°. The idle combat stance is turned back 30° so the face points forward. The warrior's attack contact is at 0.56 s. The archer's attack uses `aim_idle` 3.6 → 4.5 s (the bow draw). The 7.8 s `attack` clip keeps the bow lowered and is not used.
 - **Eyes:** `EyeGlow` (emissive red, attached to the Head bone) is pulsed by the supplied `eye_flicker.gd` at energy 5.0 instead of the imported 1.0, plus a small red light (0.35 m range, no shadows).
-- **Known model notes:** the archer's `Arrow` mesh has zero size, so no nocked arrow is visible; the fired arrow is drawn by the game. The GLB/Blender files were not modified.
+- **Known model notes:** the archer's `Arrow` mesh has zero size, so no nocked arrow is visible; the fired arrow is drawn by the game. On 2026-11-25 the user added a `hit` clip (1.67 s) to both GLBs and Blender files, from `source/skeleton_hit_meshy.glb` in each folder; the game uses it as the stagger (0.12.1).
 - **Not packaged:** `.blend` files (Blender import is disabled in `project.godot`) and the `source/` folders (`.gdignore`).
 - **Rights:** supplied by the user, generated with Meshy. On 2026-11-23 the user confirmed the same basis as the other Meshy assets: the paid monthly plan confirmed on 2026-10-20. Prompts, reference uploads and credit use for these generations were not reported, so they are not recorded. AI origin stays explicit; no exclusive copyright is asserted.
 
 ## Stone golem — 0.11.0
 
-- **Asset (supplied by the user, 2026-11-24):** `assets/models/stone_golem/stone_golem.glb` (sha256 `4d38fa2eccad0f43…`) with its Blender file. Meshy source models and textures are in `source/`.
-- **Rig and clips:** 25-bone humanoid rig. Godot imports `idle` and `walk` (looping), `attack` (1.83 s two-handed overhead hammer slam) and `death`. No run or hit clip. The hammer is attached to the `Prop_Hammer` bone. There are no eye meshes; a `headfront` bone sits at the face.
+- **Asset (supplied by the user, 2026-11-24):** `assets/models/stone_golem/stone_golem.glb` (sha256 `4d38fa2eccad0f43…`; with the hit clip, 2026-11-25: `1e23113d24e720c7…`; with the crumbling death, 2026-11-26: `ed45296697de030b…`) with its Blender file. Meshy source models and textures are in `source/`.
+- **Rig and clips:** 25-bone humanoid rig. Godot imports `idle` and `walk` (looping), `attack` (1.83 s two-handed overhead hammer slam) and `death`. No run clip. On 2026-11-25 the user added a `hit` clip (1.67 s), from `source/golem_hit_meshy.glb`; the game uses it as the stagger (0.12.1). On 2026-11-26 the user replaced the death with a 3.5 s crumble: a separate `GolemRubble` mesh driven by 36 `Chunk_*` bones, scaled to zero in every other clip, breaks apart and settles into a rubble pile. The hammer is attached to the `Prop_Hammer` bone. There are no eye meshes; a `headfront` bone sits at the face.
 - **Use in game:** the boss wraps it in `scenes/models/stone_golem.tscn` with `scripts/enemies/golem_presentation.gd` at 1.35× scale, turned 180° (the model faces +Z). The body texture is multiplied by a 0.62 grey tint because it read as white under torchlight. Slam contact at 1.55 s. Two small ember eyes are added by the game on the `headfront` bone and pulsed by the skeletons' `eye_flicker.gd`.
 - **Statues:** `scripts/props/golem_statue.gd` reuses the same GLB at 0.6× scale, frozen in one of four clip poses, with darker weathered-stone materials. No separate model or Meshy generation.
-- **Known model notes:** the GLB/Blender files were not modified.
+- **Known model notes:** the user updated the GLB and Blender file on 2026-11-25 (hit clip) and 2026-11-26 (crumbling death); no other changes by this project. The game tints every skinned surface, body and rubble, with the same grey, and widens the golem's culling box to 2.6 m (model metres) so flying chunks are not culled.
 - **Not packaged:** the `.blend` file (Blender import is disabled) and `source/` (`.gdignore`).
-- **Rights:** supplied by the user; the `source/` file names indicate Meshy origin. The rights basis for this model is not recorded yet; to be confirmed by the user.
+- **Rights:** supplied by the user; the `source/` file names indicate Meshy origin. On 2026-11-25 the user confirmed: "made with meshy by me with my credits", the same paid Meshy plan confirmed on 2026-10-20. Prompts and credit use for this generation were not reported, so they are not recorded. AI origin stays explicit; no exclusive copyright is asserted.
 
 ## Rune door — 0.12.0
 

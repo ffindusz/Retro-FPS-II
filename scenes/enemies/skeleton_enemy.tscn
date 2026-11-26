@@ -13,3 +13,4 @@ detection_range = 16.0
 attack_damage = 11
 attack_cooldown = 1.5
 windup_duration = 0.6
+stagger_on_hit = true

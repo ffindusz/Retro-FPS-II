@@ -58,6 +58,33 @@ func key_pickup() -> Node:
 			return pickup
 	return null
 
+## Largest scale of the golem's rubble chunk bones: 0 while hidden, about 1 once it crumbles.
+func rubble_scale(look) -> float:
+	var skeleton: Skeleton3D = look.skeleton
+	var largest := 0.0
+	for bone in range(skeleton.get_bone_count()):
+		if String(skeleton.get_bone_name(bone)).begins_with("Chunk_"):
+			largest = maxf(largest, skeleton.get_bone_global_pose(bone).basis.get_scale().x)
+	return largest
+
+## Every chunk bone lies inside the rubble mesh's custom culling box, shrunk by 0.3 m for the
+## chunk's own size.
+func rubble_inside_culling(look) -> bool:
+	var skeleton: Skeleton3D = look.skeleton
+	var rubble := look.model.find_child("GolemRubble", true, false) as MeshInstance3D
+	if rubble == null:
+		return false
+	var box: AABB = rubble.global_transform * rubble.custom_aabb
+	box = box.grow(-0.3)
+	for bone in range(skeleton.get_bone_count()):
+		if String(skeleton.get_bone_name(bone)).begins_with("Chunk_"):
+			var point: Vector3 = (skeleton.global_transform * skeleton.get_bone_global_pose(bone)).origin
+			point.y = maxf(point.y, box.position.y)
+			if not box.has_point(point):
+				print("outside: ", skeleton.get_bone_name(bone), " ", point, " box ", box)
+				return false
+	return true
+
 func ray_hits_world(from: Vector3, to: Vector3) -> bool:
 	var query := PhysicsRayQueryParameters3D.create(from, to, 1)
 	return not level.get_world_3d().direct_space_state.intersect_ray(query).is_empty()
@@ -173,7 +200,48 @@ func run_tests() -> void:
 			break
 	check(player.health == 100, "stepping out of reach during the windup dodges the slam")
 
+	# Stagger: a hit plays the hit clip, stops the golem and cancels a slam it is winding up.
+	check(look.has_clips() and look.has_stagger_clip(), "the golem model has its hit clip")
+	golem.stagger_guard = 0.0
+	golem.cooldown = 0.0
+	put_player(golem.global_position + golem.global_position.direction_to(player.global_position) * 2.4 * Vector3(1, 0, 1))
+	for frame in range(120):
+		await settle(1)
+		if golem.state == golem.State.ATTACK:
+			break
+	var winding: bool = golem.state == golem.State.ATTACK
+	var staggers := [0]
+	golem.staggered.connect(func() -> void: staggers[0] += 1)
+	var before_hit: int = golem.health
+	golem.take_damage(10, player)
+	await settle(2)
+	check(winding and golem.is_staggered() and golem.state != golem.State.ATTACK and golem.windup == 0.0, "a hit staggers the golem and cancels its slam")
+	check(look.player.current_animation == "hit", "the stagger plays the hit clip")
+	check(golem.health == before_hit - 10 and staggers[0] == 1, "the stagger hit still deals damage")
+	var held_at: Vector3 = golem.global_position
+	golem.take_damage(10, player)
+	await settle(30)
+	check(staggers[0] == 1 and golem.global_position.distance_to(held_at) < 0.02 and player.health == 100, "the staggered golem stands still and further hits do not restart it")
+	var guard_hit := false
+	for frame in range(240):
+		await settle(1)
+		if not golem.is_staggered():
+			guard_hit = true
+			break
+	check(guard_hit and golem.stagger_guard > 0.0, "the golem recovers after the hit clip")
+	golem.take_damage(10, player)
+	await settle(2)
+	check(staggers[0] == 1 and not golem.is_staggered(), "hits right after a stagger do not stagger again")
+	golem.stagger_guard = 0.0
+	golem.take_damage(10, player)
+	await settle(2)
+	check(staggers[0] == 2 and golem.is_staggered(), "once the guard runs out a hit staggers it again")
+	golem.health = golem.max_health
+	player.health = 100
+
 	# Damage, death, key.
+	check(look.materials.size() >= 2 and look.base_colors.all(func(c): return c.r < 0.7), "the stone tint reaches the body and the rubble")
+	check(rubble_scale(look) < 0.01, "the rubble chunks stay hidden while the golem lives")
 	only_active(null)
 	golem.take_damage(100, player)
 	await settle(2)
@@ -183,7 +251,11 @@ func run_tests() -> void:
 	await settle(2)
 	check(golem.state == golem.State.DEAD and look.player.current_animation == "death" and session.ui.boss_bar.value == 0, "the golem dies and its bar empties")
 	check(not key.visible, "the key appears only after a short delay")
+	await create_timer(1.0).timeout
+	check(not key.visible, "the key waits for the rubble to settle")
 	await create_timer(1.3).timeout
+	check(rubble_scale(look) > 0.5, "the golem crumbles into rubble chunks")
+	check(rubble_inside_culling(look), "the rubble stays inside the golem's culling box")
 	check(key.visible and key.monitoring and Vector2(key.global_position.x, key.global_position.z).distance_to(Vector2(golem.global_position.x, golem.global_position.z)) < 0.05, "the key is revealed where the golem fell")
 	check(messages.has(golem.KEY_TEXT), "the player is told the key is free")
 	await create_timer(1.6).timeout
@@ -224,6 +296,7 @@ func run_tests() -> void:
 	check(golem.dormant and not seal.is_open and not key_pickup().visible and not session.ui.boss_box.visible, "restart restores the closed seal, the dormant golem and the hidden key")
 	golem.take_damage(28, player)
 	check(not golem.dormant and golem.health == 392, "a hit wakes the golem even from afar")
+	check(not golem.is_staggered(), "the waking hit does not stagger the golem")
 
 	# Builder.
 	var source = load("res://scenes/authoring/ossuary.tscn").instantiate()

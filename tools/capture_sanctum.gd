@@ -1,6 +1,6 @@
 extends SceneTree
 ## Renders the Golem Sanctum in The Ossuary (sealed door, dormant golem, statues, awakening, slam,
-## boss bar, death and the revealed key) to builds/validation/sanctum/.
+## stagger, boss bar, death and the revealed key) to builds/validation/sanctum/.
 
 var player
 var level
@@ -80,12 +80,30 @@ func capture() -> void:
 	golem.presentation.attack_contact()
 	await frames(6)
 	await shot("golem_slam")
+	# Stagger: the hit clip at three moments, from the same side view.
+	for step in range(60):
+		golem.presentation.advance_visual(0.02, 0.0, false, 0.0, 0.0)
+	golem.presentation.stagger()
+	var played := 0.0
+	for moment in [0.35, 0.8, 1.35]:
+		while played < moment:
+			golem.presentation.advance_visual(0.02, 0.0, false, 0.0, 0.0)
+			played += 0.02
+		await view(golem.global_position + Vector3(3.2, 1.7, 3.8), golem.global_position + Vector3(0, 1.6, 0))
+		await shot("golem_stagger_%d" % int(moment * 100))
 	golem.health = 260
 	await view(Vector3(0, 1.7, -16.0), golem.global_position + Vector3(0, 1.8, 0))
 	await shot("boss_bar")
 	golem.set_physics_process(true)
 	golem.take_damage(1000, player)
-	await create_timer(2.6).timeout
+	# The crumble, seen from the side at three moments, then the settled rubble with the key.
+	await view(golem.global_position + Vector3(4.5, 2.6, 5.5), golem.global_position + Vector3(0, 1.0, 0))
+	var since := 0.0
+	for moment in [0.7, 1.4, 2.3]:
+		await create_timer(moment - since).timeout
+		since = moment
+		await shot("golem_death_%d" % int(moment * 10))
+	await create_timer(1.6).timeout
 	await view(golem.global_position + Vector3(2.5, 2.2, 3.5), golem.global_position + Vector3(0, 0.6, 0))
 	await shot("golem_dead_key")
 	session.queue_free()

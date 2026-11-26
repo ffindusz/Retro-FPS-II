@@ -174,13 +174,37 @@ func run_tests() -> void:
 	# Hit reaction and death.
 	only_active(null)
 	await settle(2)
+	check(look.has_stagger_clip() and bow.has_stagger_clip(), "both skeletons have their hit clip")
 	check(warrior.take_damage(5, player) == 5 and look.flash_remaining > 0.0, "a hit flashes the warrior")
+	check(warrior.is_staggered() and look.player.current_animation == "hit", "a hit staggers the warrior with its hit clip")
 	only_active(warrior)
-	await settle(4)
-	check(absf(look.flinch.rotation.x) > 0.02, "a hit tilts the warrior back")
+	var held_at: Vector3 = warrior.global_position
+	await settle(30)
+	check(warrior.is_staggered() and warrior.state != warrior.State.ATTACK and warrior.global_position.distance_to(held_at) < 0.02, "the staggered warrior stands still and does not attack")
+	for frame in range(120):
+		await settle(1)
+		if not warrior.is_staggered():
+			break
+	check(not warrior.is_staggered() and warrior.stagger_guard > 0.0 and look.player.current_animation != "hit", "the warrior recovers after the hit clip")
+	warrior.take_damage(1, player)
+	check(not warrior.is_staggered(), "a hit right after a stagger does not stagger again")
+	# The archer loses a shot it is drawing when hit.
+	only_active(archer)
+	player.global_position = archer.global_position + Vector3(0, 0, 6)
+	archer.cooldown = 0.0
+	for frame in range(120):
+		await settle(1)
+		if archer.state == archer.State.ATTACK:
+			break
+	var drawing: bool = archer.state == archer.State.ATTACK
+	var arrows_before := get_nodes_in_group("projectiles").size()
+	archer.take_damage(5, player)
+	await settle(40)
+	check(drawing and archer.is_staggered() and bow.player.current_animation == "hit" and get_nodes_in_group("projectiles").size() == arrows_before, "a hit staggers the archer and cancels its shot")
+	only_active(warrior)
 	var died := [false]
 	warrior.died.connect(func() -> void: died[0] = true)
-	check(warrior.take_damage(1000, player) == 43 and died[0] and warrior.state == warrior.State.DEAD, "lethal damage kills the warrior and emits died")
+	check(warrior.take_damage(1000, player) == 42 and died[0] and warrior.state == warrior.State.DEAD, "lethal damage kills the warrior and emits died")
 	check(look.dead and look.player.current_animation == "death", "the death clip plays")
 	await settle(150)
 	check(warrior.collision_layer == 0 and look.eye_glow() < 0.05 and not look.eye_light.visible, "dead skeleton stops taking hits and its eyes go dark")

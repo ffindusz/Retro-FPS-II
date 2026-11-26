@@ -54,8 +54,10 @@ func _eye_mesh() -> ArrayMesh:
 
 func _ready() -> void:
 	super._ready()
-	base_color = body_tint
-	material.albedo_color = base_color
+	for index in range(materials.size()):
+		base_colors[index] = base_colors[index] * body_tint
+		materials[index].albedo_color = base_colors[index]
+	base_color = base_colors[0]
 	# The statue holds the first frame of its idle stance.
 	idle_time = 0.0
 	_sample(&"Idle", 0.0, 0.0, true)
@@ -112,6 +114,12 @@ func advance_visual(delta: float, movement_distance: float, ai_attacking: bool, 
 			holder.set_process(true)
 		return
 	super.advance_visual(delta, movement_distance, ai_attacking, windup_remaining, windup_duration)
+
+## No stagger while the statue sleeps or wakes.
+func stagger() -> float:
+	if dormant or awakening:
+		return 0.0
+	return super.stagger()
 
 func attack_contact() -> void:
 	var was_dead := dead

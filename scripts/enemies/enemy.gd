@@ -23,6 +23,20 @@ const PROJECTILE = preload("res://scenes/weapons/projectile.tscn")
 @export var ranged_speed: float = 10.0
 ## Melee reach for starting and landing an attack (archetype 0).
 @export var melee_range: float = 1.9
+## Stagger on hit: the enemy plays its presentation's hit clip, stands still and loses an attack
+## it was winding up. After it recovers, hits do not stagger it again for `stagger_cooldown`
+## seconds, so rapid magic cannot hold it in place.
+@export var stagger_on_hit: bool = false
+@export var stagger_cooldown: float = 4.0
+## Stagger time when the presentation has no hit clip.
+@export var stagger_fallback: float = 0.8
+## Combat event published when the stagger starts; empty publishes none.
+@export var stagger_event: StringName = &""
+signal staggered
+## Seconds left in the current stagger; 0 when not staggering.
+var stagger: float = 0.0
+## Seconds until a hit can stagger again.
+var stagger_guard: float = 0.0
 var health: int
 var state: State = State.IDLE
 var target: DemoPlayer
@@ -69,6 +83,14 @@ func _physics_process(delta: float) -> void:
 		target = get_tree().get_first_node_in_group("player") as DemoPlayer
 	if not is_instance_valid(target) or not target.can_act():
 		return
+	if stagger > 0.0:
+		stagger = maxf(0.0, stagger - delta)
+		velocity = Vector3.ZERO
+		advance_presentation(delta)
+		if stagger == 0.0:
+			stagger_guard = stagger_cooldown
+		return
+	stagger_guard = maxf(0.0, stagger_guard - delta)
 	cooldown = maxf(0.0, cooldown - delta)
 	hit_flash = maxf(0.0, hit_flash - delta)
 	if presentation == null:
@@ -234,4 +256,27 @@ func take_damage(amount: int, source: Node) -> int:
 		died.emit()
 	elif presentation != null:
 		presentation.show_hit()
+	if applied > 0 and state != State.DEAD and _can_stagger():
+		_stagger()
 	return applied
+
+func is_staggered() -> bool:
+	return stagger > 0.0
+
+## Subclasses add their own conditions (the golem does not stagger while it wakes).
+func _can_stagger() -> bool:
+	return stagger_on_hit and stagger == 0.0 and stagger_guard == 0.0
+
+func _stagger() -> void:
+	var length := 0.0
+	if presentation != null and presentation.has_method("stagger"):
+		length = presentation.stagger()
+	stagger = length if length > 0.0 else stagger_fallback
+	# An attack that was winding up is lost.
+	if state == State.ATTACK:
+		state = State.CHASE
+	windup = 0.0
+	velocity = Vector3.ZERO
+	if not stagger_event.is_empty():
+		CombatEvents.publish(self, stagger_event, global_position + Vector3.UP * 1.5)
+	staggered.emit()

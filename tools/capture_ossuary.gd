@@ -1,5 +1,5 @@
 extends SceneTree
-## Renders The Ossuary and its skeletons (overview, idle eyes, slash, bow draw, arrow, run, death)
+## Renders The Ossuary and its skeletons (overview, idle eyes, slash, staggers, bow draw, arrow, run, death)
 ## to builds/validation/ossuary/.
 
 var player
@@ -60,12 +60,31 @@ func capture() -> void:
 		warrior.presentation.advance_visual(0.016, 0.0, true, remaining, 0.6)
 	warrior.presentation.attack_contact()
 	await shot("warrior_slash")
+	# Stagger: the hit clip early and midway, same side view.
+	for step in range(60):
+		warrior.presentation.advance_visual(0.02, 0.0, false, 0.0, 0.6)
+	warrior.presentation.stagger()
+	var played := 0.0
+	for moment in [0.3, 0.75]:
+		while played < moment:
+			warrior.presentation.advance_visual(0.02, 0.0, false, 0.0, 0.6)
+			played += 0.02
+		await shot("warrior_stagger_%d" % int(moment * 100))
 	# Archer at the north end: draw, then a real arrow toward the player.
 	await view(archer.global_position + Vector3(1.2, 1.5, 3.2), archer.global_position + Vector3(0, 1.2, 0))
 	archer.look_at(Vector3(player.global_position.x, archer.global_position.y, player.global_position.z), Vector3.UP)
 	for step in range(58):
 		archer.presentation.advance_visual(0.015, 0.0, true, 0.9 - step * 0.015, 0.9)
 	await shot("archer_draw")
+	archer.presentation.stagger()
+	for step in range(25):
+		archer.presentation.advance_visual(0.02, 0.0, false, 0.0, 0.9)
+	await shot("archer_stagger")
+	for step in range(80):
+		archer.presentation.advance_visual(0.02, 0.0, false, 0.0, 0.9)
+	# Back to the bow draw for the arrow shot below.
+	for step in range(60):
+		archer.presentation.advance_visual(0.015, 0.0, true, 0.9 - step * 0.015, 0.9)
 	# Shoot from down the gallery so the arrow is visible in flight.
 	await view(Vector3(-0.8, 1.7, -7.5), archer.global_position + Vector3(0, 1.2, 0))
 	archer.look_at(Vector3(player.global_position.x, archer.global_position.y, player.global_position.z), Vector3.UP)

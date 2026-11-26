@@ -12,8 +12,8 @@ const FLASH_SECONDS: float = 0.18
 const EYE_FADE_SECONDS: float = 1.2
 
 @export var body: PackedScene
-## Role -> clip name in the GLB. Roles: Idle, Walk, Run, Attack, Death.
-@export var clips: Dictionary = {&"Idle": &"idle", &"Walk": &"walk", &"Run": &"run", &"Attack": &"attack", &"Death": &"death"}
+## Role -> clip name in the GLB. Roles: Idle, Walk, Run, Attack, Death, Hit (the stagger).
+@export var clips: Dictionary = {&"Idle": &"idle", &"Walk": &"walk", &"Run": &"run", &"Attack": &"attack", &"Death": &"death", &"Hit": &"hit"}
 @export var attack_start: float = 0.0
 @export var attack_release: float = 0.56
 ## Native seconds played after the release before returning to locomotion.
@@ -31,6 +31,8 @@ const EYE_FADE_SECONDS: float = 1.2
 @export var eye_light_range: float = 0.35
 ## Uniform scale of the model inside the presentation (the actor collider is sized by its own scene).
 @export var model_scale: float = 1.0
+## Half-width (model metres) of the visual culling box around the actor; it must hold the death pose.
+@export var cull_radius: float = 1.75
 ## Peak backward tilt (radians) of the hit reaction.
 @export var flinch_amount: float = 0.16
 
@@ -40,7 +42,10 @@ var flinch: Node3D
 var skeleton: Skeleton3D
 var player: AnimationPlayer
 var material: StandardMaterial3D
+## Colour of the first skinned surface (kept for callers); `base_colors` holds every surface's.
 var base_color: Color
+var materials: Array[StandardMaterial3D] = []
+var base_colors: Array[Color] = []
 var eyes: MeshInstance3D
 var eye_light: OmniLight3D
 var root_bone: int
@@ -53,6 +58,8 @@ var hit_remaining: float = 0.0
 var flash_remaining: float = 0.0
 var death_age: float = 0.0
 var dead: bool = false
+var staggering: bool = false
+var stagger_age: float = 0.0
 var attack_active: bool = false
 var contacted: bool = false
 var just_contacted: bool = false
@@ -86,14 +93,24 @@ func _ready() -> void:
 	skeleton = model.find_children("*", "Skeleton3D", true, false)[0]
 	player = model.find_children("*", "AnimationPlayer", true, false)[0]
 	player.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
+	# Every skinned surface gets its own material copy, so tint and hit flash reach all of them
+	# (the golem has a body and a separate rubble mesh for its crumbling death).
 	for node in model.find_children("*", "MeshInstance3D", true, false):
 		var mesh := node as MeshInstance3D
 		if mesh.skin != null:
-			material = (mesh.get_active_material(0) as StandardMaterial3D).duplicate()
-			mesh.set_surface_override_material(0, material)
+			for surface in range(mesh.mesh.get_surface_count()):
+				var source := mesh.get_active_material(surface) as StandardMaterial3D
+				if source == null:
+					continue
+				var copy := source.duplicate() as StandardMaterial3D
+				mesh.set_surface_override_material(surface, copy)
+				materials.append(copy)
+				base_colors.append(copy.albedo_color)
+				if material == null:
+					material = copy
 			# Visual-only culling bound that covers the lying death pose.
 			var to_mesh: Transform3D = mesh.global_transform.affine_inverse() * global_transform
-			mesh.custom_aabb = to_mesh * AABB(Vector3(-1.75, -0.4, -1.75) * model_scale, Vector3(3.5, 3.0, 3.5) * model_scale)
+			mesh.custom_aabb = to_mesh * AABB(Vector3(-cull_radius, -0.4, -cull_radius) * model_scale, Vector3(cull_radius * 2.0, 3.0, cull_radius * 2.0) * model_scale)
 	base_color = material.albedo_color
 	eyes = model.find_child("EyeGlow", true, false) as MeshInstance3D
 	if eyes != null:
@@ -206,10 +223,29 @@ func show_hit() -> void:
 	hit_remaining = HIT_SECONDS
 	_apply_flash()
 
+func has_stagger_clip() -> bool:
+	return clips.has(&"Hit") and player.has_animation(clips[&"Hit"])
+
+## Starts the hit clip from the top and drops any attack in progress. Returns the clip length in
+## seconds (0 without a hit clip), which the enemy uses as its stagger time.
+func stagger() -> float:
+	if dead or get_tree().paused or not has_stagger_clip():
+		return 0.0
+	staggering = true
+	stagger_age = 0.0
+	attack_active = false
+	contacted = false
+	just_contacted = false
+	hit_remaining = 0.0
+	flinch.rotation.x = 0.0
+	_sample(&"Hit", 0.0, 0.0)
+	return clip_length(&"Hit")
+
 func die() -> void:
 	if dead:
 		return
 	dead = true
+	staggering = false
 	attack_active = false
 	contacted = false
 	hit_remaining = 0.0
@@ -222,7 +258,10 @@ func die() -> void:
 	_sample(&"Death", 0.0, 0.0)
 
 func _apply_flash() -> void:
-	material.albedo_color = base_color.lerp(Color(1.0, 0.82, 0.7, base_color.a), 0.35 * clampf(flash_remaining / FLASH_SECONDS, 0.0, 1.0))
+	var amount := 0.35 * clampf(flash_remaining / FLASH_SECONDS, 0.0, 1.0)
+	for index in range(materials.size()):
+		var base: Color = base_colors[index]
+		materials[index].albedo_color = base.lerp(Color(1.0, 0.82, 0.7, base.a), amount)
 
 func _update_eyes() -> void:
 	if eyes == null:
@@ -254,6 +293,15 @@ func advance_visual(delta: float, movement_distance: float, ai_attacking: bool, 
 		_update_eyes()
 		return
 	_update_eyes()
+	if staggering:
+		stagger_age += delta
+		# The hit clip is the reaction; no extra flinch tilt on top of it.
+		hit_remaining = 0.0
+		flinch.rotation.x = 0.0
+		if stagger_age < clip_length(&"Hit"):
+			_sample(&"Hit", stagger_age, delta)
+			return
+		staggering = false
 	if ai_attacking:
 		if not attack_active or contacted:
 			begin_attack()
